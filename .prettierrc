@@ -1,0 +1,17 @@
+{
+    "printWidth": 120,
+    "tabWidth": 4,
+    "semi": false,
+    "singleQuote": true,
+    "svelteSortOrder": "options-scripts-styles-markup",
+    "svelteBracketNewLine": false,
+    "svelteIndentScriptAndStyle": false,
+    "overrides": [
+        {
+            "files": "*.md",
+            "options": {
+                "tabWidth": 1
+            }
+        }
+    ]
+}

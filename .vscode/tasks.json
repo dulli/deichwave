@@ -1,0 +1,28 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build Go",
+            "type": "shell",
+            "command": "go build -o ${workspaceFolder}/bin/${relativeFileDirname} ${file}",
+            "windows": {
+                "command": "go build -o ${workspaceFolder}/bin/win/${relativeFileDirname}.exe ${file}"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Build Go (Cross-Compile: arm64)",
+            "type": "shell",
+            "command": "export $(xargs < ${workspaceFolder}/.gocc/arm64.env) && go build -o ${workspaceFolder}/bin/arm64/${relativeFileDirname} ${file}",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}

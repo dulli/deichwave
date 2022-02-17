@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "svelte.svelte-vscode",
+    "esbenp.prettier-vscode",
+    "eg2.vscode-npm-script",
+    "ms-python.python",
+    "golang.go",
+    "eamodio.gitlens",
+    "piotrpalarz.vscode-gitignore-generator"
+  ]
+}
