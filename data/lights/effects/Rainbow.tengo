@@ -1,0 +1,21 @@
+// Chase the rainbow
+export {
+    info: {
+        maxtick: 256,
+        frametime: 0.04 // [s]
+    },
+    frame: func(leds, tick){
+        cidx := tick
+        for group in leds {
+            for idx:=0; idx<group.count; idx++ {
+                group.brightness[idx] = 1.0
+                group.color[idx] = cidx
+                cidx++
+                if cidx == 256 {
+                    cidx = 0
+                }
+            }
+        }
+        return leds
+    }
+}

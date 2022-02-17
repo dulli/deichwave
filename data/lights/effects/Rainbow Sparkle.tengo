@@ -1,0 +1,21 @@
+times := import("times")
+rand := import("rand")
+rand.rand(times.time_unix_nano(times.now()))
+
+// Sparkle lights up only one random LED at a time
+export {
+    info: {
+        maxtick: 0,
+        frametime: 0.1 // [s]
+    },
+    frame: func(leds, tick){
+        for group in leds {
+            active := rand.intn(group.count)
+            for idx:=0; idx<group.count; idx++ {
+                group.brightness[idx] = active == idx ? 1.0 : 0.0
+                group.color[idx] = rand.intn(256)
+            }
+        }
+        return leds
+    }
+}

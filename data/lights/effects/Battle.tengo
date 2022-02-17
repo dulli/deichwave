@@ -1,0 +1,37 @@
+text := import("text")
+
+// Battle turns the LEDs to one of two colors depending on the LED position,
+// splitting the LED strip into two team colors
+export {
+    info: {
+        maxtick: 0,
+        frametime: 0 // [s]
+    },
+    frame: func(leds, tick) {
+        for group in leds {
+            name := group.name
+            for idx:=0; idx<group.count; idx++ {
+                group.brightness[idx] = 1.0
+
+                if text.contains(name, "front") {
+                    group.color[idx] = 0
+                } else if text.contains(name, "rear") {
+                    group.color[idx] = 170
+                } else if text.contains(name, "left") {
+                    if idx >= group.count / 2 {
+                        group.color[idx] = 0
+                    } else {
+                        group.color[idx] = 170
+                    }
+                } else if text.contains(name, "right") {
+                    if idx < group.count / 2 {
+                        group.color[idx] = 0
+                    } else {
+                        group.color[idx] = 170
+                    }
+                } 
+            }
+        }
+        return leds
+    }
+}

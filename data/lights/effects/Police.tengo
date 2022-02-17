@@ -1,0 +1,34 @@
+text := import("text")
+
+// Police flashes each side in red or blue, depending on the tick
+export {
+    info: {
+        maxtick: 2,
+        frametime: 0.1 // [s]
+    },
+    frame: func(leds, tick) {
+        for group in leds {
+            name := group.name
+            for idx:=0; idx<group.count; idx++ {
+                group.brightness[idx] = 1.0
+                group.color[idx] = 30
+
+                switch := -1
+                if text.contains(name, "left") {
+                    switch = 0
+                } else if text.contains(name, "right") {
+                    switch = 1
+                }
+
+                if switch >= 0 {
+                    if tick % 2 == switch {
+                        group.color[idx] = 0
+                    } else {
+                        group.color[idx] = 170
+                    }
+                }
+            }
+        }
+        return leds
+    }
+}
