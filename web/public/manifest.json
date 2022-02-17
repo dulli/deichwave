@@ -1,0 +1,14 @@
+{
+    "name": "BBYCR Control",
+    "short_name": "BBYCR",
+    "icons": [
+        {
+            "src": "static/touch-google.png",
+            "sizes": "512x512",
+            "purpose": "any maskable"
+        }
+    ],
+    "background_color": "#ffffff",
+    "theme_color": "#49a4a3",
+    "display": "standalone"
+}
