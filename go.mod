@@ -18,7 +18,6 @@ require (
 	github.com/r3labs/sse/v2 v2.7.4
 	github.com/rivo/tview v0.0.0-20220129131435-1f7581b67bd1
 	github.com/sirupsen/logrus v1.8.1
-	gonum.org/v1/plot v0.10.0
 )
 
 require (
