@@ -1,0 +1,17 @@
+// Pulse fades a color in and out
+export {
+    info: {
+        maxtick: 256,
+        frametime: 0.05 // [s]
+    },
+    frame: func(leds, tick){
+        b := tick < 128 ? tick / 128.0 : 2.0 - tick / 128.0
+        for group in leds {
+            for idx:=0; idx<group.count; idx++ {
+                group.brightness[idx] = b
+                group.color[idx] = 85
+            }
+        }
+        return leds
+    }
+}

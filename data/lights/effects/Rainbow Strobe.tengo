@@ -3,7 +3,7 @@ fmt := import("fmt")
 export {
     info: {
         maxtick: 256,
-        frametime: 0.1 // [s]
+        frametime: 0.04 // [s]
     },
     frame: func(leds, tick){
         active := tick % 2 == 0

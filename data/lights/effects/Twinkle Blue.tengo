@@ -1,0 +1,27 @@
+times := import("times")
+rand := import("rand")
+rand.rand(times.time_unix_nano(times.now()))
+
+// Twinkle lights up an additional random LED at a time for and clears LEDS at
+// random intervals with a 25% chance per tick
+export {
+    info: {
+        maxtick: 0, 
+        frametime: 0.1
+    },
+    frame: func(leds, tick) {
+        for group in leds {
+            wipe := rand.intn(group.count) == 0
+            for idx:=0; idx<group.count; idx++ {
+                if wipe {
+                    group.brightness[idx] =  0.0
+                }
+                group.color[idx] = 170
+            }
+
+            active := rand.intn(group.count)
+            group.brightness[active] = rand.float()
+        }
+        return leds
+    }
+}

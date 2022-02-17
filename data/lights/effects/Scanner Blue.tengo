@@ -1,0 +1,18 @@
+// KITT is a classical Larson scanner (also known as Cylon)
+export {
+    info: {
+        maxtick: 256,
+        frametime: 0.1 // [s]
+    },
+    frame: func(leds, tick){
+        for group in leds {
+            for idx:=0; idx<group.count; idx++ {
+                group.brightness[idx] = 0.0
+                group.color[idx] = 170
+            }
+            active := tick % group.count
+            group.brightness[active] = 1.0
+        }
+        return leds
+    }
+}
