@@ -5,7 +5,6 @@ import (
 	"math"
 	"time"
 
-	"github.com/dulli/bbycrgo/pkg/events"
 	"github.com/faiface/beep"
 	"github.com/faiface/beep/effects"
 	"github.com/faiface/beep/speaker"
@@ -60,7 +59,7 @@ func SetVolume(volume int) {
 		volumeStream.Silent = false
 		volumeStream.Volume = math.Log2(float64(volume) / 100)
 	}
-	events.Fire(events.Event{
+	EventFire(Event{
 		Origin: "audio",
 		Type:   "volume",
 	})
@@ -77,7 +76,7 @@ func SetIntensity(intensity int) {
 		intensity = 0
 	}
 	intensityLevel = intensity
-	events.Fire(events.Event{
+	EventFire(Event{
 		Origin: "audio",
 		Type:   "intensity",
 	})

@@ -9,7 +9,6 @@ import (
 	"net/http"
 
 	"github.com/dulli/bbycrgo/pkg/common"
-	"github.com/dulli/bbycrgo/pkg/events"
 	"github.com/dulli/bbycrgo/pkg/lights"
 	"github.com/dulli/bbycrgo/pkg/music"
 	"github.com/dulli/bbycrgo/pkg/sounds"
@@ -50,7 +49,7 @@ func (server Server) Start(m music.MusicPlayer, s sounds.SoundPlayer, l lights.R
 	sseServer := sse.New()
 	sseServer.AutoReplay = false
 	sseServer.AutoStream = true
-	events.Listen(func(ev events.Event) {
+	common.EventListen(func(ev common.Event) {
 		data, _ := json.Marshal(ev)
 		sseServer.Publish("events", &sse.Event{
 			Data: data,

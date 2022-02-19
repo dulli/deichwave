@@ -4,7 +4,6 @@ import (
 	"time"
 
 	"github.com/dulli/bbycrgo/pkg/common"
-	"github.com/dulli/bbycrgo/pkg/events"
 	"github.com/dulli/bbycrgo/pkg/lights"
 	"github.com/dulli/bbycrgo/pkg/music"
 	"github.com/dulli/bbycrgo/pkg/rest"
@@ -97,7 +96,7 @@ func main() {
 	}
 
 	musicPlayer.Play()
-	go events.Loop()
+	go common.EventLoop()
 	api := rest.Server{}
 	api.Start(musicPlayer, soundPlayer, lightPlayer)
 }

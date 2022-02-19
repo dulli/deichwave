@@ -12,7 +12,6 @@ import (
 	"time"
 
 	"github.com/dulli/bbycrgo/pkg/common"
-	"github.com/dulli/bbycrgo/pkg/events"
 	log "github.com/sirupsen/logrus"
 
 	"github.com/faiface/beep"
@@ -227,7 +226,7 @@ func (p *musicPlayer) play(s Song) error {
 		p.nowPlaying.Picture = SongPicture{}
 	}
 
-	events.Fire(events.Event{
+	common.EventFire(common.Event{
 		Origin: "music",
 		Type:   "playing",
 	})

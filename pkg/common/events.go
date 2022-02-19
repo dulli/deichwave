@@ -1,4 +1,4 @@
-package events
+package common
 
 type Event struct {
 	Origin string `json:"origin"`
@@ -10,17 +10,17 @@ var ready bool
 var queue chan Event
 var listeners []func(Event)
 
-func Fire(ev Event) {
+func EventFire(ev Event) {
 	if ready {
 		queue <- ev
 	}
 }
 
-func Listen(listener func(Event)) {
+func EventListen(listener func(Event)) {
 	listeners = append(listeners, listener)
 }
 
-func Loop() {
+func EventLoop() {
 	queue = make(chan Event)
 	ready = true
 	for ev := range queue {

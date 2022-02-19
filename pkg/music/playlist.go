@@ -3,7 +3,7 @@ package music
 import (
 	"math/rand"
 
-	"github.com/dulli/bbycrgo/pkg/events"
+	"github.com/dulli/bbycrgo/pkg/common"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -52,7 +52,7 @@ func (p *playlist) incPos() {
 		p.Pos = 0
 		p.shuffle()
 	}
-	events.Fire(events.Event{
+	common.EventFire(common.Event{
 		Origin: "music",
 		Name:   p.Name,
 		Type:   "position",
@@ -67,7 +67,7 @@ func (p *playlist) shuffle() {
 	rand.Shuffle(len(p.Songs), func(i, j int) {
 		p.Songs[i], p.Songs[j] = p.Songs[j], p.Songs[i]
 	})
-	events.Fire(events.Event{
+	common.EventFire(common.Event{
 		Origin: "music",
 		Name:   p.Name,
 		Type:   "shuffle",
