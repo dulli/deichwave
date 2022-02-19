@@ -20,9 +20,9 @@ const (
 
 // Sound is a playable sound effect
 type Sound interface {
-	Play() error
-	Loop() error
-	Unloop() error
+	Play()
+	Loop()
+	Unloop()
 	GetName() string
 	getSystem() bool
 	getSelector() int
@@ -58,7 +58,7 @@ func NewSound(name string, buffers bufferList, selector int, volume int) Sound {
 
 // Play starts playback of the next buffer that is to be played according
 // to the selector method attached to the ssound.
-func (s *sound) Play() error {
+func (s *sound) Play() {
 	buffer := s.Buffers[s.index]
 	streamer := buffer.Streamer(0, buffer.Len())
 	volume := &effects.Volume{
@@ -81,11 +81,10 @@ func (s *sound) Play() error {
 	} else if s.Selector == SELECT_RANDOM {
 		s.index = rand.Intn(len(s.Buffers))
 	}
-	return nil
 }
 
 // Loop starts and indefinitely loops the next buffer.
-func (s *sound) Loop() error {
+func (s *sound) Loop() {
 	if s.loop == nil {
 		buffer := s.Buffers[s.index]
 		streamer := buffer.Streamer(0, buffer.Len())
@@ -103,11 +102,10 @@ func (s *sound) Loop() error {
 			"index": s.index,
 		}).Debug("Looped a sound")
 	}
-	return nil
 }
 
 // Unloop stops the currently looped buffer.
-func (s *sound) Unloop() error {
+func (s *sound) Unloop() {
 	if s.loop != nil {
 		speaker.Lock()
 		s.loop.Streamer = nil
@@ -119,7 +117,6 @@ func (s *sound) Unloop() error {
 			"index": s.index,
 		}).Debug("Unlooped a sound")
 	}
-	return nil
 }
 
 func (s *sound) GetName() string {

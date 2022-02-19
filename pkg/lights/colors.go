@@ -67,4 +67,3 @@ func ColormapRainbow(colors int) Colormap {
 	}
 	return p
 }
- 

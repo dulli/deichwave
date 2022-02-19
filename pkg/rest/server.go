@@ -27,7 +27,7 @@ type Server struct {
 	lights lights.Renderer
 }
 
-func (server Server) Start(m music.MusicPlayer, s sounds.SoundPlayer, l lights.Renderer) {
+func (server Server) Start(m music.MusicPlayer, s sounds.SoundPlayer, l lights.Renderer) error {
 	server.music = m
 	server.sounds = s
 	server.lights = l
@@ -68,7 +68,8 @@ func (server Server) Start(m music.MusicPlayer, s sounds.SoundPlayer, l lights.R
 	log.WithFields(log.Fields{
 		"address": fmt.Sprintf("http://%s:3000/app.html", getLocalIP()),
 	}).Info("Started REST API server")
-	http.ListenAndServe(":3000", r)
+	// TODO make port configurable
+	return http.ListenAndServe(":3000", r)
 }
 
 func getLocalIP() net.IP {

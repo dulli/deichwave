@@ -103,7 +103,7 @@ func main() {
 		raster.Refresh()
 	})
 
-	lightPlayer.SetEffect(os.Args[1])
+	_ = lightPlayer.SetEffect(os.Args[1])
 	window.Resize(fyne.NewSize(500, 100))
 	window.ShowAndRun()
 }

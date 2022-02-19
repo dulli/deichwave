@@ -111,5 +111,10 @@ func main() {
 	musicPlayer.Play()
 	go common.EventLoop()
 	api := rest.Server{}
-	api.Start(musicPlayer, soundPlayer, lightPlayer)
+	err = api.Start(musicPlayer, soundPlayer, lightPlayer)
+	if err != nil {
+		log.WithFields(log.Fields{
+			"err": err,
+		}).Fatal("Rest API could not be started")
+	}
 }
