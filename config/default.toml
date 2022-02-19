@@ -19,7 +19,7 @@ debug = false
 # endrng = [30, 70]               # [%]  Chance for each playlist to occur in the mix at the highest intensity
 
 [hardware]
-led-driver = "rpi-ws281x"           # [%]  Maximum brightness for the LEDs
+led-driver = "ws281x"           # [%]  Maximum brightness for the LEDs
 # led-brightness = 100            # [%]  Maximum brightness for the LEDs
 # led-pin = 18                    # [-]  GPIO pin to which the LEDs are connected
 
