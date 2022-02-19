@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/dulli/bbycrgo/pkg/common"
+	"github.com/dulli/bbycrgo/pkg/hardware"
 	"github.com/dulli/bbycrgo/pkg/lights"
 	"github.com/dulli/bbycrgo/pkg/music"
 	"github.com/dulli/bbycrgo/pkg/rest"
@@ -93,6 +94,18 @@ func main() {
 		log.WithFields(log.Fields{
 			"num": musicPlayer.ListPlaylists(),
 		}).Info("Loaded playlists")
+	}
+
+	driverLED, err := hardware.GetLEDDriver("ws281x")
+	if err != nil {
+		log.WithFields(log.Fields{
+			"type":   "led",
+			"driver": "ws281x",
+			"err":    err,
+		}).Error("Failed to load a driver")
+	} else {
+		driverLED.Setup(lightPlayer, cfg)
+		defer driverLED.Close()
 	}
 
 	musicPlayer.Play()

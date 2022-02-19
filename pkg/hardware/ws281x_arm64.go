@@ -5,14 +5,14 @@ import (
 
 	"github.com/dulli/bbycrgo/pkg/common"
 	"github.com/dulli/bbycrgo/pkg/lights"
-	ws281x "github.com/mcuadros/go-rpi-ws281x"
+	ws281x "github.com/dulli/go-rpi-ws281x"
 )
 
-type RPiLEDws281x struct {
+type LEDws281x struct {
 	canvas *ws281x.Canvas
 }
 
-func (h *RPiLEDws281x) Setup(l lights.Renderer, cfg common.Config) {
+func (h *LEDws281x) Setup(l lights.Renderer, cfg common.Config) error {
 	config := ws281x.DefaultConfig
 	config.Brightness = cfg.Hardware.LEDBrightness
 	config.Pin = cfg.Hardware.LEDPin
@@ -35,8 +35,13 @@ func (h *RPiLEDws281x) Setup(l lights.Renderer, cfg common.Config) {
 		}
 		h.canvas.Render()
 	})
+	return nil
 }
 
-func (h *RPiLEDws281x) Close() {
+func (h *LEDws281x) Check() error {
+	return nil
+}
+
+func (h *LEDws281x) Close() {
 	h.canvas.Close()
 }
