@@ -4,11 +4,11 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Build Go",
+            "label": "Build Go (Current Package)",
             "type": "shell",
-            "command": "go build -o ${workspaceFolder}/bin/${relativeFileDirname} ${file}",
+            "command": "go build -v -o ${workspaceFolder}/bin/linux/amd64/ ${file}",
             "windows": {
-                "command": "go build -o ${workspaceFolder}/bin/win/${relativeFileDirname}.exe ${file}"
+                "command": "go build -v -o ${workspaceFolder}/bin/windows/amd64/ ${file}"
             },
             "group": {
                 "kind": "build",
@@ -16,9 +16,36 @@
             }
         },
         {
-            "label": "Build Go (Cross-Compile: arm64)",
+            "label": "Build Go (All Commands)",
             "type": "shell",
-            "command": "export $(xargs < ${workspaceFolder}/.gocc/arm64.env) && go build -o ${workspaceFolder}/bin/arm64/${relativeFileDirname} ${file}",
+            "command": "go build -v -o ${workspaceFolder}/bin/linux/amd64/ ./cmd/...",
+            "windows": {
+                "command": "go build -v -o ${workspaceFolder}/bin/windows/amd64/ ./cmd/..."
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Build Go (Cross-Compile: linux/arm64, Current Package)",
+            "type": "shell",
+            "command": "export $(xargs < ${workspaceFolder}/.gocc/linux/arm64.env) && go build -v -o ${workspaceFolder}/bin/linux/arm64/ ${file}",
+            "windows": {
+                "command": "echo 'Please use a linux machine for cross-compilation'; exit 1"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Build Go (Cross-Compile: windows/amd64, Current Package)",
+            "type": "shell",
+            "command": "export $(xargs < ${workspaceFolder}/.gocc/windows/amd64.env) && go build -v -o ${workspaceFolder}/bin/windows/amd64/ ${file}",
+            "windows": {
+                "command": "echo 'Please use a linux machine for cross-compilation'; exit 1"
+            },
             "group": {
                 "kind": "build",
                 "isDefault": true
