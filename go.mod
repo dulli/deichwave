@@ -8,13 +8,13 @@ require (
 	github.com/bogem/id3v2/v2 v2.1.2
 	github.com/d5/tengo/v2 v2.10.1
 	github.com/deepmap/oapi-codegen v1.9.1
+	github.com/dulli/go-rpi-ws281x v0.0.0-20220218191608-b1da59dbcc37
 	github.com/faiface/beep v1.1.0
 	github.com/gdamore/tcell/v2 v2.4.1-0.20210905002822-f057f0a857a1
 	github.com/go-chi/chi/v5 v5.0.0
 	github.com/go-chi/cors v1.2.0
 	github.com/go-chi/render v1.0.1
 	github.com/ilyakaznacheev/cleanenv v1.2.6
-	github.com/mcuadros/go-rpi-ws281x v0.0.0-20180122015054-0d7c616b0b23
 	github.com/r3labs/sse/v2 v2.7.4
 	github.com/rivo/tview v0.0.0-20220129131435-1f7581b67bd1
 	github.com/sirupsen/logrus v1.8.1
