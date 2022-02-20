@@ -229,3 +229,4 @@ $RECYCLE.BIN/
 
 bin/
 data/
+*.syso
