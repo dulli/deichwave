@@ -2,9 +2,9 @@
 
 This folder holds all user data and is normally deployed alongside the executable commands.
 
-## Sound Effects: `/sounds/processed`
+## Sound Effects: `/sounds/effects`
 
-Sound effects need to be pre-process (see `/tools`) and are then put here, individual files directly in `/sounds/processed` are treated as single sound files that always play in the same way. If multiple files are bundled into subdirectories, each subdirectory is a single sound with multiple variations, that play either randomly or sequentially.
+Sound effects need to be pre-process (see `/tools`) and are then put here, individual files directly in `/sounds/effects` are treated as single sound files that always play in the same way. If multiple files are bundled into subdirectories, each subdirectory is a single sound with multiple variations, that play either randomly or sequentially.
 
 ## Playlists: `/music/playlists`
 

@@ -6,7 +6,7 @@ debug = false
 # volume = 25                     # [%]  Initial volume used overall (common factor for music and sounds)
 
 [sounds]
-# path = "data/sounds/processed"
+# path = "data/sounds/effects"
 # ext = ".ogg"                    #      Extension for sound files
 # randomizer = ".random"          #      Name of the magic file used to randomize sound groups
 # volume = 100                    # [%]  Nominal volume level of sounds

@@ -1,78 +1,141 @@
+import logging
 import os
 import subprocess
 from pathlib import Path
+from typing import Optional
 
-FFMPEG_PATH = '"ffmpeg"'
-SOUNDS_PATH = os.path.join(Path().resolve(), "data", "sounds", "original")
+import lib.cleanenv as cleanenv
+import typer
+from rich.logging import RichHandler
+from rich.progress import track
 
-print("This script will look for WAV-files in {0}...".format(SOUNDS_PATH))
-print("It will first normalize them and then remove any silence from the beginning...")
-print('If a path contains "-vocals", a bandpass filter will be used to isolate vocals.')
-print("")
-print("Looking for ffmpeg at path: {0}".format(FFMPEG_PATH))
-print("")
-input("Press Enter to continue...")
+DEFAULT_DRY_RUN = False
+app = typer.Typer()
 
-os.listdir(SOUNDS_PATH)
 
-for wav in Path(SOUNDS_PATH).rglob("*.[wW][aA][vV]"):
-    new_wav = str(wav).replace("original", "processed")
-    new_wav = new_wav.replace(" -vocals", "")
-    new_wav = new_wav.replace("-vocals", "")
-    new_wav = new_wav.replace(" -random", "")
-    new_wav = new_wav.replace("-random", "")
+def configure(debug):
+    cfg = {
+        "config": "config/default.toml",
+        "audio": {
+            "rate": 48000,
+        },
+        "sounds": {
+            "path": "data/sounds/effects",
+            "ext": ".ogg",
+            "randomizer": ".random",
+        },
+        "_prefix": "SPP_",
+    }
+    cfg = cleanenv.configure(cfg)
+    cfg["debug"] = debug
 
-    pad_wav = new_wav.replace(".wav", ".pad.wav")
-    norm_wav = new_wav.replace(".wav", ".norm.wav")
-    trim_wav = new_wav.replace(".wav", ".trim.wav")
-    rate_wav = new_wav.replace(".wav", ".rate.wav")
-    new_out = new_wav.replace(".wav", ".ogg")
-
-    new_dir = os.path.dirname(new_wav)
-    if not os.path.exists(new_dir):
-        os.makedirs(new_dir)
-
-    new_randomizer = os.path.join(new_dir, ".random")
-    if "-random" in str(wav):
-        if not os.path.exists(new_randomizer):
-            Path(new_randomizer).touch()
+    fmt = "%(message)s"
+    if debug:
+        logging.basicConfig(level=logging.DEBUG, format=fmt, handlers=[RichHandler(markup=True)])
     else:
-        if os.path.exists(new_randomizer):
-            os.remove(new_randomizer)
+        logging.basicConfig(level=logging.INFO, format=fmt, handlers=[RichHandler(markup=True)])
+    return cfg
 
-    subprocess.run(
-        'ffmpeg -i "{0}" -af "adelay=10000|10000" -y "{1}"'.format(wav, pad_wav), shell=True
-    )
 
-    subprocess.run('ffmpeg-normalize "{0}" -t -15 -o "{1}"'.format(pad_wav, norm_wav), shell=True)
-    os.remove(pad_wav)
+filters = {
+    "isolate_vocals": "lowpass=f=4000,highpass=f=250",
+    "compression": "dynaudnorm=p=0.5:s=5",
+    "denoise": "anlmdn=s=0.0001:p=0.01:m=15",
+    "derumble": "highpass=f=100",
+    "pad": "adelay=10000|10000",
+    "trim": "silenceremove=1:0:-50dB",
+}
 
-    subprocess.run(
-        'ffmpeg -i "{0}" -af silenceremove=1:0:-50dB -y "{1}"'.format(norm_wav, trim_wav),
-        shell=True,
-    )
-    os.remove(norm_wav)
+codecs = {
+    ".ogg": "libvorbis",
+}
 
-    subprocess.run('ffmpeg -i "{0}" -ar 48000 -y "{1}"'.format(trim_wav, rate_wav), shell=True)
-    os.remove(trim_wav)
 
-    if "-vocal" in str(wav):
-        subprocess.run(
-            'ffmpeg -i "{0}" -af lowpass=4000,highpass=250 -y "{1}"'.format(rate_wav, new_wav),
-            shell=True,
+def normalize(cfg, fin, fout, dry_run):
+    t = ["-t", str(cfg["target"])]
+    ar = ["-ar", str(cfg["audio"]["rate"])]
+    ca = ["-c:a", codecs[os.path.splitext(fout)[1]]]
+    ba = ["-b:a", "96k"]
+    nt = ["-nt", "rms"]
+    f = ["-f"] if cfg["overwrite"] else []
+    v = ["-v"] if cfg["debug"] else []
+    e = ["-e=-ac 2"]
+    prf_keys = ["denoise", "derumble", "compression"]
+    pof_keys = []
+    if "-vocals" in fin:
+        pof_keys.append("isolate_vocals")
+    prf = ["-prf", ",".join(filters[key] for key in prf_keys)] if prf_keys else []
+    pof = ["-pof", ",".join(filters[key] for key in pof_keys)] if pof_keys else []
+    cmd = ["ffmpeg-normalize", fin, *t, *ar, *prf, *pof, *ca, *ba, *nt, *f, *v, *e, "-o", fout]
+    if not dry_run:
+        result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        if result.stdout:
+            logging.info("ffmpeg-normalize (%s): %s", fout, result.stdout.decode())
+        if result.stderr:
+            logging.warning("ffmpeg-normalize (%s): %s", fout, result.stderr.decode())
+
+
+@app.command()
+def start(
+    folder: Optional[str] = typer.Argument("data/sounds/original"),
+    target: int = -10,
+    overwrite: bool = False,
+    debug: bool = False,
+    dry_run: bool = DEFAULT_DRY_RUN,
+):
+    cfg = configure(debug)
+    audio_files = list(Path(folder).rglob("*.[wW][aA][vV]"))
+
+    cfg["target"] = target
+    cfg["overwrite"] = overwrite
+    if cfg["overwrite"]:
+        logging.warning("Overwriting files if they already exist!")
+
+    logging.info("Pre-processing %d audio files in %s", len(audio_files), folder)
+    for fin in track(audio_files):
+        fout = fin = str(fin)
+        fout = fout.replace(os.path.normpath(folder), "")
+        fout = fout.replace("-vocals", "")
+        fout = fout.replace("-random", "")
+
+        fname = os.path.splitext(os.path.basename(fout))[0].strip()
+        fdir = os.path.join(
+            os.path.normpath(cfg["sounds"]["path"]),
+            os.path.dirname(fout)[1:].strip(),
         )
-        os.remove(rate_wav)
+        fout = os.path.join(
+            fdir,
+            fname + cfg["sounds"]["ext"],
+        )
+        logging.debug("%s -> %s", fin, fout)
 
-    else:
-        if os.path.exists(new_wav):
-            os.remove(new_wav)
-        os.rename(rate_wav, new_wav)
+        if not os.path.exists(fdir):
+            if not dry_run:
+                os.makedirs(fdir)
+            logging.debug("Creating sound folder %s", str(fdir))
 
-    subprocess.run(
-        'ffmpeg -i "{0}" -c:a libvorbis -b:a 96k -ar 48000 -ac 2 "{1}"'.format(new_wav, new_out),
-        shell=True,
-    )
-    os.remove(new_wav)
-    print(new_out)
+            frnd = os.path.join(fdir, cfg["sounds"]["randomizer"])
+            if "-random" in str(fin):
+                if not os.path.exists(frnd):
+                    if not dry_run:
+                        Path(frnd).touch()
+                    logging.debug("Creating randomizer %s", str(frnd))
+            else:
+                if os.path.exists(frnd):
+                    if not dry_run:
+                        os.remove(frnd)
+                    logging.warning("Removing randomizer %s", str(frnd))
 
-input("Press Enter to close...")
+        if not os.path.exists(fout) or cfg["overwrite"]:
+            normalize(cfg, fin, fout, dry_run)
+
+
+def main():
+    try:
+        app()
+    except SystemExit as e:
+        logging.info("Script was terminated")
+
+
+if __name__ == "__main__":
+    main()

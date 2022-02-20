@@ -196,6 +196,10 @@ func loadFile(
 		streamer, format, err = vorbis.Decode(data)
 	}
 	if err != nil {
+		log.WithFields(log.Fields{
+			"file": path,
+			"err":  err,
+		}).Error("Could not resample a sound file")
 		return nil, err
 	}
 
@@ -207,8 +211,8 @@ func loadFile(
 
 		log.WithFields(log.Fields{
 			"file": path,
-			"old":  format.SampleRate,
-			"new":  rate,
+			"is":   format.SampleRate,
+			"want": rate,
 		}).Debug("Resampled a sound file")
 	} else {
 		buffer.Append(streamer)
@@ -216,6 +220,8 @@ func loadFile(
 
 		log.WithFields(log.Fields{
 			"file": path,
+			"is":   format.SampleRate,
+			"want": rate,
 		}).Debug("Buffered a sound file")
 	}
 	data.Close()

@@ -14,7 +14,7 @@ type Config struct {
 		Volume  int `toml:"volume" env:"VOLUME" env-default:"50"`
 	} `toml:"audio" env-prefix:"AUDIO_"`
 	Sounds struct {
-		Path       string `toml:"path" env:"DIR" env-default:"data/sounds/processed"`
+		Path       string `toml:"path" env:"DIR" env-default:"data/sounds/effects"`
 		Ext        string `toml:"ext" env:"EXT" env-default:".ogg"`
 		Randomizer string `toml:"randomizer" env:"RND" env-default:".random"`
 		Volume     int    `toml:"volume" env:"VOLUME" env-default:"100"`
@@ -22,7 +22,7 @@ type Config struct {
 	Music struct {
 		Path     string `toml:"path" env:"DIR" env-default:"data/music/playlists"`
 		Ext      string `toml:"ext" env:"EXT" env-default:".mp3"`
-		Volume   int    `toml:"volume" env:"VOLUME" env-default:"75"`
+		Volume   int    `toml:"volume" env:"VOLUME" env-default:"50"`
 		StartRNG []int  `toml:"startrng" env:"STARTRNG" env-default:"95,5"`
 		EndRNG   []int  `toml:"endrng" env:"ENDRNG" env-default:"30,70"`
 	} `toml:"music" env-prefix:"MUSIC_"`
