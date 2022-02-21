@@ -1,3 +1,6 @@
+//go:generate go run github.com/deepmap/oapi-codegen/cmd/oapi-codegen -generate chi-server -o openapi_server.gen.go -package rest ../../api/bbycr.yaml
+//go:generate go run github.com/deepmap/oapi-codegen/cmd/oapi-codegen -generate types -o openapi_types.gen.go -package rest ../../api/bbycr.yaml
+
 package rest
 
 import (
