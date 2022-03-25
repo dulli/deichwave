@@ -10,12 +10,12 @@
         <link rel="apple-touch-icon" href="static/touch-apple.png" />
         <title>BBYCR</title>
 
-        <link rel="stylesheet" href="static/bulma.min.css" />
-        <link rel="stylesheet" href="static/bulma-slider.min.css" />
+        <link rel="stylesheet" href="vendor/bulma.min.css" />
+        <link rel="stylesheet" href="vendor/bulma-slider.min.css" />
         <!-- <link href="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css" rel="stylesheet" />
         <script src="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js"></script> -->
-        <script src="static/alpine.min.js" defer></script>
-        <script src="static/app-main.js"></script>
+        <script src="vendor/alpine.min.js" defer></script>
+        <script src="app-main.js"></script>
 
         <style type="text/css">
             .icon.button {
@@ -31,16 +31,34 @@
     <body>
         <div class="container">
             <section class="section">
-                <img class="is-pulled-left image is-96x96 mr-4" src="static/logo.svg" />
+                <img
+                    class="is-pulled-left image is-96x96 mr-4"
+                    src="static/logo.svg"
+                />
 
                 <h1 class="title is-1">BBYCR</h1>
                 <p class="subtitle">Control Panel</p>
+
+                <div style="position: absolute; right: 1em; top: 1em">
+                    <button
+                        class="button mr-3 mb-3 is-light"
+                        onclick="confirm('Power off?') && api(`shell/shutdown`, 'post')"
+                    >
+                        <span class="mr-1 is-primary">
+                            <svg viewBox="0 0 24 24">
+                                <use href="#mdi-power" />
+                            </svg>
+                        </span>
+                    </button>
+                </div>
             </section>
 
             <section class="section box is-shadowless has-background-light">
                 <div class="columns is-mobile is-flex is-vcentered">
                     <div class="column is-narrow is-size-4">
-                        <svg viewBox="0 0 24 24"><use href="#mdi-volume" /></svg>
+                        <svg viewBox="0 0 24 24">
+                            <use href="#mdi-volume" />
+                        </svg>
                     </div>
                     <div class="column" x-data="$store.volume">
                         <input
@@ -56,7 +74,9 @@
                 </div>
                 <div class="columns is-mobile is-flex is-vcentered">
                     <div class="column is-narrow is-size-4">
-                        <svg viewBox="0 0 24 24"><use href="#mdi-liqour" /></svg>
+                        <svg viewBox="0 0 24 24">
+                            <use href="#mdi-liqour" />
+                        </svg>
                     </div>
                     <div class="column" x-data="$store.intensity">
                         <input
@@ -77,20 +97,37 @@
                 <div class="columns">
                     <div class="column">
                         <h2 class="subtitle is-4">
-                            <svg viewBox="0 0 24 24"><use href="#mdi-play-circle-outline" /></svg> Now Playing
+                            <svg viewBox="0 0 24 24">
+                                <use href="#mdi-play-circle-outline" />
+                            </svg>
+                            Now Playing
                         </h2>
-                        <article class="media is-flex is-align-items-stretch" x-data="$store.playing">
-                            <figure class="media-left image is-128x128 has-background-primary">
+                        <article
+                            class="media is-flex is-align-items-stretch"
+                            x-data="$store.playing"
+                        >
+                            <figure
+                                class="media-left image is-128x128 has-background-primary"
+                            >
                                 <img x-bind:src="info.image" />
                             </figure>
-                            <div class="media-content is-flex is-flex-direction-column">
+                            <div
+                                class="media-content is-flex is-flex-direction-column"
+                            >
                                 <p class="content is-flex-grow-1">
-                                    <strong x-text="info.artist">[ARTIST]</strong>
+                                    <strong x-text="info.artist"
+                                        >[ARTIST]</strong
+                                    >
 
                                     <br />
                                     <span x-text="info.title">[SONG]</span>
                                     <br />
-                                    <small>in <i x-text="info.playlist">[PLAYLIST]</i></small>
+                                    <small
+                                        >in
+                                        <i x-text="info.playlist"
+                                            >[PLAYLIST]</i
+                                        ></small
+                                    >
                                 </p>
                                 <nav class="level is-mobile">
                                     <div class="level-left">
@@ -98,28 +135,36 @@
                                             class="level-item button icon is-dark"
                                             onclick="api('music/play', 'post')"
                                         >
-                                            <svg viewBox="0 0 24 24"><use href="#mdi-play" /></svg>
+                                            <svg viewBox="0 0 24 24">
+                                                <use href="#mdi-play" />
+                                            </svg>
                                         </button>
 
                                         <button
                                             class="level-item button icon is-dark"
                                             onclick="api('music/pause', 'post')"
                                         >
-                                            <svg viewBox="0 0 24 24"><use href="#mdi-pause" /></svg>
+                                            <svg viewBox="0 0 24 24">
+                                                <use href="#mdi-pause" />
+                                            </svg>
                                         </button>
 
                                         <button
                                             class="level-item button icon is-danger"
                                             onclick="api('music/stop', 'post')"
                                         >
-                                            <svg viewBox="0 0 24 24"><use href="#mdi-stop" /></svg>
+                                            <svg viewBox="0 0 24 24">
+                                                <use href="#mdi-stop" />
+                                            </svg>
                                         </button>
 
                                         <button
                                             class="level-item button icon is-danger"
                                             onclick="api('music/next', 'post')"
                                         >
-                                            <svg viewBox="0 0 24 24"><use href="#mdi-skip-next" /></svg>
+                                            <svg viewBox="0 0 24 24">
+                                                <use href="#mdi-skip-next" />
+                                            </svg>
                                         </button>
                                     </div>
                                 </nav>
@@ -128,25 +173,47 @@
                     </div>
                     <div class="column">
                         <h2 class="subtitle is-4">
-                            <svg viewBox="0 0 24 24"><use href="#mdi-skip-next-circle-outline" /></svg> Upcoming
+                            <svg viewBox="0 0 24 24">
+                                <use href="#mdi-skip-next-circle-outline" />
+                            </svg>
+                            Upcoming
                         </h2>
                         <table class="table is-fullwidth has-background-light">
                             <tbody x-data="$store.playlists">
                                 <template x-for="playlist in lists">
                                     <tr>
-                                        <td class="is-narrow has-text-primary" style="vertical-align: middle">
-                                            <strong class="has-text-primary" x-text="playlist.chance"></strong>%
+                                        <td
+                                            class="is-narrow has-text-primary"
+                                            style="vertical-align: middle"
+                                        >
+                                            <strong
+                                                class="has-text-primary"
+                                                x-text="playlist.chance"
+                                            ></strong
+                                            >%
                                         </td>
                                         <td>
-                                            <i x-text="playlist.name">[PLAYLIST]</i><br />
-                                            <strong x-text="playlist.songs[playlist.position]">[NAME]</strong>
+                                            <i x-text="playlist.name"
+                                                >[PLAYLIST]</i
+                                            ><br />
+                                            <strong
+                                                x-text="playlist.songs[playlist.position]"
+                                                >[NAME]</strong
+                                            >
                                         </td>
-                                        <td class="is-narrow" style="vertical-align: middle">
+                                        <td
+                                            class="is-narrow"
+                                            style="vertical-align: middle"
+                                        >
                                             <button
                                                 class="button icon is-danger"
                                                 x-on:click="api(`music/${playlist.name}/skip`, 'post')"
                                             >
-                                                <svg viewBox="0 0 24 24"><use href="#mdi-skip-next" /></svg>
+                                                <svg viewBox="0 0 24 24">
+                                                    <use
+                                                        href="#mdi-skip-next"
+                                                    />
+                                                </svg>
                                             </button>
                                         </td>
                                     </tr>
@@ -161,9 +228,14 @@
                 <h2 class="title is-4">Sound Effects</h2>
                 <div x-data="$store.sounds">
                     <template x-for="sound in names">
-                        <button class="button mr-3 mb-3 is-dark" x-on:click="api(`sounds/${sound}/play`, 'post')">
+                        <button
+                            class="button mr-3 mb-3 is-dark"
+                            x-on:click="api(`sounds/${sound}/play`, 'post')"
+                        >
                             <span class="mr-1 is-primary">
-                                <svg viewBox="0 0 24 24"><use href="#mdi-music-note" /></svg>
+                                <svg viewBox="0 0 24 24">
+                                    <use href="#mdi-music-note" />
+                                </svg>
                             </span>
                             <span x-text="sound">[SOUND]</span>
                         </button>
@@ -175,9 +247,14 @@
                 <h2 class="title is-4">Light Effects</h2>
                 <div x-data="$store.lights">
                     <template x-for="effect in names">
-                        <button class="button mr-3 mb-3 is-dark" x-on:click="api(`lights/${effect}/start`, 'post')">
+                        <button
+                            class="button mr-3 mb-3 is-dark"
+                            x-on:click="api(`lights/${effect}/start`, 'post')"
+                        >
                             <span class="mr-1 is-primary">
-                                <svg viewBox="0 0 24 24"><use href="#mdi-led-on" /></svg>
+                                <svg viewBox="0 0 24 24">
+                                    <use href="#mdi-led-on" />
+                                </svg>
                             </span>
                             <span x-text="effect">[EFFECT]</span>
                         </button>
@@ -188,17 +265,34 @@
             <section class="section box is-shadowless has-background-light">
                 <h2 class="title is-4">Route</h2>
                 <!-- TODO opt in -->
-                <button class="button is-dark is-fullwidth" style="white-space: normal; height: auto" disabled>
-                    Opt-in to use mapbox.com as a third-party provider and show a map with the route history
+                <button
+                    class="button is-dark is-fullwidth"
+                    style="white-space: normal; height: auto"
+                    disabled
+                >
+                    Opt-in to use mapbox.com as a third-party provider and show
+                    a map with the route history
                 </button>
                 <!-- <div id="map" style="width: 100%; height: 500px; border-radius: 6px"></div> -->
             </section>
         </div>
         <svg style="display: none" width="24" height="24" viewBox="0 0 24 24">
-            <path id="mdi-play" fill="currentColor" d="M8,5.14V19.14L19,12.14L8,5.14Z" />
-            <path id="mdi-pause" fill="currentColor" d="M14,19H18V5H14M6,19H10V5H6V19Z" />
+            <path
+                id="mdi-play"
+                fill="currentColor"
+                d="M8,5.14V19.14L19,12.14L8,5.14Z"
+            />
+            <path
+                id="mdi-pause"
+                fill="currentColor"
+                d="M14,19H18V5H14M6,19H10V5H6V19Z"
+            />
             <path id="mdi-stop" fill="currentColor" d="M18,18H6V6H18V18Z" />
-            <path id="mdi-skip-next" fill="currentColor" d="M16,18H18V6H16M6,18L14.5,12L6,6V18Z" />
+            <path
+                id="mdi-skip-next"
+                fill="currentColor"
+                d="M16,18H18V6H16M6,18L14.5,12L6,6V18Z"
+            />
             <path
                 id="mdi-music-note"
                 fill="currentColor"
@@ -228,6 +322,11 @@
                 id="mdi-play-circle-outline"
                 fill="currentColor"
                 d="M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M10,16.5L16,12L10,7.5V16.5Z"
+            />
+            <path
+                id="mdi-power"
+                fill="currentColor"
+                d="M16.56,5.44L15.11,6.89C16.84,7.94 18,9.83 18,12A6,6 0 0,1 12,18A6,6 0 0,1 6,12C6,9.83 7.16,7.94 8.88,6.88L7.44,5.44C5.36,6.88 4,9.28 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12C20,9.28 18.64,6.88 16.56,5.44M13,3H11V13H13"
             />
         </svg>
     </body>
