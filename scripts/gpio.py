@@ -63,7 +63,7 @@ actions = copy.deepcopy(inputs)
 actions["buttons"]["left"][0] = ("sounds/Schnapps/play", "")
 actions["buttons"]["left"][1] = ("sounds/Halligalli/play", "")
 actions["buttons"]["left"][2] = ("sounds/Airhorn/play", "")
-actions["buttons"]["left"][3] = ("sounds/Big Shaq/play", "")
+actions["buttons"]["left"][3] = ("sounds/Assi/play", "")
 actions["buttons"]["left"][4] = ("sounds/Assi Toni/play", "")
 actions["buttons"]["left"][5] = ("lights/Strobe/start", "lights/Strobe/stop")
 
@@ -76,9 +76,9 @@ actions["rotaries"]["left"][0] = (
     "music/next",
 )
 
-actions["buttons"]["right"][0] = ("sounds/Ok Prost/play", "")
-actions["buttons"]["right"][1] = ("sounds/Lass mal einen saufen/play", "")
-actions["buttons"]["right"][2] = ("sounds/Kenning West/play", "")
+actions["buttons"]["right"][0] = ("sounds/Wolfgang pass auf!/play", "")
+actions["buttons"]["right"][1] = ("sounds/Halligalli/play", "")
+actions["buttons"]["right"][2] = ("sounds/Meme/play", "")
 actions["buttons"]["right"][3] = ("sounds/Hey, geh weg!/play", "")
 actions["buttons"]["right"][4] = ("lights/Strobe/start", "lights/Strobe/stop")
 actions["buttons"]["right"][5] = ("sounds/Abfahrt/play", "")

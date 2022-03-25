@@ -3,13 +3,13 @@ debug = false
 [audio]
 # rate = 48000                    # [Hz] Sample rate used to initialize the speaker
 # quality = 6                     # [-]  Resampling quality used if a sound file does not have the correct sample rate
-# volume = 25                     # [%]  Initial volume used overall (common factor for music and sounds)
+# volume = 10                     # [%]  Initial volume used overall (common factor for music and sounds)
 
 [sounds]
 # path = "data/sounds/effects"
 # ext = ".ogg"                    #      Extension for sound files
 # randomizer = ".random"          #      Name of the magic file used to randomize sound groups
-# volume = 125                    # [%]  Nominal volume level of sounds
+# volume = 100                    # [%]  Nominal volume level of sounds
 
 [music]
 # path = "data/playlists"
@@ -30,7 +30,7 @@ led-driver = "ws281x"           # [%]  Maximum brightness for the LEDs
 
 [leds.front-trunk]
 order = 1
-count = 3
+count = 1
 
 [leds.top-right]
 order = 2

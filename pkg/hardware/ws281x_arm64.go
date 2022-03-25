@@ -17,6 +17,7 @@ func (h *LEDws281x) Setup(l lights.Renderer, cfg common.Config) error {
 	config := ws281x.DefaultConfig
 	config.Brightness = cfg.Hardware.LEDBrightness
 	config.Pin = cfg.Hardware.LEDPin
+	config.StripType = ws281x.StripBRG
 	colors := lights.ColormapRainbow(256)
 	ledCount := l.GetLEDCount()
 
