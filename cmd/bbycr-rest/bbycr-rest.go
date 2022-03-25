@@ -63,6 +63,7 @@ func main() {
 		driverLED.Setup(lightPlayer, cfg)
 		defer driverLED.Close()
 	}
+	lightPlayer.SetEffect("Rainbow")
 
 	// Prepare the music command module and initialize the speaker
 	musicPlayer, err := music.NewPlayer("music-rest", cfg)
@@ -112,6 +113,8 @@ func main() {
 			"num": len(soundPlayer.ListSounds()),
 		}).Info("Loaded sounds")
 	}
+	snd, _ := soundPlayer.GetSound("Windows Boot")
+	snd.Play()
 
 	// Prepare shell command execution
 	shellExec, err := shell.NewExecutor("shell-rest", cfg)
