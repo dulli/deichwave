@@ -6,6 +6,7 @@ import (
 	"github.com/dulli/bbycrgo/pkg/common"
 	"github.com/dulli/bbycrgo/pkg/lights"
 	ws281x "github.com/dulli/go-rpi-ws281x"
+	log "github.com/sirupsen/logrus"
 )
 
 type LEDws281x struct {
@@ -19,8 +20,8 @@ func (h *LEDws281x) Setup(l lights.Renderer, cfg common.Config) error {
 	colors := lights.ColormapRainbow(256)
 	ledCount := l.GetLEDCount()
 
-	rect := image.Rectangle{image.Point{0, 0}, image.Point{ledCount, 0}}
-	h.canvas, _ = ws281x.NewCanvas(rect.Max.X, rect.Max.Y, &ws281x.DefaultConfig)
+	rect := image.Rectangle{image.Point{0, 0}, image.Point{ledCount - 1, 0}}
+	h.canvas, _ = ws281x.NewCanvas(rect.Max.X+1, 1, &config)
 	h.canvas.Initialize()
 
 	l.ReceiveFrame(func(state [][]lights.LEDState) {
@@ -35,6 +36,11 @@ func (h *LEDws281x) Setup(l lights.Renderer, cfg common.Config) error {
 		}
 		h.canvas.Render()
 	})
+	log.WithFields(log.Fields{
+		"type":     "led",
+		"driver":   "ws281x",
+		"platform": "arm64",
+	}).Debug("Listening for frames")
 	return nil
 }
 
@@ -44,4 +50,9 @@ func (h *LEDws281x) Check() error {
 
 func (h *LEDws281x) Close() {
 	h.canvas.Close()
+	log.WithFields(log.Fields{
+		"type":     "led",
+		"driver":   "ws281x",
+		"platform": "arm64",
+	}).Debug("Stopped listening for frames")
 }

@@ -4,7 +4,6 @@ import subprocess
 from pathlib import Path
 from typing import Optional
 
-import lib.cleanenv as cleanenv
 import typer
 from rich.logging import RichHandler
 from rich.progress import track
@@ -14,6 +13,8 @@ app = typer.Typer()
 
 
 def configure(debug):
+    import lib.cleanenv as cleanenv
+
     cfg = {
         "config": "config/default.toml",
         "audio": {

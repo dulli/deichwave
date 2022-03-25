@@ -8,7 +8,11 @@ To power all this on a software level, `BBYCR.go` was born after multiple previo
 
 This time it is supposed to be a portable monolith that can compile into a single executable, so that it is as easy as possible to deploy and can even be used directly from a thumb drive that contains the music and sound files that should be played. It also cross-compiles on (and for) Linux and Windows running on `ARM64` and `x64` platforms. So aside from the targeted `Raspberry Pi 3` on the original **BBYCR** you can even use it for your home-party on your regular laptop or wherever else you like.
 
-## Setup
+## Getting Started
+
+...
+
+### Setup
 
 Copy the compiled executable as well as the `/web`, `/data` and `/config` folders to your target computer and run it, e.g. using the command line:
 
@@ -17,6 +21,10 @@ Copy the compiled executable as well as the `/web`, `/data` and `/config` folder
 ```
 
 Then monitor the log output to see if everything is up and running and for instructions to access [the web interface](#web-interface).
+
+### Compiling
+
+... [^1]
 
 ## Structure
 
@@ -67,3 +75,4 @@ Outfitted with main speakers between its wheel base, additional tweeters pointed
 ## References
 
 [^0]: [Screenshot created with `Screely`](https://www.screely.com/)
+[^1]: [Embedding resources in Windows executables](https://github.com/tc-hib/go-winres)
