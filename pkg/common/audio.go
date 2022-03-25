@@ -65,8 +65,12 @@ func SetVolume(volume int) {
 	})
 }
 
-func GetIntensity() int {
-	return intensityLevel
+func ChangeVolume(delta int) {
+	SetVolume(volumeLevel + delta)
+}
+
+func GetVolume() int {
+	return volumeLevel
 }
 
 func SetIntensity(intensity int) {
@@ -82,6 +86,10 @@ func SetIntensity(intensity int) {
 	})
 }
 
-func GetVolume() int {
-	return volumeLevel
+func ChangeIntensity(delta int) {
+	SetIntensity(intensityLevel + delta)
+}
+
+func GetIntensity() int {
+	return intensityLevel
 }

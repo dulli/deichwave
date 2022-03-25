@@ -9,7 +9,7 @@ debug = false
 # path = "data/sounds/effects"
 # ext = ".ogg"                    #      Extension for sound files
 # randomizer = ".random"          #      Name of the magic file used to randomize sound groups
-# volume = 100                    # [%]  Nominal volume level of sounds
+# volume = 125                    # [%]  Nominal volume level of sounds
 
 [music]
 # path = "data/playlists"
@@ -18,6 +18,11 @@ debug = false
 # startrng = [95, 5]              # [%]  Chance for each playlist to occur in the mix at the lowest intensity
 # endrng = [30, 70]               # [%]  Chance for each playlist to occur in the mix at the highest intensity
 
+[shell]
+test = ["echo", "--- test ---"]
+shutdown = ["poweroff"]
+reboot = ["reboot"]
+
 [hardware]
 led-driver = "ws281x"           # [%]  Maximum brightness for the LEDs
 # led-brightness = 100            # [%]  Maximum brightness for the LEDs
@@ -25,7 +30,7 @@ led-driver = "ws281x"           # [%]  Maximum brightness for the LEDs
 
 [leds.front-trunk]
 order = 1
-count = 2
+count = 3
 
 [leds.top-right]
 order = 2

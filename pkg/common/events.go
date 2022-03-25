@@ -1,5 +1,10 @@
 package common
 
+import (
+	"os"
+	"os/signal"
+)
+
 type Event struct {
 	Origin string `json:"origin"`
 	Name   string `json:"name"`
@@ -28,4 +33,15 @@ func EventLoop() {
 			listener(ev)
 		}
 	}
+}
+
+func AwaitSignal() {
+	sigchan := make(chan os.Signal, 1)
+	signal.Notify(sigchan, os.Interrupt)
+	<-sigchan
+	EventFire(Event{
+		Origin: "System",
+		Name:   "SIGINT",
+		Type:   "Signal",
+	})
 }

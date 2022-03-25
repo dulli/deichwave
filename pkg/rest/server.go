@@ -14,6 +14,7 @@ import (
 	"github.com/dulli/bbycrgo/pkg/common"
 	"github.com/dulli/bbycrgo/pkg/lights"
 	"github.com/dulli/bbycrgo/pkg/music"
+	"github.com/dulli/bbycrgo/pkg/shell"
 	"github.com/dulli/bbycrgo/pkg/sounds"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/cors"
@@ -28,12 +29,14 @@ type Server struct {
 	music  music.MusicPlayer
 	sounds sounds.SoundPlayer
 	lights lights.Renderer
+	exec   shell.ShellExecutor
 }
 
-func (server Server) Start(m music.MusicPlayer, s sounds.SoundPlayer, l lights.Renderer) error {
+func (server Server) Start(m music.MusicPlayer, s sounds.SoundPlayer, l lights.Renderer, e shell.ShellExecutor) *http.Server {
 	server.music = m
 	server.sounds = s
 	server.lights = l
+	server.exec = e
 
 	// REST
 	r := chi.NewRouter()
@@ -72,14 +75,19 @@ func (server Server) Start(m music.MusicPlayer, s sounds.SoundPlayer, l lights.R
 		"address": fmt.Sprintf("http://%s:3000/app.html", getLocalIP()),
 	}).Info("Started REST API server")
 	// TODO make port configurable
-	return http.ListenAndServe(":3000", r)
+	srv := &http.Server{Addr: ":3000", Handler: r}
+	go srv.ListenAndServe()
+	return srv
 }
 
 func getLocalIP() net.IP {
-	conn, _ := net.Dial("udp", "8.8.8.8:80")
-	defer conn.Close()
-	localAddr := conn.LocalAddr().(*net.UDPAddr)
-	return localAddr.IP
+	addrs, _ := net.InterfaceAddrs()
+	for _, a := range addrs {
+		if ipnet, ok := a.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
+			return ipnet.IP
+		}
+	}
+	return nil
 }
 
 // func (s BbycrServer) makeHypermedia(path string, ids []string) []string {
@@ -348,8 +356,14 @@ func (s Server) PostLightsStart(w http.ResponseWriter, r *http.Request, effect L
 // Stop a light effect
 // (POST /lights/{effect}/stop)
 func (s Server) PostLightsStop(w http.ResponseWriter, r *http.Request, effect LightEffect) {
-	render.Status(r, http.StatusNotImplemented)
-	render.JSON(w, r, "NOK")
+	err := s.lights.StopEffect(string(effect))
+	if errors.As(err, &lights.ErrEffectNotFound) {
+		render.Status(r, http.StatusNotFound)
+		render.JSON(w, r, err.Error())
+		return
+	}
+	render.Status(r, http.StatusOK)
+	render.JSON(w, r, "OK")
 }
 
 // Get volume
@@ -375,6 +389,14 @@ func (s Server) PostSystemVolume(w http.ResponseWriter, r *http.Request) {
 	render.JSON(w, r, "OK")
 }
 
+// Change Volume
+// (POST /system/volume/{delta})
+func (s Server) PostSystemVolumeDelta(w http.ResponseWriter, r *http.Request, delta int) {
+	common.ChangeVolume(delta)
+	render.Status(r, http.StatusOK)
+	render.JSON(w, r, "OK")
+}
+
 // Get Intensity
 // (GET /system/intensity)
 func (s Server) GetSystemIntensity(w http.ResponseWriter, r *http.Request) {
@@ -396,4 +418,32 @@ func (s Server) PostSystemIntensity(w http.ResponseWriter, r *http.Request) {
 	common.SetIntensity(intensity.Level)
 	render.Status(r, http.StatusOK)
 	render.JSON(w, r, "OK")
+}
+
+// Change Intensity
+// (POST /system/intensity/{delta})
+func (s Server) PostSystemIntensityDelta(w http.ResponseWriter, r *http.Request, delta int) {
+	common.ChangeIntensity(delta)
+	render.Status(r, http.StatusOK)
+	render.JSON(w, r, "OK")
+}
+
+// Ping
+// (GET /ping)
+func (s Server) GetPing(w http.ResponseWriter, r *http.Request) {
+	render.Status(r, http.StatusOK)
+	render.JSON(w, r, "Pong")
+}
+
+// Shell Command
+// (POST /shell/{command})
+func (s Server) PostShellCommand(w http.ResponseWriter, r *http.Request, command string) {
+	resp, err := s.exec.Run(command)
+	if errors.As(err, &shell.ErrCommandNotFound) {
+		render.Status(r, http.StatusNotFound)
+		render.JSON(w, r, err.Error())
+		return
+	}
+	render.Status(r, http.StatusOK)
+	render.JSON(w, r, resp)
 }

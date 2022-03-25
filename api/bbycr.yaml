@@ -304,6 +304,25 @@ paths:
       tags:
         - system
         - audio
+  '/system/volume/{delta}':
+    post:
+      summary: Change Volume
+      operationId: post-system-volume-delta
+      responses:
+        '200':
+          description: OK
+      description: Change the current volume
+      tags:
+        - system
+        - audio
+    parameters:
+      - schema:
+          type: integer
+          minimum: -100
+          maximum: 100
+        name: delta
+        in: path
+        required: true
   /system/intensity:
     get:
       summary: Get Intensity
@@ -336,6 +355,66 @@ paths:
         - system
         - audio
     parameters: []
+  '/system/intensity/{delta}':
+    post:
+      summary: Change Intensity
+      operationId: post-system-intensity-delta
+      responses:
+        '200':
+          description: OK
+      description: Change the current intensity
+      tags:
+        - system
+        - audio
+    parameters:
+      - schema:
+          type: integer
+          minimum: -100
+          maximum: 100
+        name: delta
+        in: path
+        required: true
+  /ping:
+    get:
+      summary: Ping
+      tags:
+        - system
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+            application/xml:
+              schema:
+                type: string
+                default: Pong
+                enum:
+                  - Pong
+                example: Pong
+                readOnly: true
+      operationId: get-ping
+      description: Ping the API
+  '/shell/{command}':
+    parameters:
+      - schema:
+          type: string
+        name: command
+        in: path
+        required: true
+    post:
+      summary: Shell Command
+      operationId: post-shell-command
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+      description: Run a pre-defined shell command by name
+      tags:
+        - system
 components:
   schemas:
     SoundActions:

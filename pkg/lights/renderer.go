@@ -24,6 +24,7 @@ type Renderer interface {
 	GetLEDCount() int
 	GetGroupCount() map[string]int
 	SetEffect(name string) error
+	StopEffect(name string) error
 	ReceiveFrame(func([][]LEDState))
 }
 
@@ -37,11 +38,11 @@ type scriptRenderer struct {
 	info      map[string]effectInfo
 	nextFrame chan bool
 	timer     *time.Timer
-	// image     image.Image
 	callbacks []func([][]LEDState)
 	state     [][]LEDState
 	tcount    int
 	gcount    map[string]int
+	history   []string
 }
 type effectInfo struct {
 	frameTime time.Duration
@@ -88,8 +89,6 @@ func NewRenderer(name string, cfg common.Config) (Renderer, error) {
 	}
 
 	renderer.tcount = totalCount
-	// rect := image.Rectangle{image.Point{0, 0}, image.Point{totalCount, 0}}
-	// renderer.image = image.NewRGBA(rect)
 
 	renderer.leds = &tengo.Array{Value: groups}
 	go renderer.run()
@@ -178,10 +177,38 @@ func (r *scriptRenderer) SetEffect(name string) error {
 	if _, ok := r.info[name]; !ok {
 		return ErrEffectNotFound
 	}
+	r.history = append(r.history, name)
 	log.WithFields(log.Fields{
 		"name": name,
 	}).Info("Setting light effect")
 	r.Next(name)
+	return nil
+}
+
+func (r *scriptRenderer) StopEffect(name string) error {
+	// Find the last occurence of the given effect in the history
+	effect_idx := -1
+	for i, v := range r.history {
+		if v == name {
+			effect_idx = i
+		}
+	}
+	if effect_idx == -1 {
+		return ErrEffectNotFound
+	}
+
+	is_last := effect_idx == len(r.history)-1
+	if is_last {
+		r.history = r.history[:len(r.history)-1]
+		if len(r.history) > 0 {
+			r.Next(r.history[len(r.history)-1])
+		}
+	} else {
+		r.history = append(r.history[:effect_idx], r.history[effect_idx+1:]...)
+	}
+	log.WithFields(log.Fields{
+		"name": name,
+	}).Info("Stopped light effect")
 	return nil
 }
 

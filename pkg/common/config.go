@@ -17,7 +17,7 @@ type Config struct {
 		Path       string `toml:"path" env:"DIR" env-default:"data/sounds/effects"`
 		Ext        string `toml:"ext" env:"EXT" env-default:".ogg"`
 		Randomizer string `toml:"randomizer" env:"RND" env-default:".random"`
-		Volume     int    `toml:"volume" env:"VOLUME" env-default:"100"`
+		Volume     int    `toml:"volume" env:"VOLUME" env-default:"125"`
 	} `toml:"sounds" env-prefix:"SOUNDS_"`
 	Music struct {
 		Path     string `toml:"path" env:"DIR" env-default:"data/music/playlists"`
@@ -30,7 +30,8 @@ type Config struct {
 		Path string `toml:"path" env:"DIR" env-default:"data/lights/effects"`
 		Ext  string `toml:"ext" env:"EXT" env-default:".tengo"`
 	} `toml:"music" env-prefix:"LIGHTS_"`
-	LEDs map[string]struct {
+	Shell map[string][]string `toml:"shell"`
+	LEDs  map[string]struct {
 		Order int `toml:"order"`
 		Count int `toml:"count"`
 	} `toml:"leds"`
