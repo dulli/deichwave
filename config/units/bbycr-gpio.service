@@ -1,0 +1,15 @@
+[Unit]
+Description = BBYCR GPIO
+After = bbycr.service
+Requires = bbycr.service pigpiod.service
+
+[Service]
+ExecStart = python3 /home/dietpi/scripts/gpio.py
+WorkingDirectory=/home/dietpi/
+Type = simple
+RemainAfterExit=no
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy = multi-user.target
