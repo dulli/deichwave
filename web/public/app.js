@@ -1,4 +1,25 @@
-function api(endpoint, method = 'get', payload = undefined) {
+const HOST_WAIT_INTERVAL = 100 // [ms]
+
+let basehost = undefined
+
+function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
+async function api(
+    endpoint,
+    method = 'get',
+    payload = undefined,
+    host = undefined
+) {
+    wait = false
+    while (host === undefined) {
+        host = basehost
+        if (wait) {
+            // console.log('Waiting for API connection')
+            await sleep(HOST_WAIT_INTERVAL)
+        } else wait = true
+    }
     req = {
         method,
         headers: {
@@ -8,10 +29,38 @@ function api(endpoint, method = 'get', payload = undefined) {
     if (payload !== undefined) {
         req.body = JSON.stringify(payload)
     }
-    return fetch(`api/v0/${endpoint}`, req).then((response) => response.json())
+    return fetch(`${host}api/v0/${endpoint}`, req)
+        .then((response) => response.json())
+        .catch((response) => response)
 }
 
-document.addEventListener('alpine:init', () => {
+async function find_host() {
+    document.body.style.cursor = 'wait'
+    host_list = [
+        '',
+        'http://localhost:3000/',
+        'http://192.168.188.10:3000/',
+        'http://192.168.42.1:3000/',
+    ]
+    for (host of host_list) {
+        console.log(`Trying API host: ${host}`)
+        r = await api('ping', 'get', undefined, host)
+        console.log(r)
+
+        if (r === 'Pong') {
+            basehost = host
+            console.log('Connected to host')
+            break
+        }
+    }
+    document.body.style.cursor = 'default'
+    document.getElementById('loadscreen').style.display = 'none'
+}
+
+function init_site() {
+    find_host()
+    // TODO error handling
+
     volume = {
         level: 0,
         async init() {
@@ -142,7 +191,28 @@ document.addEventListener('alpine:init', () => {
     Alpine.store('playlists', playlists)
     Alpine.store('playing', playing)
 
-    sse = new EventSource('sse?stream=events')
+    subscribe_events()
+
+    // mapboxgl.accessToken = 'pk.eyJ1IjoiZHVsbGkiLCJhIjoiY2t6bXJmZWlmMDJiajJ3cGRycThpZ3E1OSJ9.7vX_cgY5K65kdVstLM2WFg'
+    // const map = new mapboxgl.Map({
+    //     container: document.getElementById('map'), // container ID
+    //     style: 'mapbox://styles/mapbox/light-v10', // style URL
+    //     center: [8.88, 53.12], // starting position [lng, lat]
+    //     zoom: 13, // starting zoom
+    // })
+}
+
+async function subscribe_events(host = undefined) {
+    wait = false
+    while (host === undefined) {
+        host = basehost
+        if (wait) {
+            // console.log('Waiting for SSE connection')
+            await sleep(HOST_WAIT_INTERVAL)
+        } else wait = true
+    }
+
+    sse = new EventSource(`${host}sse?stream=events`)
     sse.onmessage = function (event) {
         data = JSON.parse(event.data)
         // console.log(data)
@@ -169,12 +239,6 @@ document.addEventListener('alpine:init', () => {
             return
         }
     }
+}
 
-    // mapboxgl.accessToken = 'pk.eyJ1IjoiZHVsbGkiLCJhIjoiY2t6bXJmZWlmMDJiajJ3cGRycThpZ3E1OSJ9.7vX_cgY5K65kdVstLM2WFg'
-    // const map = new mapboxgl.Map({
-    //     container: document.getElementById('map'), // container ID
-    //     style: 'mapbox://styles/mapbox/light-v10', // style URL
-    //     center: [8.88, 53.12], // starting position [lng, lat]
-    //     zoom: 13, // starting zoom
-    // })
-})
+document.addEventListener('alpine:init', init_site)
