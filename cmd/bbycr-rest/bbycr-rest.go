@@ -127,7 +127,7 @@ func main() {
 	}
 
 	api := rest.Server{}
-	srv := api.Start(musicPlayer, soundPlayer, lightPlayer, shellExec)
+	srv := api.Start(cfg, musicPlayer, soundPlayer, lightPlayer, shellExec)
 
 	go common.EventLoop()
 	common.AwaitSignal()

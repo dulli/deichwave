@@ -29,6 +29,8 @@ Specific hardware implementations, e.g. to address LEDs and make them output the
 ## TODOs
 
 - [ ] Move to `/internal`?
+- [ ] Move audio output to hardware drivers
+- [ ] Add GPS module driver
 
 ## References
 

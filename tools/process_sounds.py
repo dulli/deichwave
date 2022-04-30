@@ -40,9 +40,9 @@ def configure(debug):
 
 filters = {
     "isolate_vocals": "lowpass=f=4000,highpass=f=250",
-    "compression": "dynaudnorm=p=0.5:s=5",
+    "compression": "dynaudnorm=p=0.3:s=15",
     "denoise": "anlmdn=s=0.0001:p=0.01:m=15",
-    "derumble": "highpass=f=100",
+    "derumble": "highpass=f=200",
     "pad": "adelay=10000|10000",
     "trim": "silenceremove=1:0:-50dB",
 }
@@ -79,7 +79,7 @@ def normalize(cfg, fin, fout, dry_run):
 @app.command()
 def start(
     folder: Optional[str] = typer.Argument("data/sounds/original"),
-    target: int = -10,
+    target: int = -20,
     overwrite: bool = False,
     debug: bool = False,
     dry_run: bool = DEFAULT_DRY_RUN,

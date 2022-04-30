@@ -11,7 +11,7 @@ type Config struct {
 	Audio struct {
 		Rate    int `toml:"rate" env:"RATE" env-default:"48000"`
 		Quality int `toml:"quality" env:"QUALITY" env-default:"6"`
-		Volume  int `toml:"volume" env:"VOLUME" env-default:"50"`
+		Volume  int `toml:"volume" env:"VOLUME" env-default:"10"`
 	} `toml:"audio" env-prefix:"AUDIO_"`
 	Sounds struct {
 		Path       string `toml:"path" env:"DIR" env-default:"data/sounds/effects"`
@@ -22,16 +22,19 @@ type Config struct {
 	Music struct {
 		Path     string `toml:"path" env:"DIR" env-default:"data/music/playlists"`
 		Ext      string `toml:"ext" env:"EXT" env-default:".mp3"`
-		Volume   int    `toml:"volume" env:"VOLUME" env-default:"10"`
+		Volume   int    `toml:"volume" env:"VOLUME" env-default:"50"`
 		StartRNG []int  `toml:"startrng" env:"STARTRNG" env-default:"95,5"`
 		EndRNG   []int  `toml:"endrng" env:"ENDRNG" env-default:"30,70"`
 	} `toml:"music" env-prefix:"MUSIC_"`
 	Lights struct {
 		Path string `toml:"path" env:"DIR" env-default:"data/lights/effects"`
 		Ext  string `toml:"ext" env:"EXT" env-default:".tengo"`
-	} `toml:"music" env-prefix:"LIGHTS_"`
+	} `toml:"lights" env-prefix:"LIGHTS_"`
 	Shell map[string][]string `toml:"shell"`
-	LEDs  map[string]struct {
+	REST  struct {
+		Port int `toml:"port" env:"PORT" env-default:"3000"`
+	} `toml:"rest" env-prefix:"REST_"`
+	LEDs map[string]struct {
 		Order int `toml:"order"`
 		Count int `toml:"count"`
 	} `toml:"leds"`

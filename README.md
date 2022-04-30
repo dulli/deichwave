@@ -68,7 +68,7 @@ Outfitted with main speakers between its wheel base, additional tweeters pointed
 
 ## TODOs
 
-- [ ] Add a way to run the main executable automatically at boot
+- [x] Add a way to run the main executable automatically at boot
 - [ ] Create pre-compiled releases
 - [ ] Add tests
 

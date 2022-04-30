@@ -32,7 +32,7 @@ type Server struct {
 	exec   shell.ShellExecutor
 }
 
-func (server Server) Start(m music.MusicPlayer, s sounds.SoundPlayer, l lights.Renderer, e shell.ShellExecutor) *http.Server {
+func (server Server) Start(c common.Config, m music.MusicPlayer, s sounds.SoundPlayer, l lights.Renderer, e shell.ShellExecutor) *http.Server {
 	server.music = m
 	server.sounds = s
 	server.lights = l
@@ -72,10 +72,9 @@ func (server Server) Start(m music.MusicPlayer, s sounds.SoundPlayer, l lights.R
 	})
 
 	log.WithFields(log.Fields{
-		"address": fmt.Sprintf("http://%s:3000/app.html", getLocalIP()),
+		"address": fmt.Sprintf("http://%s:%d/app.html", getLocalIP(), c.REST.Port),
 	}).Info("Started REST API server")
-	// TODO make port configurable
-	srv := &http.Server{Addr: ":3000", Handler: r}
+	srv := &http.Server{Addr: fmt.Sprintf(":%d", c.REST.Port), Handler: r}
 	go srv.ListenAndServe()
 	return srv
 }
