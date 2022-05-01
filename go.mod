@@ -16,7 +16,7 @@ require (
 	github.com/ilyakaznacheev/cleanenv v1.2.6
 	github.com/r3labs/sse/v2 v2.7.7
 	github.com/sirupsen/logrus v1.8.1
-	github.com/tc-hib/go-winres v0.2.4
+	github.com/tc-hib/go-winres v0.3.0
 )
 
 require (
