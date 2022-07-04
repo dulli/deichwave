@@ -1,0 +1,4 @@
+package: rest
+generate:
+    chi-server: true
+output: openapi_server.gen.go

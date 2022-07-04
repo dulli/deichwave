@@ -1,5 +1,5 @@
-//go:generate go run github.com/deepmap/oapi-codegen/cmd/oapi-codegen -generate chi-server -o openapi_server.gen.go -package rest ../../api/bbycr.yaml
-//go:generate go run github.com/deepmap/oapi-codegen/cmd/oapi-codegen -generate types -o openapi_types.gen.go -package rest ../../api/bbycr.yaml
+//go:generate go run github.com/deepmap/oapi-codegen/cmd/oapi-codegen -config ../../api/server.oapi-codegen.yaml ../../api/bbycr.yaml
+//go:generate go run github.com/deepmap/oapi-codegen/cmd/oapi-codegen -config ../../api/types.oapi-codegen.yaml ../../api/bbycr.yaml
 
 package rest
 
@@ -107,8 +107,9 @@ func (s Server) GetRoot(w http.ResponseWriter, r *http.Request) {
 // List all playlists
 // (GET /music)
 func (s Server) GetMusic(w http.ResponseWriter, r *http.Request) {
+	plList := s.music.ListPlaylists()
 	data := EntityList{
-		Entity: s.music.ListPlaylists(),
+		Entity: &plList,
 	}
 	render.Status(r, http.StatusOK)
 	render.JSON(w, r, data)
@@ -132,8 +133,8 @@ func (s Server) GetMusicPlaying(w http.ResponseWriter, r *http.Request) {
 
 	render.Status(r, http.StatusOK)
 	render.JSON(w, r, SongInfo{
-		Artist:   np.Artist,
-		Title:    np.Title,
+		Artist:   &np.Artist,
+		Title:    &np.Title,
 		Playlist: np.Playlist,
 		Image:    &dataURL,
 	})
@@ -149,8 +150,9 @@ func (s Server) GetMusicPlaylist(w http.ResponseWriter, r *http.Request, playlis
 		return
 	}
 
+	songList := pl.ListSongs()
 	data := EntityList{
-		Entity: pl.ListSongs(),
+		Entity: &songList,
 	}
 	render.Status(r, http.StatusOK)
 	render.JSON(w, r, data)
@@ -240,8 +242,9 @@ func (s Server) PostMusicNext(w http.ResponseWriter, r *http.Request) {
 // List all sounds
 // (GET /sounds)
 func (s Server) GetSounds(w http.ResponseWriter, r *http.Request) {
+	soundList := s.sounds.ListSounds()
 	data := EntityList{
-		Entity: s.sounds.ListSounds(),
+		Entity: &soundList,
 	}
 	render.Status(r, http.StatusOK)
 	render.JSON(w, r, data)
@@ -257,13 +260,18 @@ func (s Server) GetSoundsSound(w http.ResponseWriter, r *http.Request, sound Sou
 		return
 	}
 
+	soundName := snd.GetName()
+	soundCount := snd.GetBufferCount()
+	soundPlay := fmt.Sprintf("/sounds/%s/play", sound)
+	soundLoop := fmt.Sprintf("/sounds/%s/loop", sound)
+	soundUnloop := fmt.Sprintf("/sounds/%s/unloop", sound)
 	data := SoundDetails{
-		Name:        snd.GetName(),
-		BufferCount: snd.GetBufferCount(),
+		Name:        &soundName,
+		BufferCount: &soundCount,
 		Links: SoundActions{
-			Play:   fmt.Sprintf("/sounds/%s/play", sound),
-			Loop:   fmt.Sprintf("/sounds/%s/loop", sound),
-			Unloop: fmt.Sprintf("/sounds/%s/unloop", sound),
+			Play:   &soundPlay,
+			Loop:   &soundLoop,
+			Unloop: &soundUnloop,
 		},
 	}
 	render.Status(r, http.StatusOK)
@@ -318,8 +326,9 @@ func (s Server) PostSoundsUnloop(w http.ResponseWriter, r *http.Request, sound S
 // List all light effects
 // (GET /lights)
 func (s Server) GetLights(w http.ResponseWriter, r *http.Request) {
+	effectList := s.lights.ListEffects()
 	data := EntityList{
-		Entity: s.lights.ListEffects(),
+		Entity: &effectList,
 	}
 	render.Status(r, http.StatusOK)
 	render.JSON(w, r, data)
