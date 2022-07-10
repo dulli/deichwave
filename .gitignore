@@ -231,3 +231,4 @@ bin/
 data/
 *.syso
 *.gen.go
+dist/
