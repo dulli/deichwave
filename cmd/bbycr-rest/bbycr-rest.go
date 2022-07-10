@@ -60,10 +60,23 @@ func main() {
 			"err":    err,
 		}).Error("Failed to load a driver")
 	} else {
-		driverLED.Setup(lightPlayer, cfg)
-		defer driverLED.Close()
+		err = driverLED.Setup(lightPlayer, cfg)
+		if err != nil {
+			log.WithFields(log.Fields{
+				"type":   "led",
+				"driver": "ws281x",
+				"err":    err,
+			}).Error("Failed to setup a driver")
+		} else {
+			defer driverLED.Close()
+		}
 	}
-	lightPlayer.SetEffect("Rainbow")
+	err = lightPlayer.SetEffect("Rainbow")
+	if err != nil {
+		log.WithFields(log.Fields{
+			"err": err,
+		}).Error("Could not set initial light effect")
+	}
 
 	// Prepare the music command module and initialize the speaker
 	musicPlayer, err := music.NewPlayer("music-rest", cfg)
@@ -133,6 +146,11 @@ func main() {
 	common.AwaitSignal()
 
 	// Perform clean up
-	srv.Shutdown(context.Background())
+	err = srv.Shutdown(context.Background())
+	if err != nil {
+		log.WithFields(log.Fields{
+			"err": err,
+		}).Error("Unclean shutdown")
+	}
 	log.Info("Closing")
 }

@@ -168,21 +168,38 @@ func (p *musicPlayer) Next() {
 	go p.play(song)
 }
 
-func (p *musicPlayer) play(s Song) error {
+func (p *musicPlayer) play(s Song) {
 	data, err := os.Open(s.getPath())
 	if err != nil {
-		return err
+		log.WithFields(log.Fields{
+			"song": s.GetName(),
+			"err":  err,
+		}).Error("Song not found")
+		return
 	}
 
-	streamer, _, err := mp3.Decode(data)
+	streamer, format, err := mp3.Decode(data)
 	if err != nil {
-		return err
+		log.WithFields(log.Fields{
+			"song": s.GetName(),
+			"err":  err,
+		}).Error("Could not decode song")
+		return
 	}
 
-	// TODO resample if necessary:
-	// resampled := beep.ResampleRatio(4, format.SampleRate, sr, streamer)
+	var volstreamer beep.Streamer = streamer
+	if p.rate != format.SampleRate {
+		volstreamer = beep.Resample(4, format.SampleRate, p.rate, streamer)
+
+		log.WithFields(log.Fields{
+			"song": s.GetName(),
+			"is":   format.SampleRate,
+			"want": p.rate,
+		}).Debug("Resampling song")
+	}
+
 	volume := &effects.Volume{
-		Streamer: streamer,
+		Streamer: volstreamer,
 		Base:     2,
 		Volume:   math.Log2(float64(p.volume) / 100),
 		Silent:   false,
@@ -206,7 +223,8 @@ func (p *musicPlayer) play(s Song) error {
 	// Load id3 tags of currently playing song
 	tag, err := id3v2.Open(s.getPath(), id3v2.Options{Parse: true})
 	if err != nil {
-		log.Fatal("Error while opening mp3 file: ", err)
+		log.Error("Error while opening mp3 file: ", err)
+		return
 	}
 	defer tag.Close()
 
@@ -234,8 +252,6 @@ func (p *musicPlayer) play(s Song) error {
 	log.WithFields(log.Fields{
 		"name": s.GetName(),
 	}).Info("Playing a song")
-
-	return nil
 }
 
 func (p *musicPlayer) Play() {

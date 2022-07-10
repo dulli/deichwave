@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "bbycrgo"
-version = "0.0.1"
+version = "1.0.1"
 description = ""
 authors = ["Martin <martin@dul.li>"]
 
@@ -21,7 +21,7 @@ isort = "^5.10.1"
 line-length = 99
 
 [tool.isort]
-profile = "black" 
+profile = "black"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

@@ -1,7 +1,4 @@
 {
     "semi": false,
-    "singleQuote": true,
-    "svelteSortOrder": "options-scripts-styles-markup",
-    "svelteBracketNewLine": false,
-    "svelteIndentScriptAndStyle": false
+    "singleQuote": true
 }

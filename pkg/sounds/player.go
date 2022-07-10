@@ -18,9 +18,6 @@ import (
 	"github.com/faiface/beep/wav"
 )
 
-// TODO implement callbacks
-// TODO implement concurrent sound buffering
-
 var ErrSoundNotFound = errors.New("sound could not be found")
 
 // SoundPlayer is a collection of playable sound effects

@@ -155,7 +155,10 @@ func (r *scriptRenderer) compile(root string, effect string) {
 		leds = effect.frame(leds, tick)
 	`, effect)
 	script := tengo.NewScript([]byte(exec))
-	script.SetImportDir(root)
+	err := script.SetImportDir(root)
+	if err != nil {
+		panic(err)
+	}
 	script.SetImports(stdlib.GetModuleMap(stdlib.AllModuleNames()...))
 	script.EnableFileImport(true)
 

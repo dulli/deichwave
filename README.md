@@ -4,7 +4,7 @@
 
 The **BBYCR** is a [purpose-built vehicle](#the-original-vehicle) used for outdoor parties on the move (e.g. for [Kohltouren](https://en.wikipedia.org/wiki/Gr%C3%BCnkohlessen) or the traditional hiking tour on [German Father's Days](https://en.m.wikipedia.org/wiki/Father%27s_Day#Germany)). It is equipped with speakers to play music (continously, without requiring interaction while also being able to easily adjust what playlists are used) and sound effects (on demand), as well as being lit up with addressable LED strips (in addition to providing a way to bring along sufficient amounts of beer). It uses a `Raspberry Pi 3` as its on-board computer.
 
-To power all this on a software level, `BBYCR.go` was born after multiple previous attempts that simple bolted together a bunch of Python scripts with existing software like `MPD`, `pigpio` and others. As this proved to be to difficult to setup (and use for non-technical friends that borrowed the vehicle) and also not robust enough to survive the, sometimes day-long, deployments it was first turned into multiple `Go` microservices that were again bolted onto the existing scripts and external software before being rewritten into its current form from scratch after two years of disappointing mid-party music failures.
+To power all this on a software level, `BBYCR.go` was born after multiple previous attempts that simple bolted together a bunch of Python scripts with existing software like `MPD`, `pigpio` and others. As this proved to be too difficult to setup (and use for non-technical friends that borrowed the vehicle) and also not robust enough to survive the, sometimes day-long, deployments, it was first turned into multiple `Go` microservices that were again bolted onto the existing scripts and external software before being rewritten into its current form from scratch after two years of disappointing mid-party music failures.
 
 This time it is supposed to be a portable monolith that can compile into a single executable, so that it is as easy as possible to deploy and can even be used directly from a thumb drive that contains the music and sound files that should be played. It also cross-compiles on (and for) Linux and Windows running on `ARM64` and `x64` platforms. So aside from the targeted `Raspberry Pi 3` on the original **BBYCR** you can even use it for your home-party on your regular laptop or wherever else you like.
 
@@ -62,7 +62,7 @@ By default, `BBYCR.go` can be remote controlled using a web interface hosted at 
 
 ## The Original Vehicle
 
-Outfitted with main speakers between its wheel base, additional tweeters pointed at the front, a subwoofer at the back, underbody lights, an integrated foldable beer pong table and built-in bar counters, you almost forget that the **BBYCR**'s main purpose is to make sure that you don't run out of drinks on your tour. All of this is controlled by a `Rasbperry Pi` in one of it's two trunks, which is also connected to two side-panels that houses multiple buttons, rotary encoders and kill-switches allowing the participants of the tour to access the entertainment functions at any time.
+Outfitted with main speakers between its wheel base, additional tweeters pointed at the front, a subwoofer at the back, underbody lights, an integrated foldable beer pong table and built-in bar counters, you almost forget that the **BBYCR**'s main purpose is to make sure that you don't run out of drinks on your tour. All of this is controlled by a `Rasbperry Pi` in one of it's two trunks, which is also connected to two side-panels that houses multiple buttons, rotary encoders and switches allowing the participants of the tour to access the entertainment functions at any time.
 
 ![BBYCR Photo at Night](docs/photos/bbycr-at-night.png)
 
@@ -70,6 +70,8 @@ Outfitted with main speakers between its wheel base, additional tweeters pointed
 
 - [x] Add a way to run the main executable automatically at boot
 - [ ] Create pre-compiled releases
+- [ ] Add signed OTA updates/patches
+- [ ] Create a Flutter frontend
 - [ ] Add tests
 
 ## References

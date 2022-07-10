@@ -48,7 +48,6 @@ func (server Server) Start(c common.Config, m music.MusicPlayer, s sounds.SoundP
 		AllowCredentials: false,
 		MaxAge:           300, // Maximum value not ignored by any of major browsers
 	}))
-	// r.Use(middleware.AllowContentType("application/json")) // TODO add a switch to some functions to also be able to return html snippets for htmx?
 	r.Mount("/api/v0", Handler(&server))
 
 	// SSE
@@ -75,7 +74,14 @@ func (server Server) Start(c common.Config, m music.MusicPlayer, s sounds.SoundP
 		"address": fmt.Sprintf("http://%s:%d/app.html", getLocalIP(), c.REST.Port),
 	}).Info("Started REST API server")
 	srv := &http.Server{Addr: fmt.Sprintf(":%d", c.REST.Port), Handler: r}
-	go srv.ListenAndServe()
+	go func() {
+		err := srv.ListenAndServe()
+		if err != nil {
+			log.WithFields(log.Fields{
+				"err": err,
+			}).Error("Could not start rest server")
+		}
+	}()
 	return srv
 }
 
@@ -144,7 +150,7 @@ func (s Server) GetMusicPlaying(w http.ResponseWriter, r *http.Request) {
 // (GET /music/{playlist})
 func (s Server) GetMusicPlaylist(w http.ResponseWriter, r *http.Request, playlist Playlist) {
 	pl, err := s.music.GetPlaylist(string(playlist))
-	if errors.As(err, &music.ErrPlaylistNotFound) {
+	if errors.Is(err, music.ErrPlaylistNotFound) {
 		render.Status(r, http.StatusNotFound)
 		render.JSON(w, r, err.Error())
 		return
@@ -162,7 +168,7 @@ func (s Server) GetMusicPlaylist(w http.ResponseWriter, r *http.Request, playlis
 // (GET /music/{playlist}/position)
 func (s Server) GetMusicPlaylistPosition(w http.ResponseWriter, r *http.Request, playlist string) {
 	pl, err := s.music.GetPlaylist(string(playlist))
-	if errors.As(err, &music.ErrPlaylistNotFound) {
+	if errors.Is(err, music.ErrPlaylistNotFound) {
 		render.Status(r, http.StatusNotFound)
 		render.JSON(w, r, err.Error())
 		return
@@ -179,7 +185,7 @@ func (s Server) GetMusicPlaylistPosition(w http.ResponseWriter, r *http.Request,
 // (GET /music/{playlist}/chance)
 func (s Server) GetMusicPlaylistChance(w http.ResponseWriter, r *http.Request, playlist string) {
 	pl, err := s.music.GetChance(string(playlist))
-	if errors.As(err, &music.ErrPlaylistNotFound) {
+	if errors.Is(err, music.ErrPlaylistNotFound) {
 		render.Status(r, http.StatusNotFound)
 		render.JSON(w, r, err.Error())
 		return
@@ -196,7 +202,7 @@ func (s Server) GetMusicPlaylistChance(w http.ResponseWriter, r *http.Request, p
 // (POST /music/{playlist}/skip)
 func (s Server) PostMusicPlaylistSkip(w http.ResponseWriter, r *http.Request, playlist Playlist) {
 	pl, err := s.music.GetPlaylist(string(playlist))
-	if errors.As(err, &music.ErrPlaylistNotFound) {
+	if errors.Is(err, music.ErrPlaylistNotFound) {
 		render.Status(r, http.StatusNotFound)
 		render.JSON(w, r, err.Error())
 		return
@@ -254,7 +260,7 @@ func (s Server) GetSounds(w http.ResponseWriter, r *http.Request) {
 // (GET /sounds/{sound})
 func (s Server) GetSoundsSound(w http.ResponseWriter, r *http.Request, sound Sound) {
 	snd, err := s.sounds.GetSound(string(sound))
-	if errors.As(err, &sounds.ErrSoundNotFound) {
+	if errors.Is(err, sounds.ErrSoundNotFound) {
 		render.Status(r, http.StatusNotFound)
 		render.JSON(w, r, err.Error())
 		return
@@ -282,7 +288,7 @@ func (s Server) GetSoundsSound(w http.ResponseWriter, r *http.Request, sound Sou
 // (POST /sounds/{sound}/play)
 func (s Server) PostSoundsPlay(w http.ResponseWriter, r *http.Request, sound Sound) {
 	snd, err := s.sounds.GetSound(string(sound))
-	if errors.As(err, &sounds.ErrSoundNotFound) {
+	if errors.Is(err, sounds.ErrSoundNotFound) {
 		render.Status(r, http.StatusNotFound)
 		render.JSON(w, r, err.Error())
 		return
@@ -297,7 +303,7 @@ func (s Server) PostSoundsPlay(w http.ResponseWriter, r *http.Request, sound Sou
 // (POST /sounds/{sound}/loop)
 func (s Server) PostSoundsLoop(w http.ResponseWriter, r *http.Request, sound Sound) {
 	snd, err := s.sounds.GetSound(string(sound))
-	if errors.As(err, &sounds.ErrSoundNotFound) {
+	if errors.Is(err, sounds.ErrSoundNotFound) {
 		render.Status(r, http.StatusNotFound)
 		render.JSON(w, r, err.Error())
 		return
@@ -312,7 +318,7 @@ func (s Server) PostSoundsLoop(w http.ResponseWriter, r *http.Request, sound Sou
 // (POST /sounds/{sound}/unloop)
 func (s Server) PostSoundsUnloop(w http.ResponseWriter, r *http.Request, sound Sound) {
 	snd, err := s.sounds.GetSound(string(sound))
-	if errors.As(err, &sounds.ErrSoundNotFound) {
+	if errors.Is(err, sounds.ErrSoundNotFound) {
 		render.Status(r, http.StatusNotFound)
 		render.JSON(w, r, "NOK")
 		return
@@ -352,7 +358,7 @@ func (s Server) GetLightsEffect(w http.ResponseWriter, r *http.Request, effect L
 // (POST /lights/{effect}/set)
 func (s Server) PostLightsStart(w http.ResponseWriter, r *http.Request, effect LightEffect) {
 	err := s.lights.SetEffect(string(effect))
-	if errors.As(err, &lights.ErrEffectNotFound) {
+	if errors.Is(err, lights.ErrEffectNotFound) {
 		render.Status(r, http.StatusNotFound)
 		render.JSON(w, r, err.Error())
 		return
@@ -365,7 +371,7 @@ func (s Server) PostLightsStart(w http.ResponseWriter, r *http.Request, effect L
 // (POST /lights/{effect}/stop)
 func (s Server) PostLightsStop(w http.ResponseWriter, r *http.Request, effect LightEffect) {
 	err := s.lights.StopEffect(string(effect))
-	if errors.As(err, &lights.ErrEffectNotFound) {
+	if errors.Is(err, lights.ErrEffectNotFound) {
 		render.Status(r, http.StatusNotFound)
 		render.JSON(w, r, err.Error())
 		return
@@ -447,7 +453,7 @@ func (s Server) GetPing(w http.ResponseWriter, r *http.Request) {
 // (POST /shell/{command})
 func (s Server) PostShellCommand(w http.ResponseWriter, r *http.Request, command string) {
 	resp, err := s.exec.Run(command)
-	if errors.As(err, &shell.ErrCommandNotFound) {
+	if errors.Is(err, shell.ErrCommandNotFound) {
 		render.Status(r, http.StatusNotFound)
 		render.JSON(w, r, err.Error())
 		return
