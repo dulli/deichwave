@@ -6,17 +6,17 @@
 # See: https://github.com/heithemmoumni/commit.meow
 
 if ! [[ $(cat "$1") =~ ^((chore|docs|feat|fix|perf|refactor|style|ci|build|test)(\([a-zA-Z0-9]+\))?:|Merge\ pull) ]]; then
-  printf "Please use semantic commit messages.\n"
-  printf "\n"
-  printf "<type>}[(<scope>)]: <short summary>\n"
-  printf "  │      │           │\n"
-  printf "  │      │           └─> Summary in present tense. Not capitalized. No period at the end. \n"
-  printf "  │      │\n"
-  printf "  │      └─> Optional scope, project specific\n"
-  printf "  │\n"
-  printf "  └─> Types: chore|docs|feat|fix|perf|refactor|style|ci|build|test.\n"
-  printf "\n"
-  exit 1
+    printf "Please use semantic commit messages.\n"
+    printf "\n"
+    printf "<type>}[(<scope>)]: <short summary>\n"
+    printf "  │      │           │\n"
+    printf "  │      │           └─> Summary in present tense. Not capitalized. No period at the end. \n"
+    printf "  │      │\n"
+    printf "  │      └─> Optional scope, project specific\n"
+    printf "  │\n"
+    printf "  └─> Types: chore|docs|feat|fix|perf|refactor|style|ci|build|test.\n"
+    printf "\n"
+    exit 1
 fi
 
 exit 0
