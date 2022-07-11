@@ -3,7 +3,7 @@ module github.com/dulli/bbycrgo
 go 1.18
 
 require (
-	fyne.io/fyne/v2 v2.2.2
+	fyne.io/fyne/v2 v2.2.3
 	github.com/antonfisher/nested-logrus-formatter v1.3.1
 	github.com/bogem/id3v2/v2 v2.1.2
 	github.com/d5/tengo/v2 v2.12.0
