@@ -11,21 +11,21 @@ import (
 )
 
 var ErrSpeakerContextReused = errors.New("the speaker was already initialized, the existing context is reused")
-var initalized int
+var initialized int
 var mixer *beep.Mixer
 var volumeLevel int
 var volumeStream *effects.Volume
 var intensityLevel int
 
 func GetSpeaker(rate beep.SampleRate, volume int) (int, error) {
-	if initalized == 0 {
+	if initialized == 0 {
 		err := speaker.Init(rate, rate.N(time.Second/10))
 		if err != nil {
 			return 0, err
 		}
 
-		initalized = rate.N(time.Second)
-		return initalized, nil
+		initialized = rate.N(time.Second)
+		return initialized, nil
 	}
 	mixer = &beep.Mixer{}
 	volumeStream = &effects.Volume{
@@ -37,7 +37,7 @@ func GetSpeaker(rate beep.SampleRate, volume int) (int, error) {
 	SetIntensity(0)
 	SetVolume(volume)
 	speaker.Play(volumeStream)
-	return initalized, ErrSpeakerContextReused
+	return initialized, ErrSpeakerContextReused
 }
 
 func Play(streamers ...beep.Streamer) {

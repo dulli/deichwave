@@ -189,7 +189,7 @@ func (r *scriptRenderer) SetEffect(name string) error {
 }
 
 func (r *scriptRenderer) StopEffect(name string) error {
-	// Find the last occurence of the given effect in the history
+	// Find the last occurrence of the given effect in the history
 	effect_idx := -1
 	for i, v := range r.history {
 		if v == name {
