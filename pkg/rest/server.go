@@ -8,6 +8,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io/fs"
 	"net"
 	"net/http"
 
@@ -16,6 +17,7 @@ import (
 	"github.com/dulli/bbycrgo/pkg/music"
 	"github.com/dulli/bbycrgo/pkg/shell"
 	"github.com/dulli/bbycrgo/pkg/sounds"
+	"github.com/dulli/bbycrgo/web"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/cors"
 	"github.com/go-chi/render"
@@ -64,10 +66,11 @@ func (server Server) Start(c common.Config, m music.MusicPlayer, s sounds.SoundP
 		r.Get("/sse", sseServer.ServeHTTP)
 	})
 
-	// Static file host
-	fs := http.FileServer(http.Dir("web/public"))
+	// // Static file host
+	webFS, _ := fs.Sub(web.Public, "public")
+	fileServer := http.FileServer(http.FS(webFS))
 	r.Group(func(r chi.Router) {
-		r.Get("/*", fs.ServeHTTP)
+		r.Get("/*", fileServer.ServeHTTP)
 	})
 
 	log.WithFields(log.Fields{
