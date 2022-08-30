@@ -14,14 +14,14 @@ archives:
           - data/**.tengo
           - scripts/*
 builds:
-    - binary: bbycrgo-rest
+    - binary: deichwave
       env:
           - CGO_ENABLED=1
       targets:
           - windows_amd64
           - linux_amd64
           - linux_arm64
-      main: ./cmd/bbycr-rest
+      main: ./cmd/deichwave
       mod_timestamp: '{{ .CommitTimestamp }}'
       flags:
           - -v

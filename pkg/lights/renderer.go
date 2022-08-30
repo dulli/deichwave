@@ -11,7 +11,7 @@ import (
 
 	"github.com/d5/tengo/v2"
 	"github.com/d5/tengo/v2/stdlib"
-	"github.com/dulli/bbycrgo/pkg/common"
+	"github.com/dulli/deichwave/pkg/common"
 
 	log "github.com/sirupsen/logrus"
 )

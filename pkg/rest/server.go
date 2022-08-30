@@ -1,5 +1,5 @@
-//go:generate go run github.com/deepmap/oapi-codegen/cmd/oapi-codegen -config ../../api/server.oapi-codegen.yaml ../../api/bbycr.yaml
-//go:generate go run github.com/deepmap/oapi-codegen/cmd/oapi-codegen -config ../../api/types.oapi-codegen.yaml ../../api/bbycr.yaml
+//go:generate go run github.com/deepmap/oapi-codegen/cmd/oapi-codegen -config ../../api/server.oapi-codegen.yaml ../../api/deichwave.yaml
+//go:generate go run github.com/deepmap/oapi-codegen/cmd/oapi-codegen -config ../../api/types.oapi-codegen.yaml ../../api/deichwave.yaml
 
 package rest
 
@@ -12,12 +12,12 @@ import (
 	"net"
 	"net/http"
 
-	"github.com/dulli/bbycrgo/pkg/common"
-	"github.com/dulli/bbycrgo/pkg/lights"
-	"github.com/dulli/bbycrgo/pkg/music"
-	"github.com/dulli/bbycrgo/pkg/shell"
-	"github.com/dulli/bbycrgo/pkg/sounds"
-	"github.com/dulli/bbycrgo/web"
+	"github.com/dulli/deichwave/pkg/common"
+	"github.com/dulli/deichwave/pkg/lights"
+	"github.com/dulli/deichwave/pkg/music"
+	"github.com/dulli/deichwave/pkg/shell"
+	"github.com/dulli/deichwave/pkg/sounds"
+	"github.com/dulli/deichwave/web"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/cors"
 	"github.com/go-chi/render"
@@ -97,14 +97,6 @@ func getLocalIP() net.IP {
 	}
 	return nil
 }
-
-// func (s BbycrServer) makeHypermedia(path string, ids []string) []string {
-// 	list := make([]string, 0)
-// 	for _, id := range ids {
-// 		list = append(list, fmt.Sprintf("%s/%s", path, id))
-// 	}
-// 	return list
-// }
 
 // List all endpoints
 // (GET /)

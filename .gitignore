@@ -232,3 +232,4 @@ data/
 *.syso
 *.gen.go
 dist/
+!.vscode/spellright.dict

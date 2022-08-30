@@ -3,8 +3,8 @@ package hardware
 import (
 	"errors"
 
-	"github.com/dulli/bbycrgo/pkg/common"
-	"github.com/dulli/bbycrgo/pkg/lights"
+	"github.com/dulli/deichwave/pkg/common"
+	"github.com/dulli/deichwave/pkg/lights"
 )
 
 var ErrDriverNotImplementedForArch = errors.New("driver is not implemented for this platform")

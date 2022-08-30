@@ -4,7 +4,7 @@ import (
 	"errors"
 	"os/exec"
 
-	"github.com/dulli/bbycrgo/pkg/common"
+	"github.com/dulli/deichwave/pkg/common"
 )
 
 var ErrCommandNotFound = errors.New("command could not be found")

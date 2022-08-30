@@ -11,7 +11,7 @@ jobs:
               id: release
               with:
                   release-type: go
-                  package-name: bbycrgo
+                  package-name: deichwave
                   command: github-release
             - uses: actions/checkout@v2
             - name: tag major and minor versions

@@ -3,7 +3,7 @@ package music
 import (
 	"math/rand"
 
-	"github.com/dulli/bbycrgo/pkg/common"
+	"github.com/dulli/deichwave/pkg/common"
 	log "github.com/sirupsen/logrus"
 )
 

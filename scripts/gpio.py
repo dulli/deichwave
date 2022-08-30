@@ -6,6 +6,8 @@ from urllib import parse, request
 
 import pigpio
 
+# TODO remove this and replace it with a Go implementation to actually pack everything into one executable
+
 # def configure(debug):
 #     import lib.cleanenv as cleanenv
 
@@ -100,7 +102,7 @@ DEGLITCH_EXPAND = 10000
 
 PORT_EXPANDERS = [(0x21, 17), (0x20, 27)]
 
-BBYCR_API = "http://127.0.0.1:3000/api/v0/"
+DEICHWAVE_API = "http://127.0.0.1:3000/api/v0/"
 
 _pi = pigpio.pi()
 _actions = {}
@@ -117,14 +119,14 @@ def _send(cmds):
         cmds = [cmds]
 
     for cmd in cmds:
-        url = f"{BBYCR_API}{parse.quote(cmd)}"
+        url = f"{DEICHWAVE_API}{parse.quote(cmd)}"
         logging.debug(url)
         try:
             req = request.Request(url, method="POST")
             request.urlopen(req)
 
         except:
-            logging.exception("No connection to the BBYCR")
+            logging.exception("No connection to the Deichwave server")
 
 
 def _rotary_high(gpio, level, tick):

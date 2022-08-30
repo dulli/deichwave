@@ -3,8 +3,8 @@ package hardware
 import (
 	"image"
 
-	"github.com/dulli/bbycrgo/pkg/common"
-	"github.com/dulli/bbycrgo/pkg/lights"
+	"github.com/dulli/deichwave/pkg/common"
+	"github.com/dulli/deichwave/pkg/lights"
 	ws281x "github.com/dulli/go-rpi-ws281x"
 	log "github.com/sirupsen/logrus"
 )

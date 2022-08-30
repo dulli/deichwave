@@ -45,14 +45,14 @@
                     "0409": {
                         "Comments": "",
                         "CompanyName": "dulli",
-                        "FileDescription": "BBYCR.go REST Server",
+                        "FileDescription": "Deichwave REST Server",
                         "FileVersion": "",
                         "InternalName": "",
                         "LegalCopyright": "",
                         "LegalTrademarks": "",
-                        "OriginalFilename": "bbycr-rest.exe",
+                        "OriginalFilename": "deichwave.exe",
                         "PrivateBuild": "",
-                        "ProductName": "BBYCR.go",
+                        "ProductName": "Deichwave",
                         "ProductVersion": "",
                         "SpecialBuild": ""
                     }

@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/dulli/bbycrgo/pkg/common"
+	"github.com/dulli/deichwave/pkg/common"
 	log "github.com/sirupsen/logrus"
 
 	"github.com/faiface/beep"

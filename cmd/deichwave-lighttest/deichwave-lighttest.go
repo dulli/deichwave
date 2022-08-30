@@ -6,8 +6,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/dulli/bbycrgo/pkg/common"
-	"github.com/dulli/bbycrgo/pkg/lights"
+	"github.com/dulli/deichwave/pkg/common"
+	"github.com/dulli/deichwave/pkg/lights"
 
 	nested "github.com/antonfisher/nested-logrus-formatter"
 	log "github.com/sirupsen/logrus"

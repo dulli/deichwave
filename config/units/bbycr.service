@@ -1,9 +1,9 @@
 [Unit]
-Description = BBYCR
-Before = bbycr-gpio.service
+Description = Deichwave
+Before = deichwave-gpio.service
 
 [Service]
-ExecStart = /home/dietpi/bbycr-rest
+ExecStart = /home/dietpi/deichwave
 WorkingDirectory=/home/dietpi/
 Type = simple
 RemainAfterExit=no

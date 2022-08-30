@@ -1,6 +1,6 @@
 [tool.poetry]
-name = "bbycrgo"
-version = "1.0.1"
+name = "deichwave"
+version = "1.0.2"
 description = ""
 authors = ["Martin <martin@dul.li>"]
 

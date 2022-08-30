@@ -1,4 +1,4 @@
-module github.com/dulli/bbycrgo
+module github.com/dulli/deichwave
 
 go 1.18
 

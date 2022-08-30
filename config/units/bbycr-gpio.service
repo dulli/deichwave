@@ -1,7 +1,7 @@
 [Unit]
-Description = BBYCR GPIO
-After = bbycr.service
-Requires = bbycr.service pigpiod.service
+Description = Deichwave GPIO
+After = deichwave.service
+Requires = deichwave.service pigpiod.service
 
 [Service]
 ExecStart = python3 /home/dietpi/scripts/gpio.py
