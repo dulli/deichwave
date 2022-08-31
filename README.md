@@ -38,7 +38,7 @@ Copy the compiled executable as to your target computer and run it from the dire
 
 Then monitor the log output to see if everything is up and running and for instructions to access [the web interface](#web-interface).
 
-## Web Interface
+### Web Interface
 
 By default, _Deichwave_ can be remote controlled using a web interface hosted at port `:3000`:
 
@@ -127,8 +127,6 @@ Outfitted with main speakers between its wheel base, additional tweeters pointed
 - [ ] Add signed OTA updates/patches
 - [ ] Create a Flutter frontend
 - [ ] Add tests
-
----
 
 <div align="center">
 <small>
