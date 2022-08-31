@@ -5,37 +5,54 @@
 } -->
 
 <div align="center">
-<img alt="Deichwave Project Logo" src="web/public/static/logo.svg">
 
-# Deichwave
+<img alt="Deichwave Project Logo" width="30%" src="web/public/static/logo.svg">
+
+# DEICHWAVE
 
 [![GitHub license](https://badgen.net/github/license/dulli/deichwave)](https://github.com/dulli/deichwave/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/dulli/deichwave.svg)](https://github.com/dulli/deichwave/releases/)
 [![GoReportCard](https://goreportcard.com/badge/github.com/dulli/deichwave)](https://goreportcard.com/report/github.com/dulli/deichwave)
 
-Deichwave is an **automated**, but interactive, **media player** powering your parties with music, light and sound-effects.
+_Deichwave_ is an **automated**, but interactive, **media-player app** powering your parties with music :notes:, light- :rotating_light: and sound-effects :boom:.
 
-Even on-the-go.
+Especially [on-the-go](#the-original-vehicle). :car:
+
+---
 
 [Getting started](#getting-started) •
-[Background](#background) •
-[Structure](#structure) •
-[GUI](#web-interface) •
-[BBYCR](#the-original-vehicle)
+[App Structure](#structure) •
+[History](#background)
+
+---
 
 </div>
 
 ## Getting Started
 
-### Setup
-
 Copy the compiled executable as to your target computer and run it from the directory that contains your `data/sounds` and `data/music` folders (see [below](#runtime-environment)), e.g. using the command line:
 
-```shell
+```bash
 ./deichwave
 ```
 
 Then monitor the log output to see if everything is up and running and for instructions to access [the web interface](#web-interface).
+
+## Web Interface
+
+By default, _Deichwave_ can be remote controlled using a web interface hosted at port `:3000`:
+
+<div align="center">
+
+<img alt="Web Interface Screenshot" src="docs/photos/web-screenshot.png">
+
+<small>Screenshot of the web interface[^screenshots]</small>
+
+</div>
+
+[^screenshots]: [Screenshot created with `Screely`](https://www.screely.com/)
+
+<!-- ### Setup -->
 
 <!-- ## Configuration -->
 
@@ -43,7 +60,7 @@ Then monitor the log output to see if everything is up and running and for instr
 
 The **BBYCR** is a [purpose-built vehicle](#the-original-vehicle) used for outdoor parties on the move (e.g. for [Kohltouren](https://en.wikipedia.org/wiki/Gr%C3%BCnkohlessen) or the traditional hiking tour on [German Father's Days](https://en.m.wikipedia.org/wiki/Father%27s_Day#Germany)). It is equipped with speakers to play music (continously, without requiring interaction while also being able to easily adjust what playlists are used) and sound effects (on demand), as well as being lit up with addressable LED strips (in addition to providing a way to bring along sufficient amounts of beer). It uses a `Raspberry Pi 3` as its on-board computer.
 
-To power all this on a software level, `Deichwave` was born after multiple previous attempts that simple bolted together a bunch of Python scripts with existing software like `MPD`, `pigpio` and others. As this proved to be too difficult to setup (and use for non-technical friends that borrowed the vehicle) and also not robust enough to survive the, sometimes day-long, deployments, it was first turned into multiple `Go` microservices that were again bolted onto the existing scripts and external software before being rewritten into its current form from scratch after two years of disappointing mid-party music failures.
+To power all this on a software level, _Deichwave_ was born after multiple previous attempts that simple bolted together a bunch of Python scripts with existing software like `MPD`, `pigpio` and others. As this proved to be too difficult to setup (and use for non-technical friends that borrowed the vehicle) and also not robust enough to survive the, sometimes day-long, deployments, it was first turned into multiple `Go` microservices that were again bolted onto the existing scripts and external software before being rewritten into its current form from scratch after two years of disappointing mid-party music failures.
 
 This time it is supposed to be a portable monolith that can compile into a single executable, so that it is as easy as possible to deploy and can even be used directly from a thumb drive that contains the music and sound files that should be played. It also cross-compiles on (and for) Linux and Windows running on `ARM64` and `x64` platforms. So aside from the targeted `Raspberry Pi 3` on the original **BBYCR** you can even use it for your home-party on your regular laptop or wherever else you like.
 
@@ -51,7 +68,10 @@ This time it is supposed to be a portable monolith that can compile into a singl
 
 ### Compiling
 
-... [^1] -->
+... [^windows-resources]
+
+[^windows-resources]: [Embedding resources in Windows executables](https://github.com/tc-hib/go-winres)
+-->
 
 ## Structure
 
@@ -64,6 +84,18 @@ This project is structured into multiple folders with different purposes, most w
 
 (All of these have to be made available, according to your configuration, to the application when you want to start it)
 
+<!-- ```bash
+├── config
+├── data
+│   ├── lights
+│   │   └── effects
+│   ├── music
+│   │   └── playlists
+│   └── sounds
+│       └── effects
+└── scripts
+```` -->
+
 ### Development Environment
 
 - [`/cmd`](cmd/README.md): Source code for the executable commands
@@ -71,7 +103,7 @@ This project is structured into multiple folders with different purposes, most w
 - [`/tools`](tools/README.md): Additional tools and scripts
 - `/web`: Web interface used to control all important features, will get bundled into the executable during compilation
 
-(These are only required if you want to contribute to the development of `Deichwave`)
+(These are only required if you want to contribute to the development of _Deichwave_)
 
 ### Miscellaneous
 
@@ -79,17 +111,6 @@ This project is structured into multiple folders with different purposes, most w
 - `/bin`: Target folder for the compiled binaries, if the supplied `VS Code` build tasks are used, the resulting binaries will be ordered into subfolders of the format `<os>/<architecture>`
 - `/docs`: Assets that contain or support the project's documentation
 - `.github`, `.gocc`, `.vscode`: Contain configurations for the development infrastructure
-
-## Web Interface
-
-By default, `Deichwave` can be remote controlled using a web interface hosted at port `:3000`:
-
-<div align="center">
-<img alt="Web Interface Screenshot" src="docs/photos/web-screenshot.png">
-<small>
-Screenshot of the web interface[^0]
-</small>
-</div>
 
 ## The Original Vehicle
 
@@ -107,8 +128,12 @@ Outfitted with main speakers between its wheel base, additional tweeters pointed
 - [ ] Create a Flutter frontend
 - [ ] Add tests
 
-## References
+---
 
-[^0]: [Screenshot created with `Screely`](https://www.screely.com/)
+<div align="center">
+<small>
 
-<!-- [^1]: [Embedding resources in Windows executables](https://github.com/tc-hib/go-winres) -->
+:ocean: /daɪ̯çweɪv/ :ocean:
+
+</small>
+</div>
