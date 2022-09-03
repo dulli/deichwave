@@ -2,6 +2,11 @@
     // See https://go.microsoft.com/fwlink/?LinkId=733558
     // for the documentation about the tasks.json format
     "version": "2.0.0",
+    "options": {
+        "env": {
+            "CGO_ENABLED": "1"
+        }
+    },
     "tasks": [
         {
             "label": "Build Go (Current Package)",
@@ -30,25 +35,42 @@
         {
             "label": "Build Go (Cross-Compile: linux/arm64, Current Package)",
             "type": "shell",
-            "command": "export $(xargs < ${workspaceFolder}/.gocc/linux/arm64.env) && go build -v -o ${workspaceFolder}/bin/linux/arm64/ ${file}",
+            "command": "go build -v -o ${workspaceFolder}/bin/linux/arm64/ ${file}",
             "windows": {
                 "command": "echo 'Please use a linux machine for cross-compilation'; exit 1"
             },
             "group": {
                 "kind": "build",
                 "isDefault": true
+            },
+            "options": {
+                "env": {
+                    "CGO_ENABLED": "1",
+                    "GOOS": "linux",
+                    "GOARCH": "arm64",
+                    "CC": "aarch64-linux-gnu-gcc",
+                    "PKG_CONFIG_PATH": "/usr/lib/aarch64-linux-gnu/pkgconfig/"
+                }
             }
         },
         {
             "label": "Build Go (Cross-Compile: windows/amd64, Current Package)",
             "type": "shell",
-            "command": "export $(xargs < ${workspaceFolder}/.gocc/windows/amd64.env) && go build -v -o ${workspaceFolder}/bin/windows/amd64/ ${file}",
+            "command": "go build -v -o ${workspaceFolder}/bin/windows/amd64/ ${file}",
             "windows": {
                 "command": "echo 'Please use a linux machine for cross-compilation'; exit 1"
             },
             "group": {
                 "kind": "build",
                 "isDefault": true
+            },
+            "options": {
+                "env": {
+                    "CGO_ENABLED": "1",
+                    "GOOS": "windows",
+                    "GOARCH": "amd64",
+                    "CC": "x86_64-w64-mingw32-g++"
+                }
             }
         }
     ]
