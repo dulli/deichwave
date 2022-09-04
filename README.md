@@ -143,7 +143,7 @@ Thanks to Go's cross-compilation capabilities, building _Deichwave_ for differen
 
 #### `linux/amd64` to `linux/arm64`
 
-To cross-compile on Linux for `ARM64` devices (i.e. a `Raspberry Pi`, which is the targeted platform of this project), the `gcc-aarch64-linux-gnu` toolchain is used, as defined in `/linux/arm64.env`. To install it on a Debian based system, use:
+To cross-compile on Linux for `ARM64` devices (i.e. a `Raspberry Pi`, which is the targeted platform of this project), the `gcc-aarch64-linux-gnu` toolchain is used. To install it on a Debian based system, use:
 
 ```bash
 sudo apt install gcc-aarch64-linux-gnu
@@ -194,7 +194,7 @@ cp libws2811.a /usr/aarch64-linux-gnu/lib/libws2811.a
 
 #### `linux/amd64` to `windows/amd64`
 
-To cross-compile on Linux for `windows` platforms, the compilation environment in `/windows/amd64.env` is adapted to use the `mingw-w64` toolchain[^cross-windows]. To install it on a Debian based system, use:
+To cross-compile on Linux for `windows` platforms, the `mingw-w64` toolchain is used[^cross-windows]. To install it on a Debian based system, use:
 
 [^cross-windows]: [Compiling for windows on Linux](https://stackoverflow.com/a/47061145)
 
