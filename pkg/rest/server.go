@@ -79,7 +79,7 @@ func (server Server) Start(c common.Config, m music.MusicPlayer, s sounds.SoundP
 	srv := &http.Server{Addr: fmt.Sprintf(":%d", c.REST.Port), Handler: r}
 	go func() {
 		err := srv.ListenAndServe()
-		if err != nil {
+		if err != http.ErrServerClosed {
 			log.WithFields(log.Fields{
 				"err": err,
 			}).Error("Could not start rest server")

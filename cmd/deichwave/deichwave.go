@@ -143,10 +143,16 @@ func main() {
 	srv := api.Start(cfg, musicPlayer, soundPlayer, lightPlayer, shellExec)
 
 	go common.EventLoop()
-	common.AwaitSignal()
+	sig := common.AwaitSignal()
+	log.WithFields(log.Fields{
+		"signal": sig,
+	}).Warn("Received Signal")
 
 	// Perform clean up
-	err = srv.Shutdown(context.Background())
+	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
+	defer cancel()
+
+	err = srv.Shutdown(ctx)
 	if err != nil {
 		log.WithFields(log.Fields{
 			"err": err,

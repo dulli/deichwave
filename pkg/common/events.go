@@ -35,13 +35,15 @@ func EventLoop() {
 	}
 }
 
-func AwaitSignal() {
+func AwaitSignal() os.Signal {
 	sigchan := make(chan os.Signal, 1)
 	signal.Notify(sigchan, os.Interrupt)
-	<-sigchan
+	sig := <-sigchan
+
 	EventFire(Event{
 		Origin: "System",
 		Name:   "SIGINT",
 		Type:   "Signal",
 	})
+	return sig
 }
