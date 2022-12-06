@@ -83,7 +83,7 @@
                 <div class="columns is-mobile is-flex is-vcentered">
                     <div class="column is-narrow is-size-4">
                         <svg viewBox="0 0 24 24">
-                            <use href="#mdi-liqour" />
+                            <use href="#mdi-level" />
                         </svg>
                     </div>
                     <div class="column" x-data="$store.intensity">
@@ -189,7 +189,7 @@
                         <table class="table is-fullwidth has-background-light">
                             <tbody x-data="$store.playlists">
                                 <template x-for="playlist in lists">
-                                    <tr>
+                                    <tr x-show="playlist.chance">
                                         <td
                                             class="is-narrow has-text-primary"
                                             style="vertical-align: middle"
@@ -298,9 +298,9 @@
                 d="M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.84 14,18.7V20.77C18,19.86 21,16.28 21,12C21,7.72 18,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16C15.5,15.29 16.5,13.76 16.5,12M3,9V15H7L12,20V4L7,9H3Z"
             />
             <path
-                id="mdi-liqour"
+                id="mdi-level"
                 fill="currentColor"
-                d="M3 14C3 15.3 3.8 16.4 5 16.8V20H3V22H9V20H7V16.8C8.2 16.4 9 15.3 9 14V6H3V14M5 8H7V11H5V8M20.6 8.5L19.6 8.2C19.3 8.1 19 7.7 19 7.3V3C19 2.5 18.5 2 18 2H15C14.4 2 14 2.5 14 3V7.3C14 7.7 13.7 8.1 13.3 8.3L12.4 8.6C11.6 8.9 11 9.6 11 10.5V20C11 21.1 11.9 22 13 22H20C21.1 22 22 21.1 22 20V10.4C22 9.6 21.5 8.8 20.6 8.5M16 4H17V5H16V4M13 10.4L13.9 10.1C15.2 9.7 16 8.6 16 7.3V7H17V7.3C17 8.6 17.8 9.7 19 10.1L20 10.4V12H13V10.4M20 20H13V18H20V20Z"
+                d="M12 1.38L9.14 12.06C8.8 13.1 9.04 14.29 9.86 15.12C11.04 16.29 12.94 16.29 14.11 15.12C14.9 14.33 15.16 13.2 14.89 12.21M14.6 3.35L15.22 5.68C18.04 6.92 20 9.73 20 13C20 15.21 19.11 17.21 17.66 18.65H17.65C17.26 19.04 17.26 19.67 17.65 20.06C18.04 20.45 18.68 20.45 19.07 20.07C20.88 18.26 22 15.76 22 13C22 8.38 18.86 4.5 14.6 3.35M9.4 3.36C5.15 4.5 2 8.4 2 13C2 15.76 3.12 18.26 4.93 20.07C5.32 20.45 5.95 20.45 6.34 20.06C6.73 19.67 6.73 19.04 6.34 18.65C4.89 17.2 4 15.21 4 13C4 9.65 5.94 6.86 8.79 5.65"
             />
             <path
                 id="mdi-led-on"

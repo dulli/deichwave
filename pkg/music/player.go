@@ -307,6 +307,9 @@ func (p *musicPlayer) GetChance(name string) (int, error) {
 	p.updateChances()
 	for i, v := range p.keys {
 		if v == name {
+			if i > len(p.chances)-1 {
+				return 0, nil
+			}
 			return p.chances[i], nil
 		}
 	}
