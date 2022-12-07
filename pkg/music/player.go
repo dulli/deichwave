@@ -109,7 +109,13 @@ func (p *musicPlayer) LoadPlaylists(root string) error {
 	})
 
 	// Add the directoriy contents as songs to the playlists
+	var allSongs []string
+	keys := make([]string, 0, len(p.list))
 	for key := range p.list {
+		keys = append(keys, key)
+	}
+	sort.Strings(keys)
+	for _, key := range keys {
 		p.keys = append(p.keys, key)
 		directory := filepath.Join(root, key)
 		err = filepath.WalkDir(directory, func(path string, d fs.DirEntry, err error) error {
@@ -124,6 +130,16 @@ func (p *musicPlayer) LoadPlaylists(root string) error {
 			}
 
 			fname := filepath.Base(path)
+			for _, aname := range allSongs {
+				if aname == fname {
+					log.WithFields(log.Fields{
+						"list": key,
+						"name": fname,
+					}).Warn("Skipped duplicate music file")
+					return nil
+				}
+			}
+			allSongs = append(allSongs, fname)
 			song := NewSong(fname[:strings.LastIndexByte(fname, '.')], path)
 			p.list[key].addSong(song)
 
