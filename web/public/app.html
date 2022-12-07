@@ -12,6 +12,7 @@
 
         <link rel="stylesheet" href="vendor/bulma.min.css" />
         <link rel="stylesheet" href="vendor/bulma-slider.min.css" />
+        <link rel="stylesheet" href="vendor/bulma-pageloader.min.css" />
         <!-- <link href="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css" rel="stylesheet" />
         <script src="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js"></script> -->
         <script src="vendor/alpine.min.js" defer></script>
@@ -29,13 +30,10 @@
         </style>
     </head>
     <body>
-        <div
-            id="loadscreen"
-            class="is-overlay is-unselectable has-text-light has-background-dark"
-            style="z-index: 1000; padding: 10%"
-        >
-            Connecting...
-            <progress class="progress is-primary" max="100">0%</progress>
+        <div id="loadscreen" class="pageloader is-active">
+            <span class="title"
+                ><img src="static/favicon.svg" class="image is-48x48 mt-4"
+            /></span>
         </div>
         <div class="container">
             <section class="section">
@@ -46,19 +44,6 @@
 
                 <h1 class="title is-1">Deichwave</h1>
                 <p class="subtitle">Control Panel</p>
-
-                <div style="position: absolute; right: 1em; top: 1em">
-                    <button
-                        class="button mr-3 mb-3 is-light"
-                        onclick="confirm('Power off?') && api(`shell/shutdown`, 'post')"
-                    >
-                        <span class="mr-1 is-primary">
-                            <svg viewBox="0 0 24 24">
-                                <use href="#mdi-power" />
-                            </svg>
-                        </span>
-                    </button>
-                </div>
             </section>
 
             <section class="section box is-shadowless has-background-light">
@@ -201,12 +186,12 @@
                                             >%
                                         </td>
                                         <td>
-                                            <i x-text="playlist.name"
-                                                >[PLAYLIST]</i
-                                            ><br />
-                                            <strong
+                                            <strong x-text="playlist.name"
+                                                >[PLAYLIST]</strong
+                                            >:
+                                            <span
                                                 x-text="playlist.songs[playlist.position]"
-                                                >[NAME]</strong
+                                                >[NAME]</span
                                             >
                                         </td>
                                         <td
@@ -269,6 +254,38 @@
                     </template>
                 </div>
             </section>
+
+            <div
+                class="dropdown mb-4 is-up is-right is-pulled-right is-hoverable"
+            >
+                <div class="dropdown-trigger">
+                    <button
+                        class="button"
+                        aria-haspopup="true"
+                        aria-controls="dropdown-menu"
+                    >
+                        <svg viewBox="0 0 24 24">
+                            <use href="#mdi-power" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                    <div class="dropdown-content">
+                        <a
+                            onclick="confirm('Are you sure you want to reboot?') && api(`shell/shutdown`, 'post')"
+                            class="dropdown-item"
+                        >
+                            Power-Off
+                        </a>
+                        <a
+                            onclick="confirm('Are you sure you want to reboot?') && api(`shell/reboot`, 'post')"
+                            class="dropdown-item"
+                        >
+                            Reboot
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
         <svg style="display: none" width="24" height="24" viewBox="0 0 24 24">
             <path

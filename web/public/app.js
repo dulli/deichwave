@@ -40,8 +40,10 @@ async function find_host() {
         '',
         'http://localhost:3000/',
         'http://192.168.188.10:3000/',
+        'http://192.168.188.20:3000/',
         'http://192.168.42.1:3000/',
     ]
+    let connected = false
     for (host of host_list) {
         console.log(`Trying API host: ${host}`)
         r = await api('ping', 'get', undefined, host)
@@ -50,11 +52,14 @@ async function find_host() {
         if (r === 'Pong') {
             basehost = host
             console.log('Connected to host')
+            connected = true
             break
         }
     }
-    document.body.style.cursor = 'default'
-    document.getElementById('loadscreen').style.display = 'none'
+    if (connected) {
+        document.body.style.cursor = 'default'
+        document.getElementById('loadscreen').classList.remove('is-active')
+    }
 }
 
 function init_site() {
