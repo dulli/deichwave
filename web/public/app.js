@@ -58,6 +58,7 @@ async function find_host() {
     }
     if (connected) {
         document.body.style.cursor = 'default'
+        document.getElementById('host-info').innerText = basehost
         document.getElementById('loadscreen').classList.remove('is-active')
     }
 }
