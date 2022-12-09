@@ -26,6 +26,13 @@ debug = false
 shutdown = ["poweroff"]
 reboot = ["reboot"]
 
+[hooks]
+app-started = ["sounds/Windows Boot/play"]
+music-paused = ["sounds/Record Scratch/play"]
+
+[rest]
+# port = 3000
+
 [hardware]
 led-driver = "ws281x"             # [%]  Maximum brightness for the LEDs
 # led-brightness = 100            # [%]  Maximum brightness for the LEDs

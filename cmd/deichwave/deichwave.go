@@ -136,8 +136,6 @@ func main() {
 			"num": len(soundPlayer.ListSounds()),
 		}).Info("Loaded sounds")
 	}
-	snd, _ := soundPlayer.GetSound("Windows Boot")
-	snd.Play()
 
 	// Prepare shell command execution
 	shellExec, err := shell.NewExecutor("shell-rest", cfg)
@@ -151,8 +149,18 @@ func main() {
 
 	api := rest.Server{}
 	srv := api.Start(cfg, musicPlayer, soundPlayer, lightPlayer, shellExec, profileSwitcher)
+	api.AddHooks(cfg)
 
+	// Start main loop
 	go common.EventLoop()
+	time.Sleep(time.Second)
+	common.EventFire(common.Event{
+		Origin: "app",
+		Type:   "started",
+		Name:   "Deichwave REST Server",
+	})
+
+	// Wait until exit is requested
 	sig := common.AwaitSignal()
 	log.WithFields(log.Fields{
 		"signal": sig,

@@ -33,14 +33,19 @@ type Server struct {
 	lights   lights.Renderer
 	exec     shell.ShellExecutor
 	profiler common.ProfileSwitcher
+	apiBase  string
+	port     int
 }
 
-func (server Server) Start(c common.Config, m music.MusicPlayer, s sounds.SoundPlayer, l lights.Renderer, e shell.ShellExecutor, p common.ProfileSwitcher) *http.Server {
+func (server *Server) Start(c common.Config, m music.MusicPlayer, s sounds.SoundPlayer, l lights.Renderer, e shell.ShellExecutor, p common.ProfileSwitcher) *http.Server {
 	server.music = m
 	server.sounds = s
 	server.lights = l
 	server.exec = e
 	server.profiler = p
+
+	server.apiBase = "api/v0"
+	server.port = c.REST.Port
 
 	// REST
 	r := chi.NewRouter()
@@ -52,7 +57,7 @@ func (server Server) Start(c common.Config, m music.MusicPlayer, s sounds.SoundP
 		AllowCredentials: false,
 		MaxAge:           300, // Maximum value not ignored by any of major browsers
 	}))
-	r.Mount("/api/v0", Handler(&server))
+	r.Mount(fmt.Sprintf("/%s", server.apiBase), Handler(server))
 
 	// SSE
 	sseServer := sse.New()
@@ -76,9 +81,9 @@ func (server Server) Start(c common.Config, m music.MusicPlayer, s sounds.SoundP
 	})
 
 	log.WithFields(log.Fields{
-		"address": fmt.Sprintf("http://%s:%d/app.html", getLocalIP(), c.REST.Port),
+		"address": fmt.Sprintf("http://%s:%d/app.html", getLocalIP(), server.port),
 	}).Info("Started REST API server")
-	srv := &http.Server{Addr: fmt.Sprintf(":%d", c.REST.Port), Handler: r}
+	srv := &http.Server{Addr: fmt.Sprintf(":%d", server.port), Handler: r}
 	go func() {
 		err := srv.ListenAndServe()
 		if err != http.ErrServerClosed {

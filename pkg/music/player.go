@@ -296,6 +296,10 @@ func (p *musicPlayer) Pause() {
 		speaker.Unlock()
 	}
 
+	common.EventFire(common.Event{
+		Origin: "music",
+		Type:   "paused",
+	})
 	log.Debug("Paused music playback")
 }
 
