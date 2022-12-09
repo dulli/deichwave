@@ -79,7 +79,7 @@ def normalize(cfg, fin, fout, dry_run):
 @app.command()
 def start(
     folder: Optional[str] = typer.Argument("data/sounds/original"),
-    target: int = -20,
+    target: int = -10,
     overwrite: bool = False,
     debug: bool = False,
     dry_run: bool = DEFAULT_DRY_RUN,
