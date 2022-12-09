@@ -28,17 +28,19 @@ import (
 
 // Implements ServerInterface
 type Server struct {
-	music  music.MusicPlayer
-	sounds sounds.SoundPlayer
-	lights lights.Renderer
-	exec   shell.ShellExecutor
+	music    music.MusicPlayer
+	sounds   sounds.SoundPlayer
+	lights   lights.Renderer
+	exec     shell.ShellExecutor
+	profiler common.ProfileSwitcher
 }
 
-func (server Server) Start(c common.Config, m music.MusicPlayer, s sounds.SoundPlayer, l lights.Renderer, e shell.ShellExecutor) *http.Server {
+func (server Server) Start(c common.Config, m music.MusicPlayer, s sounds.SoundPlayer, l lights.Renderer, e shell.ShellExecutor, p common.ProfileSwitcher) *http.Server {
 	server.music = m
 	server.sounds = s
 	server.lights = l
 	server.exec = e
+	server.profiler = p
 
 	// REST
 	r := chi.NewRouter()
@@ -269,7 +271,7 @@ func (s Server) GetSoundsSound(w http.ResponseWriter, r *http.Request, sound Sou
 	data := SoundDetails{
 		Name:        &soundName,
 		BufferCount: &soundCount,
-		Links: SoundActions{
+		Links: SoundActionsModel{
 			Play:   &soundPlay,
 			Loop:   &soundLoop,
 			Unloop: &soundUnloop,
@@ -375,11 +377,35 @@ func (s Server) PostLightsStop(w http.ResponseWriter, r *http.Request, effect Li
 	render.JSON(w, r, "OK")
 }
 
+// List all light effects
+// (GET /profiles)
+func (s Server) GetProfiles(w http.ResponseWriter, r *http.Request) {
+	profileList := s.profiler.ListProfiles()
+	data := EntityList{
+		Entity: &profileList,
+	}
+	render.Status(r, http.StatusOK)
+	render.JSON(w, r, data)
+}
+
+// Start a light effect
+// (POST /profiles/{profile}/set)
+func (s Server) PostProfilesSet(w http.ResponseWriter, r *http.Request, profile string) {
+	err := s.profiler.SetProfile(string(profile))
+	if errors.Is(err, common.ErrProfileNotFound) {
+		render.Status(r, http.StatusNotFound)
+		render.JSON(w, r, err.Error())
+		return
+	}
+	render.Status(r, http.StatusOK)
+	render.JSON(w, r, "OK")
+}
+
 // Get volume
 // (GET /system/volume)
 func (s Server) GetSystemVolume(w http.ResponseWriter, r *http.Request) {
 	render.Status(r, http.StatusOK)
-	render.JSON(w, r, AudioLevel{
+	render.JSON(w, r, AudioLevelModel{
 		Level: common.GetVolume(),
 	})
 }
@@ -410,7 +436,7 @@ func (s Server) PostSystemVolumeDelta(w http.ResponseWriter, r *http.Request, de
 // (GET /system/intensity)
 func (s Server) GetSystemIntensity(w http.ResponseWriter, r *http.Request) {
 	render.Status(r, http.StatusOK)
-	render.JSON(w, r, AudioLevel{
+	render.JSON(w, r, AudioLevelModel{
 		Level: common.GetIntensity(),
 	})
 }

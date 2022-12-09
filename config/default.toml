@@ -20,14 +20,14 @@ debug = false
 
 [lights]
 # path = "data/lights/effects"
-# ext = ".tengo"                    #      Extension for light effect script files
+# ext = ".tengo"                  #      Extension for light effect script files
 
 [shell]
 shutdown = ["poweroff"]
 reboot = ["reboot"]
 
 [hardware]
-led-driver = "ws281x"           # [%]  Maximum brightness for the LEDs
+led-driver = "ws281x"             # [%]  Maximum brightness for the LEDs
 # led-brightness = 100            # [%]  Maximum brightness for the LEDs
 # led-pin = 18                    # [-]  GPIO pin to which the LEDs are connected
 

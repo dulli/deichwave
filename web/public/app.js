@@ -12,7 +12,7 @@ async function api(
     payload = undefined,
     host = undefined
 ) {
-    wait = false
+    let wait = false
     while (host === undefined) {
         host = basehost
         if (wait) {
@@ -66,6 +66,18 @@ async function find_host() {
 function init_site() {
     find_host()
     // TODO error handling
+    selectedProfile = ''
+    profiles = {
+        names: [],
+        async init() {
+            await this.update()
+        },
+        async update() {
+            r = await api('profiles')
+            this.names = r['entity']
+        },
+    }
+    Alpine.store('profiles', profiles)
 
     volume = {
         level: 0,
@@ -106,6 +118,7 @@ function init_site() {
     Alpine.store('volume', volume)
     Alpine.store('intensity', intensity)
 
+    selectedEffect = ''
     lights = {
         names: [],
         async init() {
@@ -209,7 +222,7 @@ function init_site() {
 }
 
 async function subscribe_events(host = undefined) {
-    wait = false
+    let wait = false
     while (host === undefined) {
         host = basehost
         if (wait) {
@@ -221,28 +234,25 @@ async function subscribe_events(host = undefined) {
     sse = new EventSource(`${host}sse?stream=events`)
     sse.onmessage = function (event) {
         data = JSON.parse(event.data)
-        // console.log(data)
+        console.log(data)
 
-        if (data.origin == 'music' && data.type == 'playing') {
+        let all = data.origin == 'config' && data.type == 'changed'
+        console.log(all)
+        if (all || (data.origin == 'music' && data.type == 'playing')) {
             Alpine.store('playing').update()
-            return
         }
-        if (data.origin == 'music' && data.type == 'position') {
+        if (all || (data.origin == 'music' && data.type == 'position')) {
             Alpine.store('playlists').updatePositions(data.name)
-            return
         }
-        if (data.origin == 'music' && data.type == 'shuffle') {
+        if (all || (data.origin == 'music' && data.type == 'shuffle')) {
             Alpine.store('playlists').updateSongs(data.name)
-            return
         }
-        if (data.origin == 'audio' && data.type == 'volume') {
+        if (all || (data.origin == 'audio' && data.type == 'volume')) {
             Alpine.store('volume').update()
-            return
         }
-        if (data.origin == 'audio' && data.type == 'intensity') {
+        if (all || (data.origin == 'audio' && data.type == 'intensity')) {
             Alpine.store('playlists').updateChances()
             Alpine.store('intensity').update()
-            return
         }
     }
 }

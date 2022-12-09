@@ -1,0 +1,3 @@
+[music]
+startrng = [85, 5, 9, 1]         # [%]  Chance for each playlist to occur in the mix at the lowest intensity
+endrng = [10, 10, 50, 30]          # [%]  Chance for each playlist to occur in the mix at the highest intensity

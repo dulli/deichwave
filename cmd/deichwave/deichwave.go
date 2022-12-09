@@ -28,6 +28,16 @@ func main() {
 	var cfg common.Config
 	common.Configure(&cfg)
 
+	// Prepare the profile switcher
+	profileSwitcher, err := common.NewProfilSwitcher(&cfg)
+	if err != nil {
+		log.WithFields(log.Fields{
+			"err": err,
+		}).Error("Profile setup incomplete")
+	} else {
+		log.Info("Profile setup complete")
+	}
+
 	// Prepare the lights command module and initialize the led groups
 	lightPlayer, err := lights.NewRenderer("light-test", cfg)
 	if err != nil {
@@ -79,7 +89,7 @@ func main() {
 	}
 
 	// Prepare the music command module and initialize the speaker
-	musicPlayer, err := music.NewPlayer("music-rest", cfg)
+	musicPlayer, err := music.NewPlayer("music-rest", &cfg)
 	if err != nil {
 		log.WithFields(log.Fields{
 			"err": err,
@@ -140,7 +150,7 @@ func main() {
 	}
 
 	api := rest.Server{}
-	srv := api.Start(cfg, musicPlayer, soundPlayer, lightPlayer, shellExec)
+	srv := api.Start(cfg, musicPlayer, soundPlayer, lightPlayer, shellExec, profileSwitcher)
 
 	go common.EventLoop()
 	sig := common.AwaitSignal()

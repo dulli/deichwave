@@ -54,7 +54,7 @@ type musicPlayer struct {
 	nowPlaying      SongInfo
 }
 
-func NewPlayer(name string, cfg common.Config) (MusicPlayer, error) {
+func NewPlayer(name string, cfg *common.Config) (MusicPlayer, error) {
 	player := musicPlayer{
 		Name:       name,
 		list:       make(map[string]Playlist),
@@ -69,6 +69,13 @@ func NewPlayer(name string, cfg common.Config) (MusicPlayer, error) {
 	}
 	_, err := common.GetSpeaker(player.rate, cfg.Audio.Volume)
 	rand.Seed(time.Now().UnixNano())
+
+	common.ConfigChangeListener(func() {
+		player.chancesMin = cfg.Music.StartRNG
+		player.chancesMax = cfg.Music.EndRNG
+		player.updateChances()
+	})
+
 	go player.run()
 	return &player, err
 }

@@ -236,62 +236,89 @@
                 </div>
             </section>
 
-            <section class="section box is-shadowless has-background-light">
-                <h2 class="title is-4">Light Effects</h2>
-                <div x-data="$store.lights">
-                    <template x-for="effect in names">
-                        <button
-                            class="button mr-3 mb-3 is-dark"
-                            x-on:click="api(`lights/${effect}/start`, 'post')"
+            <section class="section p-0 pr-1 is-clearfix">
+                <div
+                    class="control has-icons-left is-pulled-right ml-4 mb-4"
+                    style="clear: none"
+                >
+                    <div class="select">
+                        <select
+                            x-data="$store.profiles"
+                            x-on:change="api(`profiles/${selectedProfile}/set`, 'post')"
+                            x-model="selectedProfile"
                         >
-                            <span class="mr-1 is-primary">
-                                <svg viewBox="0 0 24 24">
-                                    <use href="#mdi-led-on" />
-                                </svg>
-                            </span>
-                            <span x-text="effect">[EFFECT]</span>
-                        </button>
-                    </template>
+                            <template x-for="profile in names">
+                                <option x-text="profile">[PROFILE]</option>
+                            </template>
+                        </select>
+                    </div>
+                    <div class="icon has-text-info is-small is-left">
+                        <svg viewBox="0 0 24 24">
+                            <use href="#mdi-profile" />
+                        </svg>
+                    </div>
+                </div>
+                <div
+                    class="control has-icons-left is-pulled-right ml-4 mb-4"
+                    style="clear: none"
+                >
+                    <div class="select">
+                        <select
+                            x-data="$store.lights"
+                            x-on:change="api(`lights/${selectedEffect}/start`, 'post')"
+                            x-model="selectedEffect"
+                        >
+                            <template x-for="effect in names">
+                                <option x-text="effect">[PROFILE]</option>
+                            </template>
+                        </select>
+                    </div>
+                    <div class="icon has-text-info is-small is-left">
+                        <svg viewBox="0 0 24 24">
+                            <use href="#mdi-led-on" />
+                        </svg>
+                    </div>
                 </div>
             </section>
-
-            <div
-                class="dropdown mb-4 is-up is-right is-pulled-right is-hoverable"
-            >
+            <section class="section p-0 pr-1 is-clearfix">
+                <div
+                    class="dropdown mb-4 is-up is-right is-pulled-right is-hoverable"
+                >
+                    <div class="dropdown-trigger">
+                        <button
+                            class="button is-danger"
+                            aria-haspopup="true"
+                            aria-controls="dropdown-menu"
+                        >
+                            <svg viewBox="0 0 24 24">
+                                <use href="#mdi-power" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                        <div class="dropdown-content">
+                            <a
+                                onclick="confirm('Are you sure you want to reboot?') && api(`shell/shutdown`, 'post')"
+                                class="dropdown-item"
+                            >
+                                Power-Off
+                            </a>
+                            <a
+                                onclick="confirm('Are you sure you want to reboot?') && api(`shell/reboot`, 'post')"
+                                class="dropdown-item"
+                            >
+                                Reboot
+                            </a>
+                        </div>
+                    </div>
+                </div>
                 <span
                     id="host-info"
-                    class="is-pulled-right has-text-grey-lighter mr-4 is-size-7 is-uppercase is-family-code is-unselectable"
+                    class="has-text-grey-lighter mb-4 mr-4 is-size-7 is-uppercase is-family-code is-unselectable is-pulled-right"
                 >
                     [HOST]
                 </span>
-                <div class="dropdown-trigger">
-                    <button
-                        class="button"
-                        aria-haspopup="true"
-                        aria-controls="dropdown-menu"
-                    >
-                        <svg viewBox="0 0 24 24">
-                            <use href="#mdi-power" />
-                        </svg>
-                    </button>
-                </div>
-                <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                    <div class="dropdown-content">
-                        <a
-                            onclick="confirm('Are you sure you want to reboot?') && api(`shell/shutdown`, 'post')"
-                            class="dropdown-item"
-                        >
-                            Power-Off
-                        </a>
-                        <a
-                            onclick="confirm('Are you sure you want to reboot?') && api(`shell/reboot`, 'post')"
-                            class="dropdown-item"
-                        >
-                            Reboot
-                        </a>
-                    </div>
-                </div>
-            </div>
+            </section>
         </div>
         <svg style="display: none" width="24" height="24" viewBox="0 0 24 24">
             <path
@@ -344,6 +371,11 @@
                 id="mdi-power"
                 fill="currentColor"
                 d="M16.56,5.44L15.11,6.89C16.84,7.94 18,9.83 18,12A6,6 0 0,1 12,18A6,6 0 0,1 6,12C6,9.83 7.16,7.94 8.88,6.88L7.44,5.44C5.36,6.88 4,9.28 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12C20,9.28 18.64,6.88 16.56,5.44M13,3H11V13H13"
+            />
+            <path
+                id="mdi-profile"
+                fill="currentColor"
+                d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"
             />
         </svg>
     </body>
