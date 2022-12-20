@@ -24,9 +24,32 @@ func main() {
 		TimestampFormat: time.Stamp,
 	})
 
+	// TODO refactor this into a loop calling unified interfaces
+
 	// Load configuration
 	var cfg common.Config
 	common.Configure(&cfg)
+
+	// Prevent hibernation
+	driverSleep, err := hardware.GetSystemDriver("sleep")
+	if err != nil {
+		log.WithFields(log.Fields{
+			"type":   "system",
+			"driver": "sleep",
+			"err":    err,
+		}).Error("Failed to load a driver")
+	} else {
+		err = driverSleep.Setup(cfg)
+		if err != nil {
+			log.WithFields(log.Fields{
+				"type":   "system",
+				"driver": "sleep",
+				"err":    err,
+			}).Error("Failed to setup a driver")
+		} else {
+			defer driverSleep.Close()
+		}
+	}
 
 	// Prepare the profile switcher
 	profileSwitcher, err := common.NewProfilSwitcher(&cfg)
