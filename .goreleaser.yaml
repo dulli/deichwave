@@ -9,7 +9,7 @@ archives:
           - goos: windows
             format: zip
       files:
-          - config/default.toml
+          - config/**.toml
           - data/**.tengo
           - scripts/*
 builds:
