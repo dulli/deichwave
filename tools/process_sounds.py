@@ -18,7 +18,7 @@ def configure(debug):
     cfg = {
         "config": "config/default.toml",
         "audio": {
-            "rate": 48000,
+            "rate": 44100,
         },
         "sounds": {
             "path": "data/sounds/effects",
@@ -79,7 +79,7 @@ def normalize(cfg, fin, fout, dry_run):
 @app.command()
 def start(
     folder: Optional[str] = typer.Argument("data/sounds/original"),
-    target: int = -10,
+    target: int = -15,
     overwrite: bool = False,
     debug: bool = False,
     dry_run: bool = DEFAULT_DRY_RUN,

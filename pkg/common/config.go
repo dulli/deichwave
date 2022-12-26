@@ -9,7 +9,7 @@ type Config struct {
 	File  string `env:"CONFIG" env-default:"config/default.toml"`
 	Debug bool   `env:"DEBUG" env-default:"false"`
 	Audio struct {
-		Rate    int `toml:"rate" env:"RATE" env-default:"48000"`
+		Rate    int `toml:"rate" env:"RATE" env-default:"44100"`
 		Quality int `toml:"quality" env:"QUALITY" env-default:"6"`
 		Volume  int `toml:"volume" env:"VOLUME" env-default:"10"`
 	} `toml:"audio" env-prefix:"AUDIO_"`
@@ -21,7 +21,7 @@ type Config struct {
 	} `toml:"sounds" env-prefix:"SOUNDS_"`
 	Music struct {
 		Path     string `toml:"path" env:"DIR" env-default:"data/music/playlists"`
-		Ext      string `toml:"ext" env:"EXT" env-default:".mp3"`
+		Ext      string `toml:"ext" env:"EXT" env-default:".ogg"`
 		Volume   int    `toml:"volume" env:"VOLUME" env-default:"50"`
 		StartRNG []int  `toml:"startrng" env:"STARTRNG" env-default:"95,5"`
 		EndRNG   []int  `toml:"endrng" env:"ENDRNG" env-default:"30,70"`

@@ -1,7 +1,7 @@
 debug = false
 
 [audio]
-# rate = 48000                    # [Hz] Sample rate used to initialize the speaker
+# rate = 44100                    # [Hz] Sample rate used to initialize the speaker
 # quality = 6                     # [-]  Resampling quality used if a sound file does not have the correct sample rate
 # volume = 10                     # [%]  Initial volume used overall (common factor for music and sounds)
 
@@ -13,7 +13,7 @@ debug = false
 
 [music]
 # path = "data/music/playlists"
-# ext = ".mp3"                    #      Extension for music files
+# ext = ".ogg"                    #      Extension for music files
 # volume = 50                     # [%]  Nominal volume level of music
 # startrng = [95, 5]              # [%]  Chance for each playlist to occur in the mix at the lowest intensity
 # endrng = [30, 70]               # [%]  Chance for each playlist to occur in the mix at the highest intensity
