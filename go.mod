@@ -15,6 +15,8 @@ require (
 	github.com/go-chi/render v1.0.2
 	github.com/goreleaser/goreleaser v1.13.1
 	github.com/ilyakaznacheev/cleanenv v1.4.1
+	github.com/jfreymuth/oggvorbis v1.0.1
+	github.com/mewkiz/flac v1.0.7
 	github.com/r3labs/sse/v2 v2.9.0
 	github.com/sirupsen/logrus v1.9.0
 	github.com/tc-hib/go-winres v0.3.0
@@ -136,12 +138,12 @@ require (
 	github.com/hashicorp/go-version v1.2.1 // indirect
 	github.com/huandu/xstrings v1.3.2 // indirect
 	github.com/iancoleman/orderedmap v0.2.0 // indirect
+	github.com/icza/bitio v1.0.0 // indirect
 	github.com/imdario/mergo v0.3.13 // indirect
 	github.com/inconshreveable/mousetrap v1.0.1 // indirect
 	github.com/invopop/jsonschema v0.7.0 // indirect
 	github.com/invopop/yaml v0.1.0 // indirect
 	github.com/jbenet/go-context v0.0.0-20150711004518-d14ea06fba99 // indirect
-	github.com/jfreymuth/oggvorbis v1.0.1 // indirect
 	github.com/jfreymuth/vorbis v1.0.0 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/joho/godotenv v1.4.0 // indirect

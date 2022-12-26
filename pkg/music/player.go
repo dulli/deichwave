@@ -18,8 +18,7 @@ import (
 	"github.com/faiface/beep/effects"
 	"github.com/faiface/beep/mp3"
 	"github.com/faiface/beep/speaker"
-
-	"github.com/bogem/id3v2/v2"
+	"github.com/faiface/beep/vorbis"
 )
 
 var ErrPlaylistNotFound = errors.New("playlist could not be found")
@@ -201,7 +200,14 @@ func (p *musicPlayer) play(s Song) {
 		return
 	}
 
-	streamer, format, err := mp3.Decode(data)
+	var streamer beep.StreamSeekCloser
+	var format beep.Format
+	switch filepath.Ext(s.getPath()) {
+	case ".mp3":
+		streamer, format, err = mp3.Decode(data)
+	case ".ogg":
+		streamer, format, err = vorbis.Decode(data)
+	}
 	if err != nil {
 		log.WithFields(log.Fields{
 			"song": s.GetName(),
@@ -243,29 +249,22 @@ func (p *musicPlayer) play(s Song) {
 	})), Paused: false}
 	common.Play(p.control)
 
-	// Load id3 tags of currently playing song
-	tag, err := id3v2.Open(s.getPath(), id3v2.Options{Parse: true})
-	if err != nil {
-		log.Error("Error while opening mp3 file: ", err)
-		return
+	// Gather meta data for current song
+	var sI SongInfo
+	var tagerr error
+	switch filepath.Ext(s.getPath()) {
+	case ".mp3":
+		sI, tagerr = tags_mp3(s.getPath())
+	case ".ogg":
+		sI, tagerr = tags_ogg(s.getPath())
 	}
-	defer tag.Close()
-
-	p.nowPlaying = SongInfo{
-		Artist:   tag.Artist(),
-		Title:    tag.Title(),
-		Playlist: p.currentPlaylist,
+	if tagerr != nil {
+		log.WithFields(log.Fields{
+			"err": tagerr,
+		}).Error("Couldnt retrieve media tags")
 	}
-	pictures := tag.GetFrames(tag.CommonID("Attached picture"))
-	pic, ok := pictures[0].(id3v2.PictureFrame)
-	if ok {
-		p.nowPlaying.Picture = SongPicture{
-			Data: pic.Picture,
-			Mime: pic.MimeType,
-		}
-	} else {
-		p.nowPlaying.Picture = SongPicture{}
-	}
+	sI.Playlist = p.currentPlaylist
+	p.nowPlaying = sI
 
 	common.EventFire(common.Event{
 		Origin: "music",
