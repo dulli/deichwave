@@ -34,20 +34,21 @@ func main() {
 	driverSleep, err := hardware.GetSystemDriver("sleep")
 	if err != nil {
 		log.WithFields(log.Fields{
-			"type":   "system",
 			"driver": "sleep",
 			"err":    err,
-		}).Error("Failed to load a driver")
+		}).Error("Failed to load system driver")
 	} else {
 		err = driverSleep.Setup(cfg)
 		if err != nil {
 			log.WithFields(log.Fields{
-				"type":   "system",
 				"driver": "sleep",
 				"err":    err,
-			}).Error("Failed to setup a driver")
+			}).Error("Failed to setup system driver")
 		} else {
 			defer driverSleep.Close()
+			log.WithFields(log.Fields{
+				"driver": "sleep",
+			}).Info("Initialized system driver")
 		}
 	}
 
@@ -88,20 +89,21 @@ func main() {
 	driverLED, err := hardware.GetLEDDriver("ws281x")
 	if err != nil {
 		log.WithFields(log.Fields{
-			"type":   "led",
 			"driver": "ws281x",
 			"err":    err,
-		}).Error("Failed to load a driver")
+		}).Error("Failed to load LED driver")
 	} else {
 		err = driverLED.Setup(lightPlayer, cfg)
 		if err != nil {
 			log.WithFields(log.Fields{
-				"type":   "led",
 				"driver": "ws281x",
 				"err":    err,
-			}).Error("Failed to setup a driver")
+			}).Error("Failed to setup LED driver")
 		} else {
 			defer driverLED.Close()
+			log.WithFields(log.Fields{
+				"driver": "ws281x",
+			}).Info("Initialized LED driver")
 		}
 	}
 	err = lightPlayer.SetEffect("Rainbow")

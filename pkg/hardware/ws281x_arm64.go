@@ -14,16 +14,23 @@ type LEDws281x struct {
 }
 
 func (h *LEDws281x) Setup(l lights.Renderer, cfg common.Config) error {
+	var err error
 	config := ws281x.DefaultConfig
-	config.Brightness = cfg.Hardware.LEDBrightness
+	config.Brightness = int(float64(cfg.Hardware.LEDBrightness) * 0.01 * 255)
 	config.Pin = cfg.Hardware.LEDPin
 	config.StripType = ws281x.StripBRG
 	colors := lights.ColormapRainbow(256)
 	ledCount := l.GetLEDCount()
 
 	rect := image.Rectangle{image.Point{0, 0}, image.Point{ledCount - 1, 0}}
-	h.canvas, _ = ws281x.NewCanvas(rect.Max.X+1, 1, &config)
-	h.canvas.Initialize()
+	h.canvas, err = ws281x.NewCanvas(rect.Max.X+1, 1, &config)
+	if err != nil {
+		return err
+	}
+	err = h.canvas.Initialize()
+	if err != nil {
+		return err
+	}
 
 	l.ReceiveFrame(func(state [][]lights.LEDState) {
 		idx := 0
