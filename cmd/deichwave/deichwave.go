@@ -185,6 +185,28 @@ func main() {
 		Name:   "Deichwave REST Server",
 	})
 
+	// GPIO Inputs
+	driverGPIO, err := hardware.GetInputDriver("gpio")
+	if err != nil {
+		log.WithFields(log.Fields{
+			"driver": "gpio",
+			"err":    err,
+		}).Error("Failed to load input driver")
+	} else {
+		err = driverGPIO.Setup(cfg)
+		if err != nil {
+			log.WithFields(log.Fields{
+				"driver": "gpio",
+				"err":    err,
+			}).Error("Failed to setup input driver")
+		} else {
+			defer driverGPIO.Close()
+			log.WithFields(log.Fields{
+				"driver": "gpio",
+			}).Info("Initialized input driver")
+		}
+	}
+
 	// Wait until exit is requested
 	sig := common.AwaitSignal()
 	log.WithFields(log.Fields{

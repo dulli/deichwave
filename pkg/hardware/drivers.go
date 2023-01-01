@@ -46,3 +46,21 @@ func GetLEDDriver(name string) (DriverLED, error) {
 	}
 	return d, err
 }
+
+type DriverInput interface {
+	Setup(common.Config) error
+	Check() error
+	Close()
+}
+
+func GetInputDriver(name string) (DriverInput, error) {
+	var d DriverInput
+
+	err := ErrDriverNameNotFound
+	switch name {
+	case "gpio":
+		d = &GPIO{}
+		err = d.Check()
+	}
+	return d, err
+}

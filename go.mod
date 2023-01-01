@@ -20,6 +20,7 @@ require (
 	github.com/r3labs/sse/v2 v2.9.0
 	github.com/sirupsen/logrus v1.9.0
 	github.com/tc-hib/go-winres v0.3.0
+	github.com/warthog618/gpiod v0.8.0
 )
 
 require (
