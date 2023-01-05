@@ -15,7 +15,7 @@ require (
 	github.com/go-chi/render v1.0.2
 	github.com/goreleaser/goreleaser v1.13.1
 	github.com/ilyakaznacheev/cleanenv v1.4.1
-	github.com/jfreymuth/oggvorbis v1.0.1
+	github.com/jfreymuth/oggvorbis v1.0.4
 	github.com/mewkiz/flac v1.0.7
 	github.com/r3labs/sse/v2 v2.9.0
 	github.com/sirupsen/logrus v1.9.0
@@ -56,7 +56,6 @@ require (
 	github.com/ProtonMail/go-crypto v0.0.0-20210512092938-c05353c2d58c // indirect
 	github.com/acomagu/bufpipe v1.0.3 // indirect
 	github.com/ajg/form v1.5.1 // indirect
-	github.com/apapsch/go-jsonmerge/v2 v2.0.0 // indirect
 	github.com/atc0005/go-teams-notify/v2 v2.6.1 // indirect
 	github.com/aws/aws-sdk-go v1.44.68 // indirect
 	github.com/aws/aws-sdk-go-v2 v1.16.8 // indirect
@@ -144,7 +143,7 @@ require (
 	github.com/invopop/jsonschema v0.7.0 // indirect
 	github.com/invopop/yaml v0.1.0 // indirect
 	github.com/jbenet/go-context v0.0.0-20150711004518-d14ea06fba99 // indirect
-	github.com/jfreymuth/vorbis v1.0.0 // indirect
+	github.com/jfreymuth/vorbis v1.0.2 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/joho/godotenv v1.4.0 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
