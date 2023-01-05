@@ -10,7 +10,7 @@ require (
 	github.com/deepmap/oapi-codegen v1.12.3
 	github.com/dulli/go-rpi-ws281x v0.0.0-20220218191608-b1da59dbcc37
 	github.com/faiface/beep v1.1.0
-	github.com/go-chi/chi/v5 v5.0.7
+	github.com/go-chi/chi/v5 v5.0.8
 	github.com/go-chi/cors v1.2.1
 	github.com/go-chi/render v1.0.2
 	github.com/goreleaser/goreleaser v1.13.1
