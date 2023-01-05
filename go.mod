@@ -3,7 +3,7 @@ module github.com/dulli/deichwave
 go 1.18
 
 require (
-	fyne.io/fyne/v2 v2.2.4
+	fyne.io/fyne/v2 v2.3.0
 	github.com/antonfisher/nested-logrus-formatter v1.3.1
 	github.com/bogem/id3v2/v2 v2.1.3
 	github.com/d5/tengo/v2 v2.13.0
@@ -29,7 +29,7 @@ require (
 	cloud.google.com/go/kms v1.4.0 // indirect
 	cloud.google.com/go/storage v1.24.0 // indirect
 	code.gitea.io/sdk/gitea v0.15.1 // indirect
-	fyne.io/systray v1.10.1-0.20220621085403-9a2652634e93 // indirect
+	fyne.io/systray v1.10.1-0.20221115204952-d16a6177e6f1 // indirect
 	github.com/AlekSi/pointer v1.2.0 // indirect
 	github.com/Azure/azure-sdk-for-go v66.0.0+incompatible // indirect
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.1.1 // indirect
@@ -78,6 +78,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/sts v1.16.10 // indirect
 	github.com/aws/smithy-go v1.12.0 // indirect
 	github.com/aymanbagabas/go-osc52 v1.2.1 // indirect
+	github.com/benoitkugler/textlayout v0.3.0 // indirect
 	github.com/blakesmith/ar v0.0.0-20190502131153-809d4375e1fb // indirect
 	github.com/caarlos0/ctrlc v1.2.0 // indirect
 	github.com/caarlos0/env/v6 v6.10.1 // indirect
@@ -97,7 +98,7 @@ require (
 	github.com/disgoorg/log v1.2.0 // indirect
 	github.com/disgoorg/snowflake/v2 v2.0.1 // indirect
 	github.com/emirpasic/gods v1.12.0 // indirect
-	github.com/fredbi/uri v0.0.0-20181227131451-3dcfdacbaaf3 // indirect
+	github.com/fredbi/uri v0.1.0 // indirect
 	github.com/fsnotify/fsnotify v1.5.4 // indirect
 	github.com/fyne-io/gl-js v0.0.0-20220119005834-d2da28d9ccfe // indirect
 	github.com/fyne-io/glfw-js v0.0.0-20220120001248-ee7290d23504 // indirect
@@ -107,13 +108,14 @@ require (
 	github.com/go-git/go-billy/v5 v5.3.1 // indirect
 	github.com/go-git/go-git/v5 v5.4.2 // indirect
 	github.com/go-gl/gl v0.0.0-20211210172815-726fda9656d6 // indirect
-	github.com/go-gl/glfw/v3.3/glfw v0.0.0-20211213063430-748e38ca8aec // indirect
+	github.com/go-gl/glfw/v3.3/glfw v0.0.0-20221017161538-93cebf72946b // indirect
 	github.com/go-openapi/jsonpointer v0.19.5 // indirect
 	github.com/go-openapi/swag v0.21.1 // indirect
 	github.com/go-telegram-bot-api/telegram-bot-api v4.6.4+incompatible // indirect
+	github.com/go-text/typesetting v0.0.0-20221212183139-1eb938670a1f // indirect
 	github.com/gobwas/glob v0.2.3 // indirect
 	github.com/godbus/dbus/v5 v5.1.0 // indirect
-	github.com/goki/freetype v0.0.0-20181231101311-fa8a33aabaff // indirect
+	github.com/goki/freetype v0.0.0-20220119013949-7a161fd3728c // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/golang-jwt/jwt/v4 v4.4.2 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
@@ -181,8 +183,8 @@ require (
 	github.com/slack-go/slack v0.11.4 // indirect
 	github.com/spf13/cobra v1.6.1 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
-	github.com/srwiley/oksvg v0.0.0-20200311192757-870daf9aa564 // indirect
-	github.com/srwiley/rasterx v0.0.0-20200120212402-85cb7272f5e9 // indirect
+	github.com/srwiley/oksvg v0.0.0-20220731023508-a61f04f16b76 // indirect
+	github.com/srwiley/rasterx v0.0.0-20210519020934-456a8d69b780 // indirect
 	github.com/stretchr/testify v1.8.1 // indirect
 	github.com/tc-hib/winres v0.1.6 // indirect
 	github.com/technoweenie/multipartstreamer v1.0.1 // indirect
