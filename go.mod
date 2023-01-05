@@ -14,7 +14,7 @@ require (
 	github.com/go-chi/cors v1.2.1
 	github.com/go-chi/render v1.0.2
 	github.com/goreleaser/goreleaser v1.13.1
-	github.com/ilyakaznacheev/cleanenv v1.4.1
+	github.com/ilyakaznacheev/cleanenv v1.4.2
 	github.com/jfreymuth/oggvorbis v1.0.4
 	github.com/mewkiz/flac v1.0.7
 	github.com/r3labs/sse/v2 v2.10.0
