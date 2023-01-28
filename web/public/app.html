@@ -13,6 +13,7 @@
         <link rel="stylesheet" href="vendor/bulma.min.css" />
         <link rel="stylesheet" href="vendor/bulma-slider.min.css" />
         <link rel="stylesheet" href="vendor/bulma-pageloader.min.css" />
+        <link rel="stylesheet" href="vendor/bulma-prefers-dark.css" />
         <!-- <link href="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css" rel="stylesheet" />
         <script src="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js"></script> -->
         <script src="vendor/alpine.min.js" defer></script>
@@ -26,6 +27,10 @@
                 height: 1em;
                 width: 1em;
                 vertical-align: middle;
+            }
+            .table.is-borderless td,
+            .table.is-borderless th {
+                border: 0;
             }
         </style>
     </head>
@@ -46,7 +51,7 @@
                 <p class="subtitle">Control Panel</p>
             </section>
 
-            <section class="section box is-shadowless has-background-light">
+            <section class="section box is-shadowless">
                 <div class="columns is-mobile is-flex is-vcentered">
                     <div class="column is-narrow is-size-4">
                         <svg viewBox="0 0 24 24">
@@ -85,7 +90,7 @@
                 </div>
             </section>
 
-            <section class="section box is-shadowless has-background-light">
+            <section class="section box is-shadowless">
                 <h2 class="title is-4">Music</h2>
                 <div class="columns">
                     <div class="column">
@@ -171,7 +176,7 @@
                             </svg>
                             Upcoming
                         </h2>
-                        <table class="table is-fullwidth has-background-light">
+                        <table class="table is-fullwidth is-borderless">
                             <tbody x-data="$store.playlists">
                                 <template x-for="playlist in lists">
                                     <tr x-show="playlist.chance">
@@ -217,7 +222,7 @@
                 </div>
             </section>
 
-            <section class="section box is-shadowless has-background-light">
+            <section class="section box is-shadowless">
                 <h2 class="title is-4">Sound Effects</h2>
                 <div x-data="$store.sounds">
                     <template x-for="sound in names">
