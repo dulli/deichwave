@@ -17,7 +17,7 @@ require (
 	github.com/ilyakaznacheev/cleanenv v1.4.2
 	github.com/jfreymuth/oggvorbis v1.0.4
 	github.com/mewkiz/flac v1.0.7
-	github.com/r3labs/sse/v2 v2.9.0
+	github.com/r3labs/sse/v2 v2.10.0
 	github.com/sirupsen/logrus v1.9.0
 	github.com/tc-hib/go-winres v0.3.1
 )
