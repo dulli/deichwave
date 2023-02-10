@@ -107,7 +107,11 @@
                             <figure
                                 class="media-left image is-128x128 has-background-primary"
                             >
-                                <img x-bind:src="info.image" />
+                                <img
+                                    style="object-fit: cover"
+                                    class="image is-128x128"
+                                    x-bind:src="info.image"
+                                />
                             </figure>
                             <div
                                 class="media-content is-flex is-flex-direction-column"

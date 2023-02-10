@@ -47,7 +47,6 @@ async function find_host() {
     for (host of host_list) {
         console.log(`Trying API host: ${host}`)
         r = await api('ping', 'get', undefined, host)
-        console.log(r)
 
         if (r === 'Pong') {
             basehost = host
@@ -234,10 +233,8 @@ async function subscribe_events(host = undefined) {
     sse = new EventSource(`${host}sse?stream=events`)
     sse.onmessage = function (event) {
         data = JSON.parse(event.data)
-        console.log(data)
 
         let all = data.origin == 'config' && data.type == 'changed'
-        console.log(all)
         if (all || (data.origin == 'music' && data.type == 'playing')) {
             Alpine.store('playing').update()
         }
