@@ -59,6 +59,7 @@ require (
 	github.com/acomagu/bufpipe v1.0.3 // indirect
 	github.com/ajg/form v1.5.1 // indirect
 	github.com/alessio/shellescape v1.4.1 // indirect
+	github.com/apapsch/go-jsonmerge/v2 v2.0.0 // indirect
 	github.com/asaskevich/govalidator v0.0.0-20210307081110-f21760c49a8d // indirect
 	github.com/atc0005/go-teams-notify/v2 v2.7.0 // indirect
 	github.com/aws/aws-sdk-go v1.44.151 // indirect
@@ -285,3 +286,5 @@ require (
 	sigs.k8s.io/kind v0.14.0 // indirect
 	sigs.k8s.io/yaml v1.3.0 // indirect
 )
+
+replace github.com/jfreymuth/oggvorbis v1.0.4 => github.com/dulli/oggvorbis v1.0.4-fix
