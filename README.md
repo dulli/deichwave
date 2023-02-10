@@ -216,7 +216,7 @@ CC=x86_64-w64-mingw32-g++
 Additionally, a [`GoReleaser`](https://goreleaser.com/) configuration is provided to automate the building of production ready releases for all target platforms using:
 
 ```bash
-goreleaser release --rm-dist
+goreleaser release --clean
 ```
 
 ## TODOs
