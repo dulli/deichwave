@@ -10,7 +10,7 @@
             "request": "launch",
             "mode": "debug",
             "program": "${file}",
-            "env": { "DEBUG": true },
+            "env": { "DEBUG": "true" },
             "args": [],
             "cwd": "${workspaceFolder}"
         },
@@ -20,7 +20,7 @@
             "request": "launch",
             "mode": "auto",
             "program": "${fileDirname}",
-            "env": { "DEBUG": true },
+            "env": { "DEBUG": "true" },
             "args": [],
             "cwd": "${workspaceFolder}"
         },

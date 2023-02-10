@@ -213,6 +213,7 @@ func (p *musicPlayer) play(s Song) {
 			"song": s.GetName(),
 			"err":  err,
 		}).Error("Could not decode song")
+		p.Next()
 		return
 	}
 
