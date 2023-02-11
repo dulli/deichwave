@@ -12,6 +12,7 @@ archives:
           - config/**.toml
           - data/**.tengo
           - scripts/*
+      rlcp: true
 builds:
     - binary: deichwave
       env:
