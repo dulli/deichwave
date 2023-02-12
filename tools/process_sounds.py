@@ -13,7 +13,7 @@ app = typer.Typer()
 
 
 def configure(debug):
-    import lib.cleanenv as cleanenv
+    import cleanenv
 
     cfg = {
         "config": "config/default.toml",
