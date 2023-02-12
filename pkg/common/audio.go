@@ -17,9 +17,9 @@ var volumeLevel int
 var volumeStream *effects.Volume
 var intensityLevel int
 
-func GetSpeaker(rate beep.SampleRate, volume int) (int, error) {
+func GetSpeaker(rate beep.SampleRate, buffersize int, volume int) (int, error) {
 	if initialized == 0 {
-		err := speaker.Init(rate, rate.N(time.Second/10))
+		err := speaker.Init(rate, buffersize)
 		if err != nil {
 			return 0, err
 		}

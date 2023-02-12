@@ -2,6 +2,7 @@ debug = false
 
 [audio]
 # rate = 44100                    # [Hz] Sample rate used to initialize the speaker
+# buffer = 5000                   # [-]  Number of samples the sound driver should buffer
 # quality = 6                     # [-]  Resampling quality used if a sound file does not have the correct sample rate
 # volume = 10                     # [%]  Initial volume used overall (common factor for music and sounds)
 
