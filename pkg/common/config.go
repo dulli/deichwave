@@ -10,6 +10,7 @@ type Config struct {
 	Debug bool   `env:"DEBUG" env-default:"false"`
 	Audio struct {
 		Rate    int `toml:"rate" env:"RATE" env-default:"44100"`
+		Buffer  int `toml:"buffer" env:"BUFFER" env-default:"5000"`
 		Quality int `toml:"quality" env:"QUALITY" env-default:"6"`
 		Volume  int `toml:"volume" env:"VOLUME" env-default:"10"`
 	} `toml:"audio" env-prefix:"AUDIO_"`

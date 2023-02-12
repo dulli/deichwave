@@ -66,7 +66,7 @@ func NewPlayer(name string, cfg *common.Config) (MusicPlayer, error) {
 		volume:     cfg.Music.Volume,
 		control:    nil,
 	}
-	_, err := common.GetSpeaker(player.rate, cfg.Audio.Volume)
+	_, err := common.GetSpeaker(player.rate, cfg.Audio.Buffer, cfg.Audio.Volume)
 	rand.Seed(time.Now().UnixNano())
 
 	common.ConfigChangeListener(func() {

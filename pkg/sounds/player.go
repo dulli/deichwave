@@ -51,7 +51,7 @@ func NewPlayer(name string, cfg common.Config) (SoundPlayer, error) {
 		rnd:     cfg.Sounds.Randomizer,
 		volume:  cfg.Sounds.Volume,
 	}
-	_, err := common.GetSpeaker(player.rate, cfg.Audio.Volume)
+	_, err := common.GetSpeaker(player.rate, cfg.Audio.Buffer, cfg.Audio.Volume)
 	return &player, err
 }
 
