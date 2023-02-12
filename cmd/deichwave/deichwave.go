@@ -193,7 +193,7 @@ func main() {
 			"err":    err,
 		}).Error("Failed to load input driver")
 	} else {
-		err = driverGPIO.Setup(cfg)
+		err = driverGPIO.Setup(cfg, api)
 		if err != nil {
 			log.WithFields(log.Fields{
 				"driver": "gpio",
