@@ -3,7 +3,7 @@ module github.com/dulli/deichwave
 go 1.18
 
 require (
-	fyne.io/fyne/v2 v2.3.0
+	fyne.io/fyne/v2 v2.3.1
 	github.com/antonfisher/nested-logrus-formatter v1.3.1
 	github.com/bogem/id3v2/v2 v2.1.3
 	github.com/d5/tengo/v2 v2.13.0
@@ -30,7 +30,7 @@ require (
 	cloud.google.com/go/kms v1.7.0 // indirect
 	cloud.google.com/go/storage v1.28.0 // indirect
 	code.gitea.io/sdk/gitea v0.15.1 // indirect
-	fyne.io/systray v1.10.1-0.20221115204952-d16a6177e6f1 // indirect
+	fyne.io/systray v1.10.1-0.20230207085535-4a244dbb9d03 // indirect
 	github.com/AlekSi/pointer v1.2.0 // indirect
 	github.com/Azure/azure-sdk-for-go v66.0.0+incompatible // indirect
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.2.0 // indirect
