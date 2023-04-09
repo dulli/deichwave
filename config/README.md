@@ -28,3 +28,10 @@ After changes to the `gpio-expander.dts` source, it has to be recompiled using `
 ```bash
 dtc -O dtb -o config/device-tree/gpio-expander.dtbo config/device-tree/gpio-expander.dts
 ```
+
+To permanently apply the device tree overlays for usage, copy the compiled `gpio-expander.dtbo` file to `/boot/overlays/` and add the following lines to the `/boot/config.txt` as well:
+
+```bash
+dtoverlay=gpio-expander,addr=0x20,irq=17
+dtoverlay=gpio-expander,addr=0x21,irq=27
+```
