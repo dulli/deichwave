@@ -49,8 +49,8 @@ func Play(streamers ...beep.Streamer) {
 func SetVolume(volume int) {
 	if volume > 100 {
 		volume = 100
-	} else if volume < 0 {
-		volume = 0
+	} else if volume < 1 {
+		volume = 1
 	}
 	volumeLevel = volume
 	if volume == 0 {
