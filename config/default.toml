@@ -39,6 +39,50 @@ led-driver = "ws281x"             # [%]  Maximum brightness for the LEDs
 # led-brightness = 100            # [%]  Maximum brightness for the LEDs
 # led-pin = 18                    # [-]  GPIO pin to which the LEDs are connected
 
+[gpio.left-rotary]
+chip = "gpiochip0"
+debounce = 2500
+type = "rotary"
+pins = [7, 25, 8]
+actions = ["system/volume/-5:system/volume/5",
+           "music/next"]
+
+[gpio.right-rotary]
+chip = "gpiochip0"
+debounce = 2500
+type = "rotary"
+pins = [9, 11, 10]
+actions = ["system/intensity/-5:system/intensity/5",
+           "sounds/Abfahrt/play"]
+
+[gpio.left-toggles]
+chip = "gpiochip2"
+debounce = 10000
+type = "toggles"
+pins = [0, 1, 2, 3, 4, 5, 6, 7]
+actions = ["sounds/Schnapps/play",
+           "sounds/2000 Euro/play",
+           "sounds/Airhorn/play",
+           "sounds/Asozial/play",
+           "sounds/Assi Toni/play",
+           "lights/Strobe/start:lights/Strobe/stop",
+           "sounds/Polizei/loop:sounds/Polizei/unloop",
+           "lights/Police/start:lights/Police/stop"]
+
+[gpio.right-toggles]
+chip = "gpiochip3"
+debounce = 10000
+type = "toggles"
+pins = [0, 1, 2, 3, 4, 5, 6, 7]
+actions = ["sounds/Wolfgang pass auf!/play",
+           "sounds/Halligalli/play",
+           "sounds/Meme/play",
+           "sounds/Hey, geh weg!/play",
+           "sounds/I doubt it/play",
+           "sounds/Ha, Gay!/play",
+           "sounds/Pokemon Battle/loop:sounds/Pokemon Battle/unloop",
+           "lights/Battle/start:lights/Battle/stop"]
+
 [leds.front-trunk]
 order = 1
 count = 1

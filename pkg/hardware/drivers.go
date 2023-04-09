@@ -5,6 +5,7 @@ import (
 
 	"github.com/dulli/deichwave/pkg/common"
 	"github.com/dulli/deichwave/pkg/lights"
+	"github.com/dulli/deichwave/pkg/rest"
 )
 
 var ErrDriverNotImplementedForArch = errors.New("driver is not implemented for this platform")
@@ -42,6 +43,24 @@ func GetLEDDriver(name string) (DriverLED, error) {
 	switch name {
 	case "ws281x":
 		d = &LEDws281x{}
+		err = d.Check()
+	}
+	return d, err
+}
+
+type DriverInput interface {
+	Setup(common.Config, rest.Server) error
+	Check() error
+	Close()
+}
+
+func GetInputDriver(name string) (DriverInput, error) {
+	var d DriverInput
+
+	err := ErrDriverNameNotFound
+	switch name {
+	case "gpio":
+		d = &GPIO{}
 		err = d.Check()
 	}
 	return d, err

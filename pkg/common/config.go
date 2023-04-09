@@ -40,6 +40,13 @@ type Config struct {
 		Order int `toml:"order"`
 		Count int `toml:"count"`
 	} `toml:"leds"`
+	GPIO map[string]struct {
+		Chip     string   `toml:"chip"`
+		Pins     []int    `toml:"pins"`
+		Type     string   `toml:"type"`
+		Debounce int      `toml:"debounce"`
+		Actions  []string `toml:"actions"`
+	} `toml:"gpio"`
 	Hardware struct {
 		LEDBrightness int `toml:"led-brightness" env:"LED_BRIGHTNESS" env-default:"100"`
 		LEDPin        int `toml:"led-pin" env:"LED_PIN" env-default:"18"`

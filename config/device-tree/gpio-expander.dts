@@ -1,0 +1,43 @@
+/* Device tree overlay to use PCF8574 GPIO expanders as native gpiochips in gpiod
+
+See:
+- https://www.kernel.org/doc/Documentation/devicetree/bindings/gpio/gpio-pcf857x.txt
+- https://www.kernel.org/doc/Documentation/devicetree/bindings/interrupt-controller/interrupts.txt
+- https://yeah.nah.nz/embedded/linux-chardev-lcd/
+- https://www.cnblogs.com/qiengo/p/5915508.html
+
+TODO:   activate pull up for interrupt pin directly here, currently an entry to
+        the /boot/config.txt is needed
+*/
+
+/dts-v1/;
+/plugin/;
+
+/{
+	compatible = "brcm,bcm2835", "brcm,bcm2708", "brcm,bcm2709";
+
+    fragment@0 {
+        target = <&i2c_arm>;
+        __overlay__ {
+            #address-cells = <1>;
+            #size-cells = <0>;
+
+            pcf8574: pcf@20 {
+                    compatible = "ti,pcf8574", "nxp,pcf8574";
+                    reg = <0x20>;
+                    gpio-controller;
+                    #gpio-cells = <2>;
+
+                    interrupt-parent = <&gpio>;
+                    interrupt-controller;
+                    #interrupt-cells = <2>;
+                    interrupts = <17 8>;
+            };
+        };
+    };
+
+    __overrides__ {
+        addr = <&pcf8574>,"reg:0";
+        irq = <&pcf8574>,"interrupts:0";
+    };
+};
