@@ -120,7 +120,7 @@ func (h *GPIO) setupToggle(chip string, pin int, debounce int, actions []string)
 						"pin":    pin,
 						"err":    apiErr,
 						"driver": "gpio",
-					}).Info("Button pressed")
+					}).Debug("Button pressed")
 				})
 			case gpiod.LineEventRisingEdge:
 				dl(func() {
@@ -133,7 +133,7 @@ func (h *GPIO) setupToggle(chip string, pin int, debounce int, actions []string)
 						"pin":    pin,
 						"err":    apiErr,
 						"driver": "gpio",
-					}).Info("Button released")
+					}).Debug("Button released")
 				})
 			}
 		}),
@@ -158,12 +158,6 @@ func (h *GPIO) setupRotary(chip string, pins []int, debounce int, actions []stri
 		gpiod.WithEventHandler(func(ev gpiod.LineEvent) {
 			dl(func() {
 				rotflag = ev.Type == gpiod.LineEventRisingEdge
-				log.WithFields(log.Fields{
-					"chip":   chip,
-					"pin":    pins,
-					"flag":   rotflag,
-					"driver": "gpio",
-				}).Info("Rotary turned low")
 			})
 		}),
 		gpiod.WithBothEdges)
@@ -188,7 +182,7 @@ func (h *GPIO) setupRotary(chip string, pins []int, debounce int, actions []stri
 						"flag":   rotflag,
 						"err":    apiErr,
 						"driver": "gpio",
-					}).Info("Rotary turned left")
+					}).Debug("Rotary turned left")
 				} else {
 					if len(actions) < 2 {
 						return
@@ -200,7 +194,7 @@ func (h *GPIO) setupRotary(chip string, pins []int, debounce int, actions []stri
 						"flag":   rotflag,
 						"err":    apiErr,
 						"driver": "gpio",
-					}).Info("Rotary turned right")
+					}).Debug("Rotary turned right")
 				}
 			})
 		}),
