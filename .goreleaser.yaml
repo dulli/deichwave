@@ -54,13 +54,16 @@ signs:
 snapshot:
     name_template: '{{ incpatch .Version }}-next'
 changelog:
-    sort: asc
-    filters:
-        exclude: # See commit-msg hook
-            - '^chore:'
-            - '^docs:'
-            - '^refactor:'
-            - '^style:'
-            - '^ci:'
-            - '^build:'
-            - '^test:'
+    use: github-native
+    # sort: asc
+    # filters:
+    #     exclude: # See commit-msg hook
+    #         - '^chore:'
+    #         - '^docs:'
+    #         - '^refactor:'
+    #         - '^style:'
+    #         - '^ci:'
+    #         - '^build:'
+    #         - '^build(deps):'
+    #         - '^test:'
+    #         - '(?i)dependabot'
