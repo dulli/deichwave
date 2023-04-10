@@ -6,6 +6,11 @@ import (
 )
 
 type Config struct {
+	Meta struct {
+		Version string
+		Build   string
+		Name    string `env:"NAME" env-default:"DΞICHWΛVΞ"`
+	}
 	File  string `env:"CONFIG" env-default:"config/default.toml"`
 	Debug bool   `env:"DEBUG" env-default:"false"`
 	Audio struct {

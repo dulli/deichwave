@@ -1,9 +1,10 @@
-//go:generate go run github.com/tc-hib/go-winres make --in "winres.json" --arch "amd64"
+//go:generate go run github.com/tc-hib/go-winres make --in "winres.json" --arch "amd64" --product-version=git-tag --file-version=git-tag
 
 package main
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/dulli/deichwave/pkg/common"
@@ -18,6 +19,13 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+var (
+	version = "dev"
+	commit  = "NONE"
+	date    = "UNKNOWN"
+	builtBy = "UNKNOWN"
+)
+
 func main() {
 	log.SetFormatter(&nested.Formatter{
 		HideKeys:        true,
@@ -29,6 +37,16 @@ func main() {
 	// Load configuration
 	var cfg common.Config
 	common.Configure(&cfg)
+
+	// Keep track of meta information
+	cfg.Meta.Version = version
+	cfg.Meta.Build = fmt.Sprintf("commit %s, built at %s by %s", commit, date, builtBy)
+	fmt.Printf("%s (%s)\n", cfg.Meta.Name, cfg.Meta.Version)
+
+	log.WithFields(log.Fields{
+		"Version": cfg.Meta.Version,
+		"Info":    cfg.Meta.Build,
+	}).Debug("Build")
 
 	// Prevent hibernation
 	driverSleep, err := hardware.GetSystemDriver("sleep")

@@ -9,11 +9,16 @@
     },
     "tasks": [
         {
+            "label": "git-tag",
+            "type": "shell",
+            "command": "git describe --tags --dirty"
+        },
+        {
             "label": "Build Go (Current Package)",
             "type": "shell",
-            "command": "go build -v -o ${workspaceFolder}/bin/linux/amd64/ ${file}",
+            "command": "go build -v -ldflags '-X main.builtBy=VSCode' -o ${workspaceFolder}/bin/linux/amd64/ ${file}",
             "windows": {
-                "command": "go build -v -o ${workspaceFolder}/bin/windows/amd64/ ${file}"
+                "command": "go build -v -ldflags '-X main.builtBy=VSCode' -o ${workspaceFolder}/bin/windows/amd64/ ${file}"
             },
             "group": {
                 "kind": "build",
@@ -23,9 +28,9 @@
         {
             "label": "Build Go (All Commands)",
             "type": "shell",
-            "command": "go build -v -o ${workspaceFolder}/bin/linux/amd64/ ./cmd/...",
+            "command": "go build -v -ldflags '-X main.builtBy=VSCode' -o ${workspaceFolder}/bin/linux/amd64/ ./cmd/...",
             "windows": {
-                "command": "go build -v -o ${workspaceFolder}/bin/windows/amd64/ ./cmd/..."
+                "command": "go build -v -ldflags '-X main.builtBy=VSCode' -o ${workspaceFolder}/bin/windows/amd64/ ./cmd/..."
             },
             "group": {
                 "kind": "build",
@@ -35,7 +40,7 @@
         {
             "label": "Build Go (Cross-Compile: linux/arm64, Current Package)",
             "type": "shell",
-            "command": "go build -v -o ${workspaceFolder}/bin/linux/arm64/ ${file}",
+            "command": "go build -v -ldflags '-X main.builtBy=VSCode' -o ${workspaceFolder}/bin/linux/arm64/ ${file}",
             "windows": {
                 "command": "echo 'Please use a linux machine for cross-compilation'; exit 1"
             },
@@ -56,7 +61,7 @@
         {
             "label": "Build Go (Cross-Compile: windows/amd64, Current Package)",
             "type": "shell",
-            "command": "go build -v -o ${workspaceFolder}/bin/windows/amd64/ ${file}",
+            "command": "go build -v -ldflags '-X main.builtBy=VSCode' -o ${workspaceFolder}/bin/windows/amd64/ ${file}",
             "windows": {
                 "command": "echo 'Please use a linux machine for cross-compilation'; exit 1"
             },
