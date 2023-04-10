@@ -56,7 +56,11 @@ async function find_host() {
         }
     }
     if (connected) {
+        r = await api('info/Meta', 'get', undefined, host)
+
         document.body.style.cursor = 'default'
+        document.title = r.Name
+        document.getElementById('host-name').innerText = r.Name
         document.getElementById('host-info').innerText = basehost
         document.getElementById('loadscreen').classList.remove('is-active')
     }
