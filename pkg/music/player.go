@@ -51,6 +51,7 @@ type musicPlayer struct {
 	currentPlaylist string
 	control         *beep.Ctrl
 	nowPlaying      SongInfo
+	rng             *rand.Rand
 }
 
 func NewPlayer(name string, cfg *common.Config) (MusicPlayer, error) {
@@ -65,9 +66,9 @@ func NewPlayer(name string, cfg *common.Config) (MusicPlayer, error) {
 		chancesMax: cfg.Music.EndRNG,
 		volume:     cfg.Music.Volume,
 		control:    nil,
+		rng:        rand.New(rand.NewSource(time.Now().UnixNano())),
 	}
 	_, err := common.GetSpeaker(player.rate, cfg.Audio.Buffer, cfg.Audio.Volume)
-	rand.Seed(time.Now().UnixNano())
 
 	common.ConfigChangeListener(func() {
 		player.chancesMin = cfg.Music.StartRNG
@@ -168,7 +169,7 @@ func (p *musicPlayer) Next() {
 	for _, c := range p.chances {
 		maxrng += c
 	}
-	random := rand.Intn(maxrng)
+	random := p.rng.Intn(maxrng)
 	log.WithFields(log.Fields{
 		"chances": p.chances,
 		"maxrng":  maxrng,
