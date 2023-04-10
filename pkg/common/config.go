@@ -10,7 +10,7 @@ type Config struct {
 		Version string
 		Build   string
 		Name    string `env:"NAME" env-default:"DΞICHWΛVΞ"`
-	}
+	} `env-prefix:"META_"`
 	File  string `env:"CONFIG" env-default:"config/default.toml"`
 	Debug bool   `env:"DEBUG" env-default:"false"`
 	Audio struct {
@@ -61,6 +61,13 @@ type Config struct {
 func Configure(cfg *Config) {
 	// Load configuration, if no config file exists, fall back to env only
 	var err error
+	if err := cleanenv.ReadConfig(".env", cfg); err != nil {
+		log.WithFields(log.Fields{
+			"err": err,
+		}).Debug("No .env file was parsed")
+	} else {
+		log.Debug("Using .env file")
+	}
 	if err = cleanenv.ReadEnv(cfg); err != nil {
 		log.WithFields(log.Fields{
 			"err": err,
