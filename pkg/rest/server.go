@@ -23,11 +23,13 @@ import (
 	"github.com/go-chi/render"
 	"github.com/r3labs/sse/v2"
 
+	lookup "github.com/mcuadros/go-lookup"
 	log "github.com/sirupsen/logrus"
 )
 
 // Implements ServerInterface
 type Server struct {
+	config   common.Config
 	music    music.MusicPlayer
 	sounds   sounds.SoundPlayer
 	lights   lights.Renderer
@@ -38,6 +40,7 @@ type Server struct {
 }
 
 func (server *Server) Start(c common.Config, m music.MusicPlayer, s sounds.SoundPlayer, l lights.Renderer, e shell.ShellExecutor, p common.ProfileSwitcher) *http.Server {
+	server.config = c
 	server.music = m
 	server.sounds = s
 	server.lights = l
@@ -473,6 +476,18 @@ func (s Server) PostSystemIntensityDelta(w http.ResponseWriter, r *http.Request,
 func (s Server) GetPing(w http.ResponseWriter, r *http.Request) {
 	render.Status(r, http.StatusOK)
 	render.JSON(w, r, "Pong")
+}
+
+// Info
+// (GET /info/{path})
+func (s Server) GetInfo(w http.ResponseWriter, r *http.Request, path string) {
+	value, err := lookup.LookupStringI(s.config, path)
+	if err != nil {
+		render.Status(r, http.StatusNotFound)
+		render.JSON(w, r, err)
+	}
+	render.Status(r, http.StatusOK)
+	render.JSON(w, r, value.Interface())
 }
 
 // Shell Command

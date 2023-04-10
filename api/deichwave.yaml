@@ -7,6 +7,7 @@ info:
   description: 'Control sound effects, music playback and disco-lights on a Deichwave instance, using a single API.'
   contact:
     name: dulli
+    email: martin@dul.li
     url: 'https://github.com/dulli/deichwave'
   license:
     name: ' AGPL-3.0'
@@ -291,6 +292,7 @@ paths:
         name: profile
         in: path
         required: true
+        description: Profile to activate
     post:
       summary: Apply a profile
       responses:
@@ -306,8 +308,8 @@ paths:
     get:
       summary: Get volume
       tags:
-        - system
         - audio
+        - system
       responses:
         '200':
           description: OK
@@ -331,8 +333,8 @@ paths:
               $ref: '#/components/schemas/AudioLevelModel'
         description: ''
       tags:
-        - system
         - audio
+        - system
   '/system/volume/{delta}':
     post:
       summary: Change Volume
@@ -342,8 +344,8 @@ paths:
           description: OK
       description: Change the current volume
       tags:
-        - system
         - audio
+        - system
     parameters:
       - schema:
           type: integer
@@ -352,12 +354,13 @@ paths:
         name: delta
         in: path
         required: true
+        description: Volume delta
   /system/intensity:
     get:
       summary: Get Intensity
       tags:
-        - system
         - audio
+        - system
       responses:
         '200':
           description: OK
@@ -381,8 +384,8 @@ paths:
               $ref: '#/components/schemas/AudioLevelModel'
         description: ''
       tags:
-        - system
         - audio
+        - system
     parameters: []
   '/system/intensity/{delta}':
     post:
@@ -393,8 +396,8 @@ paths:
           description: OK
       description: Change the current intensity
       tags:
-        - system
         - audio
+        - system
     parameters:
       - schema:
           type: integer
@@ -403,6 +406,7 @@ paths:
         name: delta
         in: path
         required: true
+        description: Intensity Delta
   /ping:
     get:
       summary: Ping
@@ -426,6 +430,30 @@ paths:
                 readOnly: true
       operationId: get-ping
       description: Ping the API
+  '/info/{path}':
+    get:
+      summary: Info
+      tags:
+        - system
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+        '404':
+          description: Not Found
+      operationId: get-info
+      description: Retrieve system information
+    parameters:
+      - schema:
+          type: string
+        name: path
+        in: path
+        required: true
+        description: Path to the configuration item to read
   '/shell/{command}':
     parameters:
       - schema:
@@ -433,6 +461,7 @@ paths:
         name: command
         in: path
         required: true
+        description: Shell command to execute
     post:
       summary: Shell Command
       operationId: post-shell-command
@@ -667,7 +696,14 @@ components:
   examples: {}
 tags:
   - name: audio
+    description: Audio
   - name: lights
+    description: Lighteffects
   - name: music
+    description: Music
+  - name: profiles
+    description: Profiles
   - name: sounds
+    description: Sounds
   - name: system
+    description: System

@@ -16,6 +16,7 @@ require (
 	github.com/goreleaser/goreleaser v1.16.2
 	github.com/ilyakaznacheev/cleanenv v1.4.2
 	github.com/jfreymuth/oggvorbis v1.0.5
+	github.com/mcuadros/go-lookup v0.0.0-20200831155250-80f87a4fa5ee
 	github.com/mewkiz/flac v1.0.8
 	github.com/r3labs/sse/v2 v2.10.0
 	github.com/sirupsen/logrus v1.9.0
