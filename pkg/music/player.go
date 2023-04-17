@@ -122,6 +122,7 @@ func (p *musicPlayer) LoadPlaylists(root string) error {
 		keys = append(keys, key)
 	}
 	sort.Strings(keys)
+	skippedDuplicates := 0
 	for _, key := range keys {
 		p.keys = append(p.keys, key)
 		directory := filepath.Join(root, key)
@@ -142,7 +143,8 @@ func (p *musicPlayer) LoadPlaylists(root string) error {
 					log.WithFields(log.Fields{
 						"list": key,
 						"name": fname,
-					}).Warn("Skipped duplicate music file")
+					}).Debug("Skipped duplicate music file")
+					skippedDuplicates += 1
 					return nil
 				}
 			}
@@ -157,6 +159,11 @@ func (p *musicPlayer) LoadPlaylists(root string) error {
 			return nil
 		})
 		p.list[key].shuffle()
+	}
+	if skippedDuplicates > 0 {
+		log.WithFields(log.Fields{
+			"count": skippedDuplicates,
+		}).Warn("Skipped duplicate music files")
 	}
 	sort.Strings(p.keys)
 	return err
