@@ -19,7 +19,7 @@ require (
 	github.com/mcuadros/go-lookup v0.0.0-20200831155250-80f87a4fa5ee
 	github.com/mewkiz/flac v1.0.8
 	github.com/r3labs/sse/v2 v2.10.0
-	github.com/sirupsen/logrus v1.9.2
+	github.com/sirupsen/logrus v1.9.3
 	github.com/tc-hib/go-winres v0.3.1
 	github.com/warthog618/gpiod v0.8.1
 )
