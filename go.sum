@@ -748,8 +748,8 @@ github.com/matttproud/golang_protobuf_extensions/v2 v2.0.0 h1:jWpvCLoY8Z/e3VKvls
 github.com/mcuadros/go-lookup v0.0.0-20200831155250-80f87a4fa5ee h1:7Ac2RNGC8DAwDNd5uZyuYLoJOlVXyBGbO1VtFboDamk=
 github.com/mcuadros/go-lookup v0.0.0-20200831155250-80f87a4fa5ee/go.mod h1:yd3I5pyIO5TrBH7+Ym94u8qp9xc6NTHAqESeI8kOJY8=
 github.com/mewkiz/flac v1.0.7/go.mod h1:yU74UH277dBUpqxPouHSQIar3G1X/QIclVbFahSd1pU=
-github.com/mewkiz/flac v1.0.8 h1:cophRjvafteDGmqsfXRK28YAX6l8wy19QxTHruEEg1s=
-github.com/mewkiz/flac v1.0.8/go.mod h1:l7dt5uFY724eKVkHQtAJAQSkhpC3helU3RDxN0ESAqo=
+github.com/mewkiz/flac v1.0.9 h1:/+wxe/2fA8YbD1kjJNhlVAyc6pWaX0XXZC4xCF5OtVY=
+github.com/mewkiz/flac v1.0.9/go.mod h1:l7dt5uFY724eKVkHQtAJAQSkhpC3helU3RDxN0ESAqo=
 github.com/mewkiz/pkg v0.0.0-20190919212034-518ade7978e2/go.mod h1:3E2FUC/qYUfM8+r9zAwpeHJzqRVVMIYnpzD/clwWxyA=
 github.com/mewkiz/pkg v0.0.0-20230226050401-4010bf0fec14 h1:tnAPMExbRERsyEYkmR1YjhTgDM0iqyiBYf8ojRXxdbA=
 github.com/mewkiz/pkg v0.0.0-20230226050401-4010bf0fec14/go.mod h1:QYCFBiH5q6XTHEbWhR0uhR3M9qNPoD2CSQzr0g75kE4=
