@@ -7,7 +7,7 @@ require (
 	github.com/antonfisher/nested-logrus-formatter v1.3.1
 	github.com/bogem/id3v2/v2 v2.1.4
 	github.com/d5/tengo/v2 v2.16.1
-	github.com/deepmap/oapi-codegen v1.15.0
+	github.com/deepmap/oapi-codegen v1.16.2
 	github.com/dulli/go-rpi-ws281x v0.0.0-20221231153753-59e3a50294f2
 	github.com/faiface/beep v1.1.0
 	github.com/go-chi/chi/v5 v5.0.10
