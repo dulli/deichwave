@@ -3,7 +3,7 @@ module github.com/dulli/deichwave
 go 1.18
 
 require (
-	fyne.io/fyne/v2 v2.4.3
+	fyne.io/fyne/v2 v2.4.5
 	github.com/antonfisher/nested-logrus-formatter v1.3.1
 	github.com/bogem/id3v2/v2 v2.1.4
 	github.com/d5/tengo/v2 v2.17.0
@@ -135,7 +135,7 @@ require (
 	github.com/go-git/go-billy/v5 v5.5.0 // indirect
 	github.com/go-git/go-git/v5 v5.11.0 // indirect
 	github.com/go-gl/gl v0.0.0-20211210172815-726fda9656d6 // indirect
-	github.com/go-gl/glfw/v3.3/glfw v0.0.0-20221017161538-93cebf72946b // indirect
+	github.com/go-gl/glfw/v3.3/glfw v0.0.0-20240306074159-ea2d69986ecb // indirect
 	github.com/go-openapi/analysis v0.21.4 // indirect
 	github.com/go-openapi/errors v0.20.4 // indirect
 	github.com/go-openapi/jsonpointer v0.20.0 // indirect
@@ -147,8 +147,8 @@ require (
 	github.com/go-openapi/swag v0.22.4 // indirect
 	github.com/go-openapi/validate v0.22.1 // indirect
 	github.com/go-telegram-bot-api/telegram-bot-api v4.6.4+incompatible // indirect
-	github.com/go-text/render v0.0.0-20230619120952-35bccb6164b8 // indirect
-	github.com/go-text/typesetting v0.0.0-20230616162802-9c17dd34aa4a // indirect
+	github.com/go-text/render v0.1.0 // indirect
+	github.com/go-text/typesetting v0.1.0 // indirect
 	github.com/gobwas/glob v0.2.3 // indirect
 	github.com/godbus/dbus/v5 v5.1.0 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
