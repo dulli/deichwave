@@ -265,8 +265,8 @@ github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc h1:U9qPSI2PIWSS1
 github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davidmz/go-pageant v1.0.2 h1:bPblRCh5jGU+Uptpz6LgMZGD5hJoOt7otgT454WvHn0=
 github.com/davidmz/go-pageant v1.0.2/go.mod h1:P2EDDnMqIwG5Rrp05dTRITj9z2zpGcD9efWSkTNKLIE=
-github.com/deepmap/oapi-codegen v1.16.2 h1:xGHx0dNqYfy9gE8a7AVgVM8Sd5oF9SEgePzP+UPAUXI=
-github.com/deepmap/oapi-codegen v1.16.2/go.mod h1:rdYoEA2GE+riuZ91DvpmBX9hJbQpuY9wchXpfQ3n+ho=
+github.com/deepmap/oapi-codegen v1.16.3 h1:GT9G86SbQtT1r8ZB+4Cybi9VGdu1P5ieNvNdEoCSbrA=
+github.com/deepmap/oapi-codegen v1.16.3/go.mod h1:JD6ErqeX0nYnhdciLc61Konj3NBASREMlkHOgHn8WAM=
 github.com/dghubble/go-twitter v0.0.0-20211115160449-93a8679adecb h1:7ENzkH+O3juL+yj2undESLTaAeRllHwCs/b8z6aWSfc=
 github.com/dghubble/go-twitter v0.0.0-20211115160449-93a8679adecb/go.mod h1:qhZBgV9e4WyB1JNjHpcXVkUe3knWUwYuAPB1hITdm50=
 github.com/dghubble/oauth1 v0.7.2 h1:pwcinOZy8z6XkNxvPmUDY52M7RDPxt0Xw1zgZ6Cl5JA=
