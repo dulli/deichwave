@@ -39,6 +39,14 @@ led-driver = "ws281x"             # [%]  Maximum brightness for the LEDs
 # led-brightness = 100            # [%]  Maximum brightness for the LEDs
 # led-pin = 18                    # [-]  GPIO pin to which the LEDs are connected
 
+[gpio.turnkey]
+chip = "gpiochip0"
+debounce = 10000
+type = "toggle"
+pins = [4]
+actions = ["music/pause",
+           "music/play"]
+
 [gpio.left-rotary]
 chip = "gpiochip0"
 debounce = 2500
