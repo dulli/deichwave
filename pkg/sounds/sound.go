@@ -100,7 +100,7 @@ func (s *sound) Loop() {
 		log.WithFields(log.Fields{
 			"name":  s.Name,
 			"index": s.index,
-		}).Debug("Looped a sound")
+		}).Info("Looped a sound")
 	}
 }
 
@@ -115,7 +115,7 @@ func (s *sound) Unloop() {
 		log.WithFields(log.Fields{
 			"name":  s.Name,
 			"index": s.index,
-		}).Debug("Unlooped a sound")
+		}).Info("Unlooped a sound")
 	}
 }
 
