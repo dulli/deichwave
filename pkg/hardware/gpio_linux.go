@@ -18,32 +18,6 @@ type GPIO struct {
 	srv   rest.Server
 }
 
-// As the PCF8574 doesn't support gpiod's debouncing, we need to implement our own
-type debouncer struct {
-	mu    sync.Mutex
-	after time.Duration
-	timer *time.Timer
-}
-type debounced func(f func())
-
-func (d *debouncer) add(f func()) {
-	d.mu.Lock()
-	defer d.mu.Unlock()
-
-	if d.timer != nil {
-		d.timer.Stop()
-	}
-	d.timer = time.AfterFunc(d.after, f)
-}
-
-func newDebouncer(duration int) debounced {
-	d := &debouncer{after: time.Duration(duration) * time.Microsecond}
-
-	return func(f func()) {
-		d.add(f)
-	}
-}
-
 func (h *GPIO) Setup(cfg common.Config, srv rest.Server) error {
 	h.srv = srv
 	initialized := 0
@@ -105,47 +79,80 @@ func (h *GPIO) setupToggle(chip string, pin int, debounce int, actions []string)
 		"pin":     pin,
 		"actions": actions,
 	}).Debug("Setting up toggle")
-	dh := newDebouncer(debounce)
-	dl := newDebouncer(debounce)
-	var apiErr error
-	line, err := gpiod.RequestLine(chip, pin,
-		gpiod.WithPullUp,
-		gpiod.WithEventHandler(func(ev gpiod.LineEvent) {
-			switch ev.Type {
-			case gpiod.LineEventFallingEdge:
-				dh(func() {
-					apiErr = h.srv.DoAction(actions[0])
-					log.WithFields(log.Fields{
-						"chip":   chip,
-						"pin":    pin,
-						"err":    apiErr,
-						"driver": "gpio",
-					}).Debug("Button pressed")
-				})
-			case gpiod.LineEventRisingEdge:
-				dl(func() {
-					if len(actions) < 2 {
-						return
-					}
-					apiErr = h.srv.DoAction(actions[1])
-					log.WithFields(log.Fields{
-						"chip":   chip,
-						"pin":    pin,
-						"err":    apiErr,
-						"driver": "gpio",
-					}).Debug("Button released")
-				})
-			}
-		}),
-		gpiod.WithBothEdges)
+	var (
+		apiErr            error
+		mu                sync.Mutex
+		enabled           bool = true
+		lastReceivedType  gpiod.LineEventType
+		lastTriggeredType gpiod.LineEventType
+	)
+	debounceTime := time.Duration(debounce) * time.Microsecond
+
+	press := func() {
+		apiErr = h.srv.DoAction(actions[0])
+		log.WithFields(log.Fields{
+			"chip":   chip,
+			"pin":    pin,
+			"err":    apiErr,
+			"driver": "gpio",
+		}).Debug("Toggle on")
+	}
+	release := func() {
+		if len(actions) < 2 {
+			return
+		}
+		apiErr = h.srv.DoAction(actions[1])
+		log.WithFields(log.Fields{
+			"chip":   chip,
+			"pin":    pin,
+			"err":    apiErr,
+			"driver": "gpio",
+		}).Debug("Toggle off")
+	}
+
+	// Handler for (active) interrupts and expiring debounce timers
+	update := func(t *gpiod.LineEventType) {
+		if *t == lastTriggeredType {
+			return
+		}
+		lastTriggeredType = *t
+		if *t == gpiod.LineEventRisingEdge {
+			press()
+		} else {
+			release()
+		}
+	}
+
+	// Handler for hardware events
+	handler := func(ev gpiod.LineEvent) {
+		mu.Lock()
+		defer mu.Unlock()
+		lastReceivedType = ev.Type
+		if !enabled {
+			return
+		}
+
+		// Start a timer to debounce by disabling the interrupt for some time
+		enabled = false
+		time.AfterFunc(debounceTime, func() {
+			mu.Lock()
+			defer mu.Unlock()
+			enabled = true
+			go update(&lastReceivedType)
+		})
+
+		// Handle this event
+		go update(&ev.Type)
+	}
+	line, err := gpiod.RequestLine(chip, pin, gpiod.WithPullUp,
+		gpiod.WithEventHandler(handler), gpiod.WithBothEdges)
 	h.lines = append(h.lines, line)
 	return err
 }
 
 // Rotaries switch between left and right states and have an additional toggle when pressed
 func (h *GPIO) setupRotary(chip string, pins []int, debounce int, actions []string) error {
-	dh := newDebouncer(debounce)
-	dl := newDebouncer(debounce)
+	debounceTime := time.Duration(debounce) * time.Microsecond
 	var apiErr error
 	log.WithFields(log.Fields{
 		"chip":    chip,
@@ -156,9 +163,7 @@ func (h *GPIO) setupRotary(chip string, pins []int, debounce int, actions []stri
 	line, err := gpiod.RequestLine(chip, pins[0],
 		gpiod.WithPullUp,
 		gpiod.WithEventHandler(func(ev gpiod.LineEvent) {
-			dl(func() {
-				rotflag = ev.Type == gpiod.LineEventRisingEdge
-			})
+			rotflag = ev.Type == gpiod.LineEventRisingEdge
 		}),
 		gpiod.WithBothEdges)
 	if err != nil {
@@ -168,35 +173,34 @@ func (h *GPIO) setupRotary(chip string, pins []int, debounce int, actions []stri
 
 	line, err = gpiod.RequestLine(chip, pins[1],
 		gpiod.WithPullUp,
+		gpiod.WithDebounce(debounceTime),
 		gpiod.WithEventHandler(func(ev gpiod.LineEvent) {
-			dh(func() {
-				if ev.Type == gpiod.LineEventFallingEdge {
-					rotflag = false
+			if ev.Type == gpiod.LineEventFallingEdge {
+				rotflag = false
+				return
+			}
+			if rotflag {
+				apiErr = h.srv.DoAction(actions[0])
+				log.WithFields(log.Fields{
+					"chip":   chip,
+					"pin":    pins,
+					"flag":   rotflag,
+					"err":    apiErr,
+					"driver": "gpio",
+				}).Debug("Rotary turned left")
+			} else {
+				if len(actions) < 2 {
 					return
 				}
-				if rotflag {
-					apiErr = h.srv.DoAction(actions[0])
-					log.WithFields(log.Fields{
-						"chip":   chip,
-						"pin":    pins,
-						"flag":   rotflag,
-						"err":    apiErr,
-						"driver": "gpio",
-					}).Debug("Rotary turned left")
-				} else {
-					if len(actions) < 2 {
-						return
-					}
-					apiErr = h.srv.DoAction(actions[1])
-					log.WithFields(log.Fields{
-						"chip":   chip,
-						"pin":    pins,
-						"flag":   rotflag,
-						"err":    apiErr,
-						"driver": "gpio",
-					}).Debug("Rotary turned right")
-				}
-			})
+				apiErr = h.srv.DoAction(actions[1])
+				log.WithFields(log.Fields{
+					"chip":   chip,
+					"pin":    pins,
+					"flag":   rotflag,
+					"err":    apiErr,
+					"driver": "gpio",
+				}).Debug("Rotary turned right")
+			}
 		}),
 		gpiod.WithBothEdges)
 	if err != nil {
