@@ -38,12 +38,12 @@ async function api(
 
 async function find_host() {
     document.body.style.cursor = 'wait'
+    document.getElementById('loadscreen').classList.add('is-active')
     host_list = [
         '',
-        'http://localhost:3000/',
-        'http://192.168.188.10:3000/',
-        'http://192.168.188.20:3000/',
         'http://192.168.42.1:3000/',
+        'http://pi:3000/',
+        'http://localhost:3000/',
     ]
     let connected = false
     for (host of host_list) {
