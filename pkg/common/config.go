@@ -36,8 +36,8 @@ type Config struct {
 		Path string `toml:"path" env:"DIR" env-default:"data/lights/effects"`
 		Ext  string `toml:"ext" env:"EXT" env-default:".tengo"`
 	} `toml:"lights" env-prefix:"LIGHTS_"`
-	Shell map[string][]string `toml:"shell"`
-	Hooks map[string][]string `toml:"hooks"`
+	Shell map[string]map[string][]string `toml:"shell"`
+	Hooks map[string][]string            `toml:"hooks"`
 	REST  struct {
 		Port int `toml:"port" env:"PORT" env-default:"3000"`
 	} `toml:"rest" env-prefix:"REST_"`

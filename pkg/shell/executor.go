@@ -3,8 +3,10 @@ package shell
 import (
 	"errors"
 	"os/exec"
+	"runtime"
 
 	"github.com/dulli/deichwave/pkg/common"
+	log "github.com/sirupsen/logrus"
 )
 
 var ErrCommandNotFound = errors.New("command could not be found")
@@ -18,13 +20,19 @@ type shellExec struct {
 }
 
 func NewExecutor(name string, cfg common.Config) (ShellExecutor, error) {
+	var cmds map[string][]string
+	cmds, _ = cfg.Shell[runtime.GOOS]
 	exec := shellExec{
-		commands: cfg.Shell,
+		commands: cmds,
 	}
 	return &exec, nil
 }
 
 func (s *shellExec) Run(cmd_name string) (string, error) {
+	log.WithFields(log.Fields{
+		"name": cmd_name,
+	}).Info("Running a shell command")
+
 	if cmd_list, ok := s.commands[cmd_name]; ok {
 		var cmd *exec.Cmd
 		if len(cmd_list) > 1 {
