@@ -108,6 +108,17 @@ This project is structured into multiple folders with different purposes, most w
 └── scripts
 ```` -->
 
+To monitor the battery status for mobile deployments with the web interface and the scripts included in the `default.toml` config, you need a Bluetooth enabled battery based on the _JBD/XiaoXang BMS_, [`ble-serial` installed on your host](https://github.com/Jakeler/ble-serial) and [a compiled version of the `jbdtool` executable](https://github.com/sshoecraft/jbdtool) placed in your `/opt/jbdtool` directory (compile it with `DEBUG`, `BLUETOOTH` or `MQTT` set to `NO` in the `Makefile` to avoid errors).
+
+```bash
+pipx install ble-serial
+cd /opt/ && git clone https://github.com/sshoecraft/jbdtool.git && cd jbdtool
+sed 's/DEBUG=yes/DEBUG=no/g; s/BLUETOOTH=yes/BLUETOOTH=no/g; s/MQTT=yes/MQTT=no/g' Makefile
+make
+```
+
+Of course you can adapt all of this to use different paths or another device name for the battery by changing the default config.
+
 ### Development Environment
 
 - [`/cmd`](cmd/README.md): Source code for the executable commands
@@ -218,14 +229,6 @@ Additionally, a [`GoReleaser`](https://goreleaser.com/) configuration is provide
 ```bash
 goreleaser release --clean
 ```
-
-## TODOs
-
-- [x] Add a way to run the main executable automatically at boot
-- [x] Create pre-compiled releases
-- [ ] Add signed OTA updates/patches
-- [ ] Create a Flutter frontend
-- [ ] Add tests
 
 <div align="center">
 <small>
