@@ -232,6 +232,16 @@ func main() {
 	}).Warn("Received Signal")
 
 	// Perform clean up
+	common.EventFire(common.Event{
+		Origin: "app",
+		Type:   "stopped",
+		Name:   "Deichwave REST Server",
+	})
+
+	log.Debug("Sleeping for a few seconds to allow for graceful shutdown")
+	time.Sleep(1 * time.Second)
+	api.Stop()
+
 	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
 	defer cancel()
 

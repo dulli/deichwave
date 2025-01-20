@@ -37,6 +37,8 @@ type Server struct {
 	profiler common.ProfileSwitcher
 	apiBase  string
 	port     int
+	sse      *sse.Server
+	http     *http.Server
 }
 
 func (server *Server) Start(c common.Config, m music.MusicPlayer, s sounds.SoundPlayer, l lights.Renderer, e shell.ShellExecutor, p common.ProfileSwitcher) *http.Server {
@@ -63,17 +65,17 @@ func (server *Server) Start(c common.Config, m music.MusicPlayer, s sounds.Sound
 	r.Mount(fmt.Sprintf("/%s", server.apiBase), Handler(server))
 
 	// SSE
-	sseServer := sse.New()
-	sseServer.AutoReplay = false
-	sseServer.AutoStream = true
+	server.sse = sse.New()
+	server.sse.AutoReplay = false
+	server.sse.AutoStream = true
 	common.EventListen(func(ev common.Event) {
 		data, _ := json.Marshal(ev)
-		sseServer.Publish("events", &sse.Event{
+		server.sse.Publish("events", &sse.Event{
 			Data: data,
 		})
 	})
 	r.Group(func(r chi.Router) {
-		r.Get("/sse", sseServer.ServeHTTP)
+		r.Get("/sse", server.sse.ServeHTTP)
 	})
 
 	// // Static file host
@@ -86,16 +88,21 @@ func (server *Server) Start(c common.Config, m music.MusicPlayer, s sounds.Sound
 	log.WithFields(log.Fields{
 		"address": fmt.Sprintf("http://%s:%d/app.html", getLocalIP(), server.port),
 	}).Info("Started REST API server")
-	srv := &http.Server{Addr: fmt.Sprintf(":%d", server.port), Handler: r}
+	server.http = &http.Server{Addr: fmt.Sprintf(":%d", server.port), Handler: r}
 	go func() {
-		err := srv.ListenAndServe()
+		err := server.http.ListenAndServe()
 		if err != http.ErrServerClosed {
 			log.WithFields(log.Fields{
 				"err": err,
 			}).Error("Could not start rest server")
 		}
 	}()
-	return srv
+	return server.http
+}
+
+func (server *Server) Stop() {
+	server.sse.Close()
+	log.Info("Stopped REST API server components: SSE")
 }
 
 func getLocalIP() net.IP {
