@@ -148,6 +148,8 @@ Multiple `go` generators are used in this project, to e.g. automatically rebuild
 [^code-generator]: [OpenAPI Client and Server Code Generator](https://github.com/deepmap/oapi-codegen)
 [^windows-resources]: [Embedding resources in Windows executables](https://github.com/tc-hib/go-winres)
 
+Some dependencies and build tools may be required, depending on what you intend to do, and are outlined in the following section. The easiest way to get going, however, is to simply use the included _devcontainer_, that automates all the following steps in the `.devcontainer/devcontainer.json` `.devcontainer/install.sh}` files.
+
 ### Cross-Compilation
 
 Thanks to Go's cross-compilation capabilities, building _Deichwave_ for different target architectures is relatively easy - just make sure that all `C` dependencies can be found by the compiler as this project uses `CGO`. The build tasks defined in `/.vscode/tasks.json` also include the following cross-compilation targets.
