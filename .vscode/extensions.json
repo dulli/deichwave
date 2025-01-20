@@ -3,6 +3,8 @@
         "esbenp.prettier-vscode",
         "ms-python.python",
         "golang.go",
-        "editorconfig.editorconfig"
+        "editorconfig.editorconfig",
+        "ritwickdey.liveserver",
+        "tamasfe.even-better-toml"
     ]
 }

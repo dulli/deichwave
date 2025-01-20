@@ -1,8 +1,5 @@
 [tool.poetry]
-name = "deichwave"
-version = "1.0.2"
-description = ""
-authors = ["Martin <martin@dul.li>"]
+package-mode = false
 
 [tool.poetry.dependencies]
 python  = ">=3.6.2,<4.0"
@@ -11,9 +8,8 @@ toml = "^0.10.2"
 rich = "^11.2.0"
 typer = "^0.4.0"
 ffmpeg-normalize = "^1.22.6"
-pigpio = "^1.78"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 black = "^22.1.0"
 isort = "^5.10.1"
 
