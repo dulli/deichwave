@@ -48,7 +48,59 @@
                 />
 
                 <h1 id="host-name" class="title is-1">Deichwave</h1>
-                <p class="subtitle">Control Panel</p>
+                <div class="subtitle">
+                    Control Panel
+                    <div class="dropdown ml-1 is-hoverable">
+                        <div class="dropdown-trigger">
+                            <span
+                                id="battery-status"
+                                class="has-text-info is-family-monospace"
+                            >
+                                <svg viewBox="0 0 24 24">
+                                    <use
+                                        href="#mdi-battery-bluetooth-variant"
+                                    ></use>
+                                </svg>
+                                <span id="battery-level">--%</span>
+                            </span>
+                        </div>
+                        <div
+                            class="dropdown-menu"
+                            id="dropdown-menu"
+                            role="menu"
+                            style="min-width: 20vw"
+                        >
+                            <div class="dropdown-content">
+                                <a
+                                    onclick="api(`shell/bms-read`, 'post')"
+                                    class="dropdown-item"
+                                >
+                                    Refresh
+                                </a>
+                                <hr class="dropdown-divider" />
+                                <div
+                                    class="dropdown-item is-family-monospace is-size-7 has-text-info"
+                                    id="battery-details"
+                                >
+                                    --
+                                </div>
+                                <hr class="dropdown-divider" />
+                                <a
+                                    onclick="api(`shell/bms-connect`, 'post')"
+                                    class="dropdown-item"
+                                >
+                                    Reconnect BMS
+                                </a>
+                                <a
+                                    onclick="api(`shell/bms-disconnect`, 'post')"
+                                    class="dropdown-item"
+                                >
+                                    Disconnect BMS
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </section>
 
             <section class="section box is-shadowless">
@@ -385,6 +437,11 @@
                 id="mdi-profile"
                 fill="currentColor"
                 d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"
+            />
+            <path
+                id="mdi-battery-bluetooth-variant"
+                fill="currentColor"
+                d="M9,2V4H7.33A1.33,1.33 0 0,0 6,5.33V20.67C6,21.4 6.6,22 7.33,22H16.67A1.33,1.33 0 0,0 18,20.67V5.33C18,4.6 17.4,4 16.67,4H15V2H9M11.83,8H12.33L15.18,10.85L13.04,13L15.17,15.14L12.33,18H11.83V14.21L9.54,16.5L8.83,15.79L11.62,13L8.83,10.21L9.54,9.5L11.83,11.79V8M12.83,9.91V11.79L13.77,10.85L12.83,9.91M12.83,14.21V16.08L13.77,15.14L12.83,14.21Z"
             />
         </svg>
     </body>

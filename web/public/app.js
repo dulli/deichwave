@@ -1,6 +1,8 @@
 const HOST_WAIT_INTERVAL = 100 // [ms]
+const BATTERY_POLL_INTERVAL = 5 * 60 * 1000 // [min * s * ms]
 
 let basehost = undefined
+let polling = false
 
 function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms))
@@ -224,6 +226,26 @@ function init_site() {
     // })
 }
 
+async function poll_battery(host = undefined) {
+    polling = true
+    let bms = (await api('shell/bms-check', 'post', undefined, host)).trim()
+    let bs = document.getElementById('battery-status')
+    let bl = document.getElementById('battery-level')
+    let bd = document.getElementById('battery-details')
+
+    async function refresh_battery() {
+        if (!polling) return
+        r = JSON.parse(await api('shell/bms-read', 'post', undefined, host))
+        if (bms == 'jbd') bl.innerText = `${r['PercentCapacity']}%`
+        bd.innerText = JSON.stringify(r)
+        setTimeout(refresh_battery, BATTERY_POLL_INTERVAL)
+    }
+
+    if (bms == 'none' || bms == 'command could not be found')
+        bs.classList.add('is-hidden')
+    else refresh_battery()
+}
+
 async function subscribe_events(host = undefined) {
     let wait = false
     while (host === undefined) {
@@ -237,6 +259,7 @@ async function subscribe_events(host = undefined) {
     sse = new EventSource(`${host}sse?stream=events`)
     sse.onmessage = function (event) {
         data = JSON.parse(event.data)
+        console.log(data)
 
         let all = data.origin == 'config' && data.type == 'changed'
         if (all || (data.origin == 'music' && data.type == 'playing')) {
@@ -256,6 +279,11 @@ async function subscribe_events(host = undefined) {
             Alpine.store('intensity').update()
         }
     }
+    sse.onerror = function () {
+        window.location = window.location
+    }
+
+    poll_battery(host)
 }
 
 document.addEventListener('alpine:init', init_site)

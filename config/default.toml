@@ -23,12 +23,17 @@ debug = false
 # path = "data/lights/effects"
 # ext = ".tengo"                  #      Extension for light effect script files
 
-[shell]
+[shell.linux]
 shutdown = ["poweroff"]
 reboot = ["reboot"]
+bms-connect = ["bash", "-c", "command -v ble-scan && ble-serial -d $(ble-scan | grep BBYCR-BTTRY | cut -d' ' -f 1) & disown"]
+bms-disconnect = ["bash", "-c", "pkill -SIGINT ble-serial & disown"]
+bms-check = ["bash", "-c", "[ -x /opt/jbdtool/jbdtool ] && echo jbd || echo none"]
+bms-read = ["bash", "-c", "/opt/jbdtool/jbdtool -t serial:$(readlink -f /tmp/ttyBLE) -j"]
 
 [hooks]
-app-started = ["sounds/Windows Boot/play"]
+app-started = ["sounds/Windows Boot/play", "shell/bms-connect"]
+app-stopped = ["sounds/Windows Shutdown/play", "shell/bms-disconnect"]
 music-paused = ["sounds/Record Scratch/play"]
 
 [rest]
