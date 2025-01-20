@@ -33,7 +33,7 @@ func listenHook(s Server, target []string, actions []string) {
 	common.EventListen(func(ev common.Event) {
 		if ev.Origin == target[0] && ev.Type == target[1] {
 			for _, action := range actions {
-				_ = s.DoAction(action)
+				go s.DoAction(action)
 			}
 		}
 	})

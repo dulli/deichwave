@@ -3,6 +3,8 @@ package common
 import (
 	"os"
 	"os/signal"
+
+	log "github.com/sirupsen/logrus"
 )
 
 type Event struct {
@@ -16,6 +18,10 @@ var queue chan Event
 var listeners []func(Event)
 
 func EventFire(ev Event) {
+	log.WithFields(log.Fields{
+		"event": ev,
+		"ready": ready,
+	}).Debug("Event fired")
 	if ready {
 		queue <- ev
 	}
@@ -28,7 +34,13 @@ func EventListen(listener func(Event)) {
 func EventLoop() {
 	queue = make(chan Event)
 	ready = true
+	log.Debug("Eventloop started")
+
 	for ev := range queue {
+		log.WithFields(log.Fields{
+			"event": ev,
+		}).Debug("Event received")
+
 		for _, listener := range listeners {
 			listener(ev)
 		}
