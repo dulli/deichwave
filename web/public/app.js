@@ -46,9 +46,11 @@ async function find_host() {
         'http://pi:3000/',
         'http://localhost:3000/',
     ]
+    let host_idx = 0
     let connected = false
-    for (host of host_list) {
-        console.log(`Trying API host: ${host}`)
+    while (!connected) {
+        host = host_list[host_idx]
+        console.log(`Trying API host #${host_idx}: ${host}`)
         r = await api('ping', 'get', undefined, host)
 
         if (r === 'Pong') {
@@ -57,6 +59,7 @@ async function find_host() {
             connected = true
             break
         }
+        host_idx = (host_idx + 1) % host_list.length
     }
     if (connected) {
         r = await api('info/Meta', 'get', undefined, host)
@@ -263,15 +266,16 @@ async function poll_battery(host = undefined) {
 
 async function subscribe_events(host = undefined) {
     let wait = false
+    console.log('SSE: Waiting for connection')
     while (host === undefined) {
         host = basehost
         if (wait) {
-            // console.log('Waiting for SSE connection')
             await sleep(HOST_WAIT_INTERVAL)
         } else wait = true
     }
 
     sse = new EventSource(`${host}sse?stream=events`)
+    sse_timeout = undefined
     sse.onmessage = function (event) {
         data = JSON.parse(event.data)
         console.log(data)
@@ -294,8 +298,26 @@ async function subscribe_events(host = undefined) {
             Alpine.store('intensity').update()
         }
     }
+    sse.onopen = function () {
+        document.getElementById('loadscreen').classList.remove('is-active')
+        if (sse_timeout) {
+            clearTimeout(sse_timeout)
+            sse_timeout = undefined
+            console.log('SSE: reconnected to event stream, canceling app reset')
+        } else {
+            console.log('SSE: connected to event stream')
+        }
+    }
     sse.onerror = function () {
-        window.location = window.location
+        console.log(
+            'SSE: lost connection to event stream, resetting app in 5 seconds'
+        )
+        if (!sse_timeout) {
+            sse_timeout = setTimeout(() => {
+                window.location = window.location
+            }, 5000)
+        }
+        document.getElementById('loadscreen').classList.add('is-active')
     }
 
     poll_battery(host)
