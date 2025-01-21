@@ -40,6 +40,9 @@ music-paused = ["sounds/Record Scratch/play"]
 # port = 3000
 # https_port = 3443
 
+[webio.buttons]
+Strobo = ["lights/Strobe/start", "lights/Strobe/stop"]
+
 [webio.switches]
 Martinshorn = ["sounds/Polizei/loop", "sounds/Polizei/unloop"]
 Blaulicht = ["lights/Police/start", "lights/Police/stop"]

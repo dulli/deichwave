@@ -212,12 +212,14 @@ function init_site() {
     }
 
     webio = {
+        buttons: [],
         switches: [],
         async init() {
             await this.update()
         },
         async update() {
             r = await api('info/webio')
+            this.buttons = r['Buttons']
             this.switches = r['Switches']
         },
     }
