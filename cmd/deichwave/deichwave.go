@@ -3,7 +3,6 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"time"
 
@@ -191,7 +190,7 @@ func main() {
 	}
 
 	api := rest.Server{}
-	srv := api.Start(cfg, musicPlayer, soundPlayer, lightPlayer, shellExec, profileSwitcher)
+	api.Start(cfg, musicPlayer, soundPlayer, lightPlayer, shellExec, profileSwitcher)
 	api.AddHooks(cfg)
 
 	// Start main loop
@@ -237,19 +236,10 @@ func main() {
 		Type:   "stopped",
 		Name:   "Deichwave REST Server",
 	})
-
 	log.Debug("Sleeping for a few seconds to allow for graceful shutdown")
 	time.Sleep(1 * time.Second)
+
+	// Stop the API
 	api.Stop()
-
-	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
-	defer cancel()
-
-	err = srv.Shutdown(ctx)
-	if err != nil {
-		log.WithFields(log.Fields{
-			"err": err,
-		}).Error("Unclean shutdown")
-	}
 	log.Info("Closing")
 }

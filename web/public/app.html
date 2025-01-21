@@ -356,6 +356,15 @@
                     <div class="dropdown-menu" id="dropdown-menu" role="menu">
                         <div class="dropdown-content">
                             <a
+                                href="/certificate"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="dropdown-item"
+                            >
+                                Get Certificate
+                            </a>
+                            <hr class="dropdown-divider" />
+                            <a
                                 onclick="confirm('Are you sure you want to reboot?') && api(`shell/shutdown`, 'post')"
                                 class="dropdown-item"
                             >

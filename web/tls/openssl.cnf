@@ -1,0 +1,25 @@
+[req]
+req_extensions = v3_req
+distinguished_name = req_distinguished_name
+prompt = no
+
+[req_distinguished_name]
+C  = DE
+ST = Bremen
+L  = Bremen
+O  = dulli
+OU = Deichwave
+CN = deichwave.internal
+
+[v3_req]
+basicConstraints = CA:TRUE
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+subjectAltName = @alt_names
+
+[alt_names]
+IP.1 = 127.0.0.1
+IP.2 = ::1
+IP.3 = 192.168.42.1
+DNS.1 = localhost
+DNS.2 = pi.local
+DNS.3 = bbycr.local

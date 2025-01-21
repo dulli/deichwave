@@ -52,6 +52,8 @@ By default, _Deichwave_ can be remote controlled using a web interface hosted at
 
 [^screenshots]: [Screenshot created with `Screely`](https://www.screely.com/)
 
+Additionally, an HTTPS server with a self-signed certificate is available at port `:3443`. For this to work, you will need to download the server certificate from the HTTP server first by going to `<ip>:3000/certificate` and install it on your client. As the server's private key is part of this repository as well as every copy of the compiled binaries, the HTTPS server does not improve security, but is rather just a workaround to allow for the installation of the web interface as a PWA. If you actually have security requirements that rely on HTTPS, you need to generate a new set of certificate files using the [`tools/generate_certificate.sh` script](tools/README.md) and recompile the app yourself and/or use a reverse proxy that handles the TLS termination.
+
 <!-- ### Setup -->
 
 <!-- ### Configuration -->

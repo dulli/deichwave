@@ -38,6 +38,7 @@ music-paused = ["sounds/Record Scratch/play"]
 
 [rest]
 # port = 3000
+# https_port = 3443
 
 [hardware]
 led-driver = "ws281x"             # [%]  Maximum brightness for the LEDs

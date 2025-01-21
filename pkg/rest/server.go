@@ -4,6 +4,8 @@
 package rest
 
 import (
+	"context"
+	"crypto/tls"
 	"encoding/base64"
 	"encoding/json"
 	"errors"
@@ -11,6 +13,7 @@ import (
 	"io/fs"
 	"net"
 	"net/http"
+	"time"
 
 	"github.com/dulli/deichwave/pkg/common"
 	"github.com/dulli/deichwave/pkg/lights"
@@ -29,19 +32,21 @@ import (
 
 // Implements ServerInterface
 type Server struct {
-	config   common.Config
-	music    music.MusicPlayer
-	sounds   sounds.SoundPlayer
-	lights   lights.Renderer
-	exec     shell.ShellExecutor
-	profiler common.ProfileSwitcher
-	apiBase  string
-	port     int
-	sse      *sse.Server
-	http     *http.Server
+	config     common.Config
+	music      music.MusicPlayer
+	sounds     sounds.SoundPlayer
+	lights     lights.Renderer
+	exec       shell.ShellExecutor
+	profiler   common.ProfileSwitcher
+	apiBase    string
+	port       int
+	port_https int
+	sse        *sse.Server
+	http       *http.Server
+	https      *http.Server
 }
 
-func (server *Server) Start(c common.Config, m music.MusicPlayer, s sounds.SoundPlayer, l lights.Renderer, e shell.ShellExecutor, p common.ProfileSwitcher) *http.Server {
+func (server *Server) Start(c common.Config, m music.MusicPlayer, s sounds.SoundPlayer, l lights.Renderer, e shell.ShellExecutor, p common.ProfileSwitcher) {
 	server.config = c
 	server.music = m
 	server.sounds = s
@@ -51,6 +56,7 @@ func (server *Server) Start(c common.Config, m music.MusicPlayer, s sounds.Sound
 
 	server.apiBase = "api/v0"
 	server.port = c.REST.Port
+	server.port_https = c.REST.HTTPSPort
 
 	// REST
 	r := chi.NewRouter()
@@ -78,31 +84,85 @@ func (server *Server) Start(c common.Config, m music.MusicPlayer, s sounds.Sound
 		r.Get("/sse", server.sse.ServeHTTP)
 	})
 
-	// // Static file host
+	// Static file host
 	webFS, _ := fs.Sub(web.Public, "public")
 	fileServer := http.FileServer(http.FS(webFS))
 	r.Group(func(r chi.Router) {
 		r.Get("/*", fileServer.ServeHTTP)
 	})
 
+	// Add TLS config and start HTTPS server
+	tlsCrt, _ := fs.ReadFile(web.TLS, "tls/deichwave.crt")
+	tlsKey, _ := fs.ReadFile(web.TLS, "tls/deichwave.key")
+	x509, _ := tls.X509KeyPair(tlsCrt, tlsKey)
+	r.Group(func(r chi.Router) {
+		r.Get("/certificate", func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Add("Content-Type", "application/x-x509-ca-cert")
+			w.Header().Add("Content-Disposition", "attachment; filename=\"deichwave.crt\"")
+			w.Write(tlsCrt)
+		})
+	})
+	server.https = &http.Server{
+		Addr:    fmt.Sprintf(":%d", server.port_https),
+		Handler: r,
+		TLSConfig: &tls.Config{
+			Certificates: []tls.Certificate{x509},
+		},
+	}
+	go func() {
+		err := server.https.ListenAndServeTLS("", "")
+		if err != http.ErrServerClosed {
+			log.WithFields(log.Fields{
+				"err": err,
+			}).Error("Could not start HTTPS server")
+		}
+	}()
 	log.WithFields(log.Fields{
-		"address": fmt.Sprintf("http://%s:%d/app.html", getLocalIP(), server.port),
-	}).Info("Started REST API server")
-	server.http = &http.Server{Addr: fmt.Sprintf(":%d", server.port), Handler: r}
+		"address": fmt.Sprintf("https://%s:%d/app.html", getLocalIP(), server.port_https),
+	}).Info("Started HTTPS REST API server")
+
+	// Start HTTP server
+	server.http = &http.Server{
+		Addr:    fmt.Sprintf(":%d", server.port),
+		Handler: r,
+	}
 	go func() {
 		err := server.http.ListenAndServe()
 		if err != http.ErrServerClosed {
 			log.WithFields(log.Fields{
 				"err": err,
-			}).Error("Could not start rest server")
+			}).Error("Could not start HTTP server")
 		}
 	}()
-	return server.http
+	log.WithFields(log.Fields{
+		"address": fmt.Sprintf("http://%s:%d/app.html", getLocalIP(), server.port),
+	}).Info("Started HTTP REST API server")
+
 }
 
 func (server *Server) Stop() {
 	server.sse.Close()
-	log.Info("Stopped REST API server components: SSE")
+	log.Debug("Stopped SSE server")
+
+	ctx_https, cancel_https := context.WithTimeout(context.Background(), 1*time.Second)
+	defer cancel_https()
+	err := server.http.Shutdown(ctx_https)
+	if err != nil {
+		log.WithFields(log.Fields{
+			"err": err,
+		}).Error("Unclean HTTPS shutdown")
+	}
+	log.Info("Stopped HTTPS REST API server")
+
+	ctx_http, cancel_http := context.WithTimeout(context.Background(), 1*time.Second)
+	defer cancel_http()
+	err = server.http.Shutdown(ctx_http)
+	if err != nil {
+		log.WithFields(log.Fields{
+			"err": err,
+		}).Error("Unclean HTTP shutdown")
+	}
+	log.Info("Stopped HTTP REST API server")
 }
 
 func getLocalIP() net.IP {

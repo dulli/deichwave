@@ -217,7 +217,7 @@ function init_site() {
 
     subscribe_events()
 
-    // mapboxgl.accessToken = 'pk.eyJ1IjoiZHVsbGkiLCJhIjoiY2t6bXJmZWlmMDJiajJ3cGRycThpZ3E1OSJ9.7vX_cgY5K65kdVstLM2WFg'
+    // mapboxgl.accessToken = ''
     // const map = new mapboxgl.Map({
     //     container: document.getElementById('map'), // container ID
     //     style: 'mapbox://styles/mapbox/light-v10', // style URL
