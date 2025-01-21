@@ -42,6 +42,9 @@ type Config struct {
 		Port      int `toml:"port" env:"PORT" env-default:"3000"`
 		HTTPSPort int `toml:"https_port" env:"HTTPS_PORT" env-default:"3443"`
 	} `toml:"rest" env-prefix:"REST_"`
+	WebIO struct {
+		Switches map[string][]string `toml:"switches"`
+	} `toml:"webio"`
 	LEDs map[string]struct {
 		Order int `toml:"order"`
 		Count int `toml:"count"`

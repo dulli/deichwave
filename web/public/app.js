@@ -211,10 +211,22 @@ function init_site() {
         },
     }
 
+    webio = {
+        switches: [],
+        async init() {
+            await this.update()
+        },
+        async update() {
+            r = await api('info/webio')
+            this.switches = r['Switches']
+        },
+    }
+
     Alpine.store('lights', lights)
     Alpine.store('sounds', sounds)
     Alpine.store('playlists', playlists)
     Alpine.store('playing', playing)
+    Alpine.store('webio', webio)
 
     subscribe_events()
 

@@ -95,7 +95,7 @@
                                     onclick="api(`shell/bms-read`, 'post')"
                                     class="dropdown-item"
                                 >
-                                    Refresh
+                                    Refresh Battery Level
                                 </a>
                                 <hr class="dropdown-divider" />
                                 <div
@@ -295,6 +295,28 @@
                 </div>
             </section>
 
+            <section class="section">
+                <div class="has-text-centered" x-data="$store.webio">
+                    <template x-for="(actions, name) in switches">
+                        <button
+                            class="button mr-3 mb-3 is-primary is-rounded"
+                            x-data="{ active: false }"
+                            x-on:click="api(`${actions[active ? 1 : 0]}`, 'post'); active = !active"
+                            x-bind:class="active ? 'is-active' : ''"
+                        >
+                            <span class="mr-1 mb-1 is-primary">
+                                <svg viewBox="0 0 24 24">
+                                    <use
+                                        x-bind:href="active ? '#mdi-toggle-switch-variant' : '#mdi-toggle-switch-variant-off'"
+                                    />
+                                </svg>
+                            </span>
+                            <span x-text="name">[SWITCH]</span>
+                        </button>
+                    </template>
+                </div>
+            </section>
+
             <section class="section box is-shadowless">
                 <h2 class="title is-4">Sound Effects</h2>
                 <div x-data="$store.sounds">
@@ -471,6 +493,16 @@
                 id="mdi-battery-bluetooth-variant"
                 fill="currentColor"
                 d="M9,2V4H7.33A1.33,1.33 0 0,0 6,5.33V20.67C6,21.4 6.6,22 7.33,22H16.67A1.33,1.33 0 0,0 18,20.67V5.33C18,4.6 17.4,4 16.67,4H15V2H9M11.83,8H12.33L15.18,10.85L13.04,13L15.17,15.14L12.33,18H11.83V14.21L9.54,16.5L8.83,15.79L11.62,13L8.83,10.21L9.54,9.5L11.83,11.79V8M12.83,9.91V11.79L13.77,10.85L12.83,9.91M12.83,14.21V16.08L13.77,15.14L12.83,14.21Z"
+            />
+            <path
+                id="mdi-toggle-switch-variant"
+                fill="currentColor"
+                d="M18.4 1.6C18 1.2 17.5 1 17 1H7C6.5 1 6 1.2 5.6 1.6C5.2 2 5 2.5 5 3V21C5 21.5 5.2 22 5.6 22.4C6 22.8 6.5 23 7 23H17C17.5 23 18 22.8 18.4 22.4C18.8 22 19 21.5 19 21V3C19 2.5 18.8 2 18.4 1.6M16 7C16 7.6 15.6 8 15 8H9C8.4 8 8 7.6 8 7V5C8 4.4 8.4 4 9 4H15C15.6 4 16 4.4 16 5V7Z"
+            />
+            <path
+                id="mdi-toggle-switch-variant-off"
+                fill="currentColor"
+                d="M5.6 1.6C6 1.2 6.5 1 7 1H17C17.5 1 18 1.2 18.4 1.6C18.8 2 19 2.5 19 3V21C19 21.5 18.8 22 18.4 22.4C18 22.8 17.5 23 17 23H7C6.5 23 6 22.8 5.6 22.4C5.2 22 5 21.5 5 21V3C5 2.5 5.2 2 5.6 1.6M8 3C7.4 3 7 3.4 7 4V20C7 20.6 7.4 21 8 21H16C16.6 21 17 20.6 17 20V4C17 3.4 16.6 3 16 3H8M8 17C8 16.4 8.4 16 9 16H15C15.6 16 16 16.4 16 17V19C16 19.6 15.6 20 15 20H9C8.4 20 8 19.6 8 19V17Z"
             />
         </svg>
     </body>

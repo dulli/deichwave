@@ -40,6 +40,12 @@ music-paused = ["sounds/Record Scratch/play"]
 # port = 3000
 # https_port = 3443
 
+[webio.switches]
+Martinshorn = ["sounds/Polizei/loop", "sounds/Polizei/unloop"]
+Blaulicht = ["lights/Police/start", "lights/Police/stop"]
+Battlemode = ["lights/Battle/start", "lights/Battle/stop"]
+Battlemusik = ["sounds/Pokemon Battle/loop", "sounds/Pokemon Battle/unloop"]
+
 [hardware]
 led-driver = "ws281x"             # [%]  Maximum brightness for the LEDs
 # led-brightness = 100            # [%]  Maximum brightness for the LEDs
