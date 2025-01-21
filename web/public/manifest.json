@@ -1,6 +1,8 @@
 {
     "name": "Deichwave Control",
     "short_name": "Deichwave",
+    "lang": "en-US",
+    "start_url": "/app.html",
     "icons": [
         {
             "src": "static/touch-google.png",

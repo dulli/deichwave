@@ -41,6 +41,7 @@ async function find_host() {
     document.getElementById('loadscreen').classList.add('is-active')
     host_list = [
         '',
+        'http://bbycr:3000/',
         'http://192.168.42.1:3000/',
         'http://pi:3000/',
         'http://localhost:3000/',
