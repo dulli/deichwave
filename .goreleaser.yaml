@@ -42,17 +42,6 @@ builds:
               - upx "{{ .Path }}"
 checksum:
     name_template: 'checksums.txt'
-signs:
-    - artifacts: checksum
-      args:
-          [
-              '-u',
-              '679BC66B1C3B601E',
-              '--output',
-              '${signature}',
-              '--detach-sign',
-              '${artifact}',
-          ]
 snapshot:
     version_template: '{{ incpatch .Version }}-next'
 changelog:
