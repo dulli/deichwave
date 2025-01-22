@@ -228,7 +228,7 @@ CC=x86_64-w64-mingw32-g++
 
 ### Releases
 
-Additionally, a [`GoReleaser`](https://goreleaser.com/) configuration is provided to automate the building of production ready releases for all target platforms using:
+Additionally, a [`GoReleaser`](https://goreleaser.com/) configuration is provided to automate the building of production ready releases for all target platforms using (create a new `git tag` for the new version first):
 
 ```bash
 goreleaser release --clean

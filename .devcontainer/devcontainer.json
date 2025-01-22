@@ -34,7 +34,8 @@
                 "golang.go",
                 "editorconfig.editorconfig",
                 "ritwickdey.liveserver",
-                "tamasfe.even-better-toml"
+                "tamasfe.even-better-toml",
+                "redhat.vscode-yaml"
             ]
         }
     },
