@@ -9,4 +9,4 @@ rm rpi_ws281x.gz
 
 /usr/local/py-utils/bin/pipx install poetry
 /usr/local/py-utils/bin/poetry install
-
+/usr/local/py-utils/bin/pipx inject poetry poetry-plugin-up
