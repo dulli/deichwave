@@ -1,4 +1,4 @@
-//go:generate go run github.com/tc-hib/go-winres make --in "winres.json" --arch "amd64" --product-version=git-tag --file-version=git-tag
+//go:generate go run github.com/tc-hib/go-winres@v0.3.3 make --in "winres.json" --arch "amd64" --product-version=git-tag --file-version=git-tag
 
 package main
 

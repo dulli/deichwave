@@ -10,11 +10,11 @@ import (
 	"github.com/dulli/deichwave/pkg/rest"
 	log "github.com/sirupsen/logrus"
 
-	"github.com/warthog618/gpiod"
+	"github.com/warthog618/go-gpiocdev"
 )
 
 type GPIO struct {
-	lines []*gpiod.Line
+	lines []*gpiocdev.Line
 	srv   rest.Server
 }
 
@@ -83,8 +83,8 @@ func (h *GPIO) setupToggle(chip string, pin int, debounce int, actions []string)
 		apiErr            error
 		mu                sync.Mutex
 		enabled           bool = true
-		lastReceivedType  gpiod.LineEventType
-		lastTriggeredType gpiod.LineEventType
+		lastReceivedType  gpiocdev.LineEventType
+		lastTriggeredType gpiocdev.LineEventType
 	)
 	debounceTime := time.Duration(debounce) * time.Microsecond
 
@@ -111,12 +111,12 @@ func (h *GPIO) setupToggle(chip string, pin int, debounce int, actions []string)
 	}
 
 	// Handler for (active) interrupts and expiring debounce timers
-	update := func(t *gpiod.LineEventType) {
+	update := func(t *gpiocdev.LineEventType) {
 		if *t == lastTriggeredType {
 			return
 		}
 		lastTriggeredType = *t
-		if *t == gpiod.LineEventRisingEdge {
+		if *t == gpiocdev.LineEventRisingEdge {
 			press()
 		} else {
 			release()
@@ -124,7 +124,7 @@ func (h *GPIO) setupToggle(chip string, pin int, debounce int, actions []string)
 	}
 
 	// Handler for hardware events
-	handler := func(ev gpiod.LineEvent) {
+	handler := func(ev gpiocdev.LineEvent) {
 		mu.Lock()
 		defer mu.Unlock()
 		lastReceivedType = ev.Type
@@ -144,8 +144,8 @@ func (h *GPIO) setupToggle(chip string, pin int, debounce int, actions []string)
 		// Handle this event
 		go update(&ev.Type)
 	}
-	line, err := gpiod.RequestLine(chip, pin, gpiod.WithPullUp,
-		gpiod.WithEventHandler(handler), gpiod.WithBothEdges)
+	line, err := gpiocdev.RequestLine(chip, pin, gpiocdev.WithPullUp,
+		gpiocdev.WithEventHandler(handler), gpiocdev.WithBothEdges)
 	h.lines = append(h.lines, line)
 	return err
 }
@@ -160,22 +160,22 @@ func (h *GPIO) setupRotary(chip string, pins []int, debounce int, actions []stri
 		"actions": actions,
 	}).Debug("Setting up rotary")
 	rotflag := false
-	line, err := gpiod.RequestLine(chip, pins[0],
-		gpiod.WithPullUp,
-		gpiod.WithEventHandler(func(ev gpiod.LineEvent) {
-			rotflag = ev.Type == gpiod.LineEventRisingEdge
+	line, err := gpiocdev.RequestLine(chip, pins[0],
+		gpiocdev.WithPullUp,
+		gpiocdev.WithEventHandler(func(ev gpiocdev.LineEvent) {
+			rotflag = ev.Type == gpiocdev.LineEventRisingEdge
 		}),
-		gpiod.WithBothEdges)
+		gpiocdev.WithBothEdges)
 	if err != nil {
 		return err
 	}
 	h.lines = append(h.lines, line)
 
-	line, err = gpiod.RequestLine(chip, pins[1],
-		gpiod.WithPullUp,
-		gpiod.WithDebounce(debounceTime),
-		gpiod.WithEventHandler(func(ev gpiod.LineEvent) {
-			if ev.Type == gpiod.LineEventFallingEdge {
+	line, err = gpiocdev.RequestLine(chip, pins[1],
+		gpiocdev.WithPullUp,
+		gpiocdev.WithDebounce(debounceTime),
+		gpiocdev.WithEventHandler(func(ev gpiocdev.LineEvent) {
+			if ev.Type == gpiocdev.LineEventFallingEdge {
 				rotflag = false
 				return
 			}
@@ -202,7 +202,7 @@ func (h *GPIO) setupRotary(chip string, pins []int, debounce int, actions []stri
 				}).Debug("Rotary turned right")
 			}
 		}),
-		gpiod.WithBothEdges)
+		gpiocdev.WithBothEdges)
 	if err != nil {
 		return err
 	}
