@@ -1,5 +1,5 @@
-//go:generate go run github.com/deepmap/oapi-codegen/cmd/oapi-codegen -config ../../api/server.oapi-codegen.yaml ../../api/deichwave.yaml
-//go:generate go run github.com/deepmap/oapi-codegen/cmd/oapi-codegen -config ../../api/types.oapi-codegen.yaml ../../api/deichwave.yaml
+//go:generate go run github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen@v2.4.1 -config ../../api/server.oapi-codegen.yaml ../../api/deichwave.yaml
+//go:generate go run github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen@v2.4.1 -config ../../api/types.oapi-codegen.yaml ../../api/deichwave.yaml
 
 package rest
 
