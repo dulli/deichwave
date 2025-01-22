@@ -39,8 +39,10 @@ type Config struct {
 	Shell map[string]map[string][]string `toml:"shell"`
 	Hooks map[string][]string            `toml:"hooks"`
 	REST  struct {
-		Port      int `toml:"port" env:"PORT" env-default:"3000"`
-		HTTPSPort int `toml:"https_port" env:"HTTPS_PORT" env-default:"3443"`
+		Port      int    `toml:"port" env:"PORT" env-default:"3000"`
+		HTTPSPort int    `toml:"https_port" env:"HTTPS_PORT" env-default:"3443"`
+		TLSCrt    string `toml:"tls_crt" env:"TLS_CRT" env-default:""`
+		TLSKey    string `toml:"tls_key" env:"TLS_KEY" env-default:""`
 	} `toml:"rest" env-prefix:"REST_"`
 	WebIO struct {
 		Buttons  map[string][]string `toml:"buttons"`

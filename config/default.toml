@@ -39,6 +39,8 @@ music-paused = ["sounds/Record Scratch/play"]
 [rest]
 # port = 3000
 # https_port = 3443
+# tls_crt = ""
+# tls_key = ""
 
 [webio.buttons]
 Strobo = ["lights/Strobe/start", "lights/Strobe/stop"]

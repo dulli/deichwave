@@ -13,6 +13,7 @@ import (
 	"io/fs"
 	"net"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/dulli/deichwave/pkg/common"
@@ -92,9 +93,20 @@ func (server *Server) Start(c common.Config, m music.MusicPlayer, s sounds.Sound
 	})
 
 	// Add TLS config and start HTTPS server
-	tlsCrt, _ := fs.ReadFile(web.TLS, "tls/deichwave.crt")
-	tlsKey, _ := fs.ReadFile(web.TLS, "tls/deichwave.key")
-	x509, _ := tls.X509KeyPair(tlsCrt, tlsKey)
+	var tlsCrt, tlsKey []byte
+	if c.REST.TLSCrt != "" && c.REST.TLSKey != "" {
+		tlsCrt, _ = os.ReadFile(c.REST.TLSCrt)
+		tlsKey, _ = os.ReadFile(c.REST.TLSKey)
+	} else {
+		log.Warn("Using embedded TLS key pair for HTTPS")
+		tlsCrt, _ = fs.ReadFile(web.TLS, "tls/deichwave.crt")
+		tlsKey, _ = fs.ReadFile(web.TLS, "tls/deichwave.key")
+	}
+	x509, err := tls.X509KeyPair(tlsCrt, tlsKey)
+	if err != nil {
+		log.Error("Invalid TLS inputs")
+		log.Fatal(err)
+	}
 	r.Group(func(r chi.Router) {
 		r.Get("/certificate", func(w http.ResponseWriter, r *http.Request) {
 			w.Header().Add("Content-Type", "application/x-x509-ca-cert")
