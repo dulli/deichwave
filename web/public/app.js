@@ -308,16 +308,19 @@ async function subscribe_events(host = undefined) {
             console.log('SSE: connected to event stream')
         }
     }
-    sse.onerror = function () {
-        console.log(
-            'SSE: lost connection to event stream, resetting app in 5 seconds'
-        )
-        if (!sse_timeout) {
-            sse_timeout = setTimeout(() => {
-                window.location = window.location
-            }, 5000)
+    if (location.protocol == 'https:') {
+        // only reconnect in secure contexts (i.e. with installed service workers)
+        sse.onerror = function () {
+            console.log(
+                'SSE: lost connection to event stream, resetting app in 5 seconds'
+            )
+            if (!sse_timeout) {
+                sse_timeout = setTimeout(() => {
+                    window.location = window.location
+                }, 5000)
+            }
+            document.getElementById('loadscreen').classList.add('is-active')
         }
-        document.getElementById('loadscreen').classList.add('is-active')
     }
 
     poll_battery(host)
