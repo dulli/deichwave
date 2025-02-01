@@ -41,6 +41,7 @@ type Config struct {
 	REST  struct {
 		Port      int    `toml:"port" env:"PORT" env-default:"3000"`
 		HTTPSPort int    `toml:"https_port" env:"HTTPS_PORT" env-default:"3443"`
+		TLSCA     string `toml:"tls_ca" env:"TLS_CA" env-default:""`
 		TLSCrt    string `toml:"tls_crt" env:"TLS_CRT" env-default:""`
 		TLSKey    string `toml:"tls_key" env:"TLS_KEY" env-default:""`
 	} `toml:"rest" env-prefix:"REST_"`

@@ -93,14 +93,16 @@ func (server *Server) Start(c common.Config, m music.MusicPlayer, s sounds.Sound
 	})
 
 	// Add TLS config and start HTTPS server
-	var tlsCrt, tlsKey []byte
+	var tlsCA, tlsCrt, tlsKey []byte
 	if c.REST.TLSCrt != "" && c.REST.TLSKey != "" {
+		tlsCA, _ = os.ReadFile(c.REST.TLSCA)
 		tlsCrt, _ = os.ReadFile(c.REST.TLSCrt)
 		tlsKey, _ = os.ReadFile(c.REST.TLSKey)
 	} else {
 		log.Warn("Using embedded TLS key pair for HTTPS")
-		tlsCrt, _ = fs.ReadFile(web.TLS, "tls/deichwave.crt")
-		tlsKey, _ = fs.ReadFile(web.TLS, "tls/deichwave.key")
+		tlsCA, _ = fs.ReadFile(web.TLS, "tls/deichwave-ca.crt")
+		tlsCrt, _ = fs.ReadFile(web.TLS, "tls/deichwave-server.crt")
+		tlsKey, _ = fs.ReadFile(web.TLS, "tls/deichwave-server.key")
 	}
 	x509, err := tls.X509KeyPair(tlsCrt, tlsKey)
 	if err != nil {
@@ -111,7 +113,7 @@ func (server *Server) Start(c common.Config, m music.MusicPlayer, s sounds.Sound
 		r.Get("/certificate", func(w http.ResponseWriter, r *http.Request) {
 			w.Header().Add("Content-Type", "application/x-x509-ca-cert")
 			w.Header().Add("Content-Disposition", "attachment; filename=\"deichwave.crt\"")
-			w.Write(tlsCrt)
+			w.Write(tlsCA)
 		})
 	})
 	server.https = &http.Server{

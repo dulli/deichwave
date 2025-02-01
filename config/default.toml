@@ -39,6 +39,7 @@ music-paused = ["sounds/Record Scratch/play"]
 [rest]
 # port = 3000
 # https_port = 3443
+# tls_ca = ""
 # tls_crt = ""
 # tls_key = ""
 

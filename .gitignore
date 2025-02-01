@@ -233,3 +233,7 @@ data/
 *.gen.go
 dist/
 !.vscode/spellright.dict
+web/tls/*
+!web/tls/deichwave-ca.crt
+!web/tls/deichwave-server.crt
+!web/tls/deichwave-server.key
