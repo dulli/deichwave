@@ -11,14 +11,13 @@ require (
 	github.com/d5/tengo/v2 v2.17.0
 	github.com/dulli/go-rpi-ws281x v0.0.0-20221231153753-59e3a50294f2
 	github.com/faiface/beep v1.1.0
-	github.com/go-chi/chi/v5 v5.2.0
+	github.com/go-chi/chi/v5 v5.2.1
 	github.com/go-chi/cors v1.2.1
 	github.com/go-chi/render v1.0.3
 	github.com/ilyakaznacheev/cleanenv v1.5.0
 	github.com/jfreymuth/oggvorbis v1.0.5
 	github.com/mcuadros/go-lookup v0.0.0-20230627150232-5415b5b32da8
 	github.com/mewkiz/flac v1.0.12
-	github.com/oapi-codegen/runtime v1.1.1
 	github.com/r3labs/sse/v2 v2.10.0
 	github.com/sirupsen/logrus v1.9.3
 	github.com/warthog618/go-gpiocdev v0.9.1
@@ -28,7 +27,6 @@ require (
 	fyne.io/systray v1.11.0 // indirect
 	github.com/BurntSushi/toml v1.4.0 // indirect
 	github.com/ajg/form v1.5.1 // indirect
-	github.com/apapsch/go-jsonmerge/v2 v2.0.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/fredbi/uri v1.1.0 // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
@@ -40,7 +38,6 @@ require (
 	github.com/go-text/render v0.2.0 // indirect
 	github.com/go-text/typesetting v0.2.0 // indirect
 	github.com/godbus/dbus/v5 v5.1.0 // indirect
-	github.com/google/uuid v1.5.0 // indirect
 	github.com/gopherjs/gopherjs v1.17.2 // indirect
 	github.com/hajimehoshi/go-mp3 v0.3.0 // indirect
 	github.com/hajimehoshi/oto v0.7.1 // indirect
