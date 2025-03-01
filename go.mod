@@ -5,7 +5,7 @@ go 1.21
 toolchain go1.23.0
 
 require (
-	fyne.io/fyne/v2 v2.5.3
+	fyne.io/fyne/v2 v2.5.4
 	github.com/antonfisher/nested-logrus-formatter v1.3.1
 	github.com/bogem/id3v2/v2 v2.1.4
 	github.com/d5/tengo/v2 v2.17.0
@@ -18,7 +18,6 @@ require (
 	github.com/jfreymuth/oggvorbis v1.0.5
 	github.com/mcuadros/go-lookup v0.0.0-20230627150232-5415b5b32da8
 	github.com/mewkiz/flac v1.0.12
-	github.com/oapi-codegen/runtime v1.1.1
 	github.com/r3labs/sse/v2 v2.10.0
 	github.com/sirupsen/logrus v1.9.3
 	github.com/warthog618/go-gpiocdev v0.9.1
@@ -28,7 +27,6 @@ require (
 	fyne.io/systray v1.11.0 // indirect
 	github.com/BurntSushi/toml v1.4.0 // indirect
 	github.com/ajg/form v1.5.1 // indirect
-	github.com/apapsch/go-jsonmerge/v2 v2.0.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/fredbi/uri v1.1.0 // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
@@ -40,7 +38,6 @@ require (
 	github.com/go-text/render v0.2.0 // indirect
 	github.com/go-text/typesetting v0.2.0 // indirect
 	github.com/godbus/dbus/v5 v5.1.0 // indirect
-	github.com/google/uuid v1.5.0 // indirect
 	github.com/gopherjs/gopherjs v1.17.2 // indirect
 	github.com/hajimehoshi/go-mp3 v0.3.0 // indirect
 	github.com/hajimehoshi/oto v0.7.1 // indirect
@@ -50,6 +47,7 @@ require (
 	github.com/joho/godotenv v1.5.1 // indirect
 	github.com/jsummers/gobmp v0.0.0-20151104160322-e2ba15ffa76e // indirect
 	github.com/kr/text v0.2.0 // indirect
+	github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646 // indirect
 	github.com/nicksnyder/go-i18n/v2 v2.4.0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
