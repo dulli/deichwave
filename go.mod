@@ -8,7 +8,7 @@ require (
 	github.com/d5/tengo/v2 v2.17.0
 	github.com/dulli/go-rpi-ws281x v0.0.0-20221231153753-59e3a50294f2
 	github.com/faiface/beep v1.1.0
-	github.com/go-chi/chi/v5 v5.2.0
+	github.com/go-chi/chi/v5 v5.2.1
 	github.com/go-chi/cors v1.2.1
 	github.com/go-chi/render v1.0.3
 	github.com/ilyakaznacheev/cleanenv v1.5.0
