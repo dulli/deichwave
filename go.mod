@@ -15,7 +15,7 @@ require (
 	github.com/ilyakaznacheev/cleanenv v1.5.0
 	github.com/jfreymuth/oggvorbis v1.0.5
 	github.com/mcuadros/go-lookup v0.0.0-20230627150232-5415b5b32da8
-	github.com/mewkiz/flac v1.0.13
+	github.com/mewkiz/flac v1.0.14
 	github.com/r3labs/sse/v2 v2.10.0
 	github.com/sirupsen/logrus v1.9.4
 	github.com/warthog618/go-gpiocdev v0.9.1
